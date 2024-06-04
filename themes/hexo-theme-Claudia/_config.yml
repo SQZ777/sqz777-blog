@@ -26,6 +26,7 @@ user:
 # API config: https://utteranc.es/
 comment_utteranc:
   enable: true
+  issue_term: title
   repo: SQZ777/sqz777-blog # your blog repo
 
 
@@ -60,3 +61,7 @@ about_pic: about.png
 
 image_zoom:
   enable: true
+
+# friend_links:
+#   - title: 
+#     link: 
