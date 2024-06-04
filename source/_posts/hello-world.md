@@ -2,10 +2,10 @@
 title: Hello World
 date: 2024-06-04 19:08:09
 tags:
-  - hello, there
-  - a
-photos: \img\helloworld\hello-world.png
-cover: \img\helloworld\hello-world.png
+  - hello
+  - world
+photos: img\hello-world\p16.jpg
+# cover: \img\helloworld\hello-world.png
 ---
 Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
 
@@ -13,6 +13,7 @@ Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [docume
 
 ### Create a new post
 
+![hello world](/img/hello-world/image.png)
 ``` bash
 $ hexo new "My New Post"
 ```
