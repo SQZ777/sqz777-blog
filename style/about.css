@@ -10,3 +10,6 @@
 .about-page .about-title {
   font-weight: normal;
 }
+.about-page a {
+  color: #3273dc !important;
+}
