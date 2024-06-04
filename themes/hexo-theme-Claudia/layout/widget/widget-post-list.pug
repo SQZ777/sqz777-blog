@@ -6,13 +6,30 @@ article.post-container.is-flex.is-justify-content-center.section.container.is-ma
                 if page.posts.length > 0
                     each post in page.posts.sort('date', -1).toArray()
                         - var postURL = url_for(post.path)
+                        - var imgURL = getPostCoverImg(post)
+                        - var isExcerpt = post.excerpt && post.excerpt.length > 0
+                        - var postContent = isExcerpt ? post.excerpt : post.content
                         article.post-item-card
+                            if imgURL
+                                header.is-relative.is-flex
+                                    div.post-cover-backdrop.is-hidden
+                                        img(src= imgURL alt="loading..")
+                                    a.post-cover-link.has-text-centered.skeleton(href= postURL)
+                                        img.post-cover-img.js-img-fadeIn(src= imgURL alt="loading..", data-backdrop="true")
                             section.content.post-card-content.p-4.pb-5
+                                if post.tags && post.tags.length > 0
+                                    header
+                                            each tag in post.tags.toArray()
+                                                a(href= url_for(`/tags/${tag.name}`))
+                                                    i.tag.post-item-tag= tag.name
+                                if post.title
+                                    h2.mt-4.mb-0.is-family-serif
+                                        a(href= postURL)= post.title
                                 if post.date
                                     time.has-text-grey(datetime=post.date.toJSON())= date(post.date, date_format)
-                                if post.title
-                                    h5.mt-0.mb-0.is-family-serif
-                                        a(href= postURL)= post.title
+                                p.is-flex-grow-2.mt-2
+                                    = truncate( strip_html(postContent), {length: 200, omission: '..'} )
+                                a.button.is-default.mt-2.has-text-weight-semibold(href= postURL)= __('read_more')
 
                     -
                         // turnPage
