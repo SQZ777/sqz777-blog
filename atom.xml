@@ -6,7 +6,7 @@
   <link href="https://sqz777.github.io/atom.xml" rel="self"/>
   
   <link href="https://sqz777.github.io/"/>
-  <updated>2024-06-05T00:41:11.501Z</updated>
+  <updated>2024-06-06T14:53:06.614Z</updated>
   <id>https://sqz777.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>更改 Chrome 時區的方法</title>
+    <link href="https://sqz777.github.io/2024/06/06/2024-how-to-change-time-zone-in-chrome/"/>
+    <id>https://sqz777.github.io/2024/06/06/2024-how-to-change-time-zone-in-chrome/</id>
+    <published>2024-06-06T22:29:10.000Z</published>
+    <updated>2024-06-06T14:53:06.614Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近測試時遇到驗證不同時區狀況的需求</p><p>直覺上認為開啟 VPN 或是更改電腦的設定是不合理的<br>所以嘗試找看看 Chrome 有沒有辦法更改 Chrome 自身的時區設定<br>然後就讓我找到了 <a href="https://developer.chrome.com/docs/devtools/settings/locations?hl=zh-tw">Chrome 的文件</a> !</p><h2 id="設定前確認時區"><a href="#設定前確認時區" class="headerlink" title="設定前確認時區"></a>設定前確認時區</h2><p>更改之前，透過 F12 的 Console 來確認當前的時區</p><p><img src="/img/2024-how-to-change-time-zone-in-chrome/image1.png" alt="checkTimeZone"></p><p>於右上角三個點 &gt; More tools &gt; Sensors</p><p><img src="/img/2024-how-to-change-time-zone-in-chrome/image2.png" alt="settingLocation"></p><p>接著在下方的 Sensors tab 就可以找到複寫 Location 的設定，我們這裡選擇 Tokyo</p><p><img src="/img/2024-how-to-change-time-zone-in-chrome/image3.png" alt="settingLocation"></p><p>在 Console 中確認時區是否已被覆寫</p><p><img src="/img/2024-how-to-change-time-zone-in-chrome/image4.png" alt="settingLocation"></p><p>這樣就可以完成時區的修改啦!<br>當前端會根據 Chrome 本身設定的時區進行時區顯示上的修改時，就會需要用到這一個 Chrome 的覆寫時區功能了</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近測試時遇到驗證不同時區狀況的需求&lt;/p&gt;
+&lt;p&gt;直覺上認為開啟 VPN 或是更改電腦的設定是不合理的&lt;br&gt;所以嘗試找看看 Chrome 有沒有辦法更改 Chrome 自身的時區設定&lt;br&gt;然後就讓我找到了 &lt;a href=&quot;https://developer.chro</summary>
+      
+    
+    
+    
+    
+    <category term="Chrome" scheme="https://sqz777.github.io/tags/Chrome/"/>
+    
+    <category term="時區" scheme="https://sqz777.github.io/tags/%E6%99%82%E5%8D%80/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hello World</title>
     <link href="https://sqz777.github.io/2024/06/04/hello-world/"/>
     <id>https://sqz777.github.io/2024/06/04/hello-world/</id>
     <published>2024-06-04T19:08:09.000Z</published>
-    <updated>2024-06-05T00:41:11.501Z</updated>
+    <updated>2024-06-06T14:53:06.614Z</updated>
     
     <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><p><img src="/img/hello-world/image.png" alt="hello world"></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
