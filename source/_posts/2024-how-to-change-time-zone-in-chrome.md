@@ -6,6 +6,8 @@ tags:
   - 時區
 ---
 
+![checkTimeZone](/img/2024-how-to-change-time-zone-in-chrome/image.png)
+
 最近測試時遇到驗證不同時區狀況的需求
 
 直覺上認為開啟 VPN 或是更改電腦的設定是不合理的
@@ -18,6 +20,8 @@ tags:
 
 ![checkTimeZone](/img/2024-how-to-change-time-zone-in-chrome/image1.png)
 
+## 設定
+
 於右上角三個點 > More tools > Sensors
 
 ![settingLocation](/img/2024-how-to-change-time-zone-in-chrome/image2.png)
@@ -25,6 +29,8 @@ tags:
 接著在下方的 Sensors tab 就可以找到複寫 Location 的設定，我們這裡選擇 Tokyo
 
 ![settingLocation](/img/2024-how-to-change-time-zone-in-chrome/image3.png)
+
+## 確認結果
 
 在 Console 中確認時區是否已被覆寫
 
