@@ -60,10 +60,6 @@
             
             <tag> API </tag>
             
-            <tag> Notes </tag>
-            
-            <tag> API Automation </tag>
-            
         </tags>
       
     </entry>
@@ -85,11 +81,9 @@
             
             <tag> eslint </tag>
             
-            <tag> prettier eslint </tag>
+            <tag> prettiereslint </tag>
             
             <tag> vs-code-prettier-eslint </tag>
-            
-            <tag> Error: r is not a constructor </tag>
             
         </tags>
       
@@ -108,13 +102,11 @@
       
         <tags>
             
-            <tag> Robot Framework </tag>
+            <tag> RobotFramework </tag>
             
-            <tag> Suite Setup </tag>
+            <tag> SuiteSetup </tag>
             
-            <tag> Test Setup </tag>
-            
-            <tag> Robot Framework Init </tag>
+            <tag> TestSetup </tag>
             
         </tags>
       
@@ -133,19 +125,11 @@
       
         <tags>
             
-            <tag> Automation </tag>
-            
             <tag> config </tag>
             
-            <tag> Robot Framework </tag>
-            
-            <tag> config.ini </tag>
-            
-            <tag> Testing Tool </tag>
+            <tag> RobotFramework </tag>
             
             <tag> 環境變數 </tag>
-            
-            <tag> env variables </tag>
             
         </tags>
       
@@ -164,7 +148,7 @@
       
         <tags>
             
-            <tag> Robot Framework </tag>
+            <tag> RobotFramework </tag>
             
         </tags>
       
@@ -229,7 +213,7 @@
       
         <tags>
             
-            <tag> .NET CORE </tag>
+            <tag> .NetCore </tag>
             
             <tag> Constructor </tag>
             
@@ -252,13 +236,11 @@
       
         <tags>
             
-            <tag> .NET CORE </tag>
+            <tag> .NetCore </tag>
             
-            <tag> aws </tag>
+            <tag> awsLambda </tag>
             
-            <tag> aws lambda </tag>
-            
-            <tag> dependency injection </tag>
+            <tag> dependencyInjection </tag>
             
         </tags>
       
@@ -277,11 +259,11 @@
       
         <tags>
             
-            <tag> nodejs </tag>
-            
             <tag> discord </tag>
             
             <tag> heroku </tag>
+            
+            <tag> nodejs </tag>
             
         </tags>
       
@@ -300,7 +282,7 @@
       
         <tags>
             
-            <tag> nodejs </tag>
+            <tag> Node.js </tag>
             
             <tag> config </tag>
             
@@ -323,7 +305,7 @@
       
         <tags>
             
-            <tag> nodejs </tag>
+            <tag> Node.js </tag>
             
             <tag> bot </tag>
             
@@ -350,7 +332,7 @@
             
             <tag> aws </tag>
             
-            <tag> aws cli </tag>
+            <tag> cli </tag>
             
             <tag> install </tag>
             
@@ -407,13 +389,19 @@
     
     
     <entry>
-      <title>筆記 - 您預計要執行 .NET Core 程式，但 dotnet-ef 並不存在。</title>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
       <link href="/2020/09/03/2020-220256/"/>
       <url>/2020/09/03/2020-220256/</url>
       
         <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
+            
+        </tags>
       
     </entry>
     
@@ -430,7 +418,7 @@
       
         <tags>
             
-            <tag> .NET CORE </tag>
+            <tag> .NetCore </tag>
             
             <tag> libman </tag>
             
@@ -459,7 +447,7 @@
             
             <tag> file </tag>
             
-            <tag> shell script </tag>
+            <tag> shellScript </tag>
             
         </tags>
       
@@ -503,8 +491,6 @@
       
         <tags>
             
-            <tag> 工具 </tag>
-            
             <tag> w3HexSchool </tag>
             
             <tag> locust </tag>
@@ -530,7 +516,7 @@
       
         <tags>
             
-            <tag> shell script </tag>
+            <tag> shellScript </tag>
             
             <tag> w3HexSchool </tag>
             
@@ -551,7 +537,7 @@
       
         <tags>
             
-            <tag> shell script </tag>
+            <tag> shellScript </tag>
             
             <tag> w3HexSchool </tag>
             
@@ -682,9 +668,7 @@
             
             <tag> Test </tag>
             
-            <tag> 讀書心得!? </tag>
-            
-            <tag> 心得 </tag>
+            <tag> 讀書心得系列 </tag>
             
             <tag> Automation </tag>
             
@@ -765,7 +749,7 @@
             
             <tag> npm </tag>
             
-            <tag> nodejs </tag>
+            <tag> Node.js </tag>
             
             <tag> commander </tag>
             
@@ -790,7 +774,7 @@
             
             <tag> Angular6 </tag>
             
-            <tag> .NET CORE </tag>
+            <tag> .NetCore </tag>
             
             <tag> Angular CLI </tag>
             
@@ -878,7 +862,7 @@
             
             <tag> Test </tag>
             
-            <tag> 讀書心得!? </tag>
+            <tag> 讀書心得系列 </tag>
             
             <tag> 心得 </tag>
             
@@ -924,7 +908,7 @@
             
             <tag> Test </tag>
             
-            <tag> 讀書心得!? </tag>
+            <tag> 讀書心得系列 </tag>
             
             <tag> 心得 </tag>
             
@@ -947,7 +931,7 @@
             
             <tag> Test </tag>
             
-            <tag> 讀書心得!? </tag>
+            <tag> 讀書心得系列 </tag>
             
             <tag> 心得 </tag>
             
@@ -991,9 +975,7 @@
       
         <tags>
             
-            <tag> 讀書心得!? </tag>
-            
-            <tag> 心得 </tag>
+            <tag> 讀書心得系列 </tag>
             
         </tags>
       
@@ -1040,8 +1022,6 @@
       
       
         <tags>
-            
-            <tag> CMD </tag>
             
             <tag> Windows </tag>
             
@@ -1096,8 +1076,6 @@
             <tag> Selenium </tag>
             
             <tag> Automation </tag>
-            
-            <tag> CMD </tag>
             
             <tag> Ruby </tag>
             
@@ -1354,7 +1332,7 @@
       
         <tags>
             
-            <tag> javaScript </tag>
+            <tag> JavaScript </tag>
             
         </tags>
       
@@ -1373,7 +1351,7 @@
       
         <tags>
             
-            <tag> javaScript </tag>
+            <tag> JavaScript </tag>
             
         </tags>
       
@@ -1453,7 +1431,7 @@
       
         <tags>
             
-            <tag> 讀書心得!? </tag>
+            <tag> 讀書心得系列 </tag>
             
         </tags>
       
