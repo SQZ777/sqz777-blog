@@ -53,12 +53,15 @@ async function processArticle(url) {
   }
 
   // 將 HTML 轉換為 Markdown 格式
-  const markdownContent = convertToMarkdown(postContent);
+  let markdownContent = convertToMarkdown(postContent);
+
+  // 替換文章內容中的 { 和 } 字符
+  markdownContent = markdownContent.replace(/({|})/g, '\/$1');
 
   // 組織 Markdown 前置資料
   const frontMatter = `
 ---
-title: '${title}'
+title: "${title}"
 date: ${date}
 tags: 
 ${tags.map(tag => `  - '${tag}'`).join('\n')}
@@ -70,7 +73,7 @@ ${tags.map(tag => `  - '${tag}'`).join('\n')}
   const urlParts = url.split('/');
   const year = urlParts[4];
   const articleName = urlParts[7];
-  const fileName = `./articles/${year}-${articleName}.md`;
+  const fileName = `${year}-${articleName}.md`;
 
   // 將 Markdown 內容寫入文件
   fs.writeFileSync(fileName, frontMatter + markdownContent);
@@ -80,5 +83,6 @@ ${tags.map(tag => `  - '${tag}'`).join('\n')}
 function convertToMarkdown(html) {
   return turndownService.turndown(html);
 }
+
 
 processArticles();
