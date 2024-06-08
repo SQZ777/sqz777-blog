@@ -4,7 +4,7 @@ title: "筆記 - 使用 PowerShell 安裝 aws cli"
 date: 2020-09-24
 tags: 
   - 'aws'
-  - 'aws cli'
+  - 'cli'
   - 'install'
   - 'powershell'
   - '安裝'

@@ -6,7 +6,7 @@ tags:
   - 'bot'
   - 'discord'
   - 'discord.js'
-  - 'nodejs'
+  - 'Node.js'
 ---
 
 筆記一下如何透過 Node.js 建置 Discord 機器人

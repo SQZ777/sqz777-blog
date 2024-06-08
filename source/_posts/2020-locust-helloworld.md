@@ -7,7 +7,6 @@ tags:
   - 'locust'
   - 'loadTesting'
   - '壓力測試'
-  - '工具'
 ---
 
 今天要筆記的是 Locust，可以網站的壓力測試的工具。
