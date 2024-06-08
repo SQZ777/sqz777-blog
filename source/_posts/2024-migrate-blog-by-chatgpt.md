@@ -6,7 +6,7 @@ tags:
 
 
 ![](/img/2024-migrate-blog-by-chatgpt/image0.png)
-圖是使用[梗圖產生器](https://memes.tw/)產生的
+圖是使用[梗圖產生器](https://memes.tw/)產生的，AI 真的可以取代我們嗎? 讓我們繼續看下去
 
 最近自己使用了 ChatGPT 進行部落格文章的搬遷
 搬站的原因很膚淺，想知道的話再去[關於我](https://sqz777.com/about/)看，就不多做贅述 🤣
