@@ -4,7 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 const { once } = require('events');
-
 const turndownService = new (require('turndown'))();
 
 const inputFilePath = 'articles.txt';
@@ -46,10 +45,42 @@ async function processArticle(url) {
   });
 
   // 抓取文章內容
-  const postContent = $('.article__content').html();
+  let postContent = $('.article__content').html();
 
   if (!postContent) {
     throw new Error('未能找到文章內容，請檢查選擇器是否正確');
+  }
+
+  // 解析 URL 以取得年份和文章名稱
+  const urlParts = url.split('/');
+  const year = urlParts[4];
+  const articleName = urlParts[7];
+  const folderName = `${year}-${articleName}`;
+  const fileName = `${folderName}.md`;
+
+  // 創建資料夾以存儲圖片
+  if (!fs.existsSync(folderName)){
+    fs.mkdirSync(folderName);
+  }
+
+  // 處理圖片下載
+  const imgUrls = [];
+  $('img').each((i, el) => {
+    const imgUrl = $(el).attr('src');
+    if (imgUrl) {
+      imgUrls.push(imgUrl);
+    }
+  });
+
+  for (const imgUrl of imgUrls) {
+    const imgResponse = await axios.get(imgUrl, { responseType: 'arraybuffer' });
+    const imgName = path.basename(imgUrl);
+    const imgPath = path.join(folderName, imgName);
+    fs.writeFileSync(imgPath, imgResponse.data);
+    console.log(imgName);
+
+    // 更新文章內容中的圖片路徑
+    postContent = postContent.replace(new RegExp(imgUrl, 'g'), `/img/${folderName}/${imgName}`);
   }
 
   // 將 HTML 轉換為 Markdown 格式
@@ -69,12 +100,6 @@ ${tags.map(tag => `  - '${tag}'`).join('\n')}
 
 `;
 
-  // 解析 URL 以取得年份和文章名稱
-  const urlParts = url.split('/');
-  const year = urlParts[4];
-  const articleName = urlParts[7];
-  const fileName = `${year}-${articleName}.md`;
-
   // 將 Markdown 內容寫入文件
   fs.writeFileSync(fileName, frontMatter + markdownContent);
   console.log(`文章已成功轉換為 Markdown 格式並儲存至 ${fileName}`);
@@ -83,6 +108,5 @@ ${tags.map(tag => `  - '${tag}'`).join('\n')}
 function convertToMarkdown(html) {
   return turndownService.turndown(html);
 }
-
 
 processArticles();
