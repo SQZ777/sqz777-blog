@@ -1,0 +1,146 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>Gulp學習紀錄_Part 2-Gulp可以做什麼事? - sqz777's blog</title><meta name="description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+HI 大家豪，繼上次分享安裝及使用Gulp文章推出後，這次要分享的是我有在gulp上使用的其中幾個套件~
+這次分享使用的套件有concat、uglify、sass。還有該如何讓gulp監看(Watch)檔案狀態並針對檔案儲存行來進行.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2017-233637/1499871805_35683.png"><meta name="original-source" content="https://sqz777.github.io/2017/07/12/2017-233637/"><link rel="canonical" href="https://sqz777.github.io/2017/07/12/2017-233637/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="Gulp學習紀錄_Part 2-Gulp可以做什麼事? - sqz777's blog"><meta property="og:description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+HI 大家豪，繼上次分享安裝及使用Gulp文章推出後，這次要分享的是我有在gulp上使用的其中幾個套件~
+這次分享使用的套件有concat、uglify、sass。還有該如何讓gulp監看(Watch)檔案狀態並針對檔案儲存行來進行.."><meta property="og:url" content="https://sqz777.github.io/2017/07/12/2017-233637/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2017-233637/1499871805_35683.png"><meta name="twitter:title" content="Gulp學習紀錄_Part 2-Gulp可以做什麼事? - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2017-233637/1499871805_35683.png"><meta name="twitter:description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+HI 大家豪，繼上次分享安裝及使用Gulp文章推出後，這次要分享的是我有在gulp上使用的其中幾個套件~
+這次分享使用的套件有concat、uglify、sass。還有該如何讓gulp監看(Watch)檔案狀態並針對檔案儲存行來進行.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Gulp學習紀錄_Part 2-Gulp可以做什麼事?</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"><a href="/tags/Gulp.js"><i class="tag post-item-tag">Gulp.js</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Gulp學習紀錄_Part 2-Gulp可以做什麼事?</h1><time class="has-text-grey" datetime="2017-07-12T00:00:00.000Z">2017-07-12</time><article class="mt-2 post-content"><p>前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!</p>
+<p>HI 大家豪，繼上次分享安裝及使用Gulp文章推出後，這次要分享的是我有在gulp上使用的其中幾個套件~</p>
+<p>這次分享使用的套件有<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/gulp-concat/">concat</a>、<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/gulp-uglify/">uglify</a>、<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/gulp-sass/">sass</a>。還有該如何<strong>讓gulp監看(Watch)檔案狀態並針對檔案儲存行來進行特定的task</strong>，希望大家會喜歡的啦</p>
+<p>還有幾個套件是connect以及非內建的watch，我將會在下一篇分享這2個套件的使用方式，敬請期待囉~</p>
+<p>廢話不多說，要先來介紹的是concat，concat這個套件的功能是將你多個js檔案打包並輸出成一個js檔案。</p>
+<p>若要安裝這個套件，就要在你的專案內使用node.js輸入下面的指令來安裝concat這個套件</p>
+<pre><code>npm install --save-dev gulp-concat
+</code></pre>
+<p>安裝完成後若需要使用這個套件就必須要讓gulp知道有這個task所以我們需要在gulpfile.js中撰寫下列程式碼</p>
+<pre><code>var gulp = require(&#39;gulp&#39;),
+    concat = require(&#39;gulp-concat&#39;)
+
+//將src內的所有js打包成all.js並將all.js輸出至build/js的目錄下
+gulp.task(&#39;Concat&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.js&#39;)
+        .pipe(concat(&#39;all.js&#39;))
+        .pipe(gulp.dest(&#39;./build/js&#39;))
+        .pipe(connect.reload());;
+/&#125;);
+</code></pre>
+<p>下圖為這篇文章所使用的目錄結構，如上述程式碼中我需要建構src目錄內的所有js所以我放置了兩個js檔案，分別為a.js 和 b.js</p>
+<p><img src="/img/2017-233637/1499871805_35683.png"></p>
+<p>a.js的程式內容為</p>
+<pre><code>$(document).ready(function () /&#123;
+    console.log(&#39;PrintA&#39;);
+/&#125;);
+</code></pre>
+<p>b.js的程式碼內容為</p>
+<pre><code>$(document).ready(function () /&#123;
+    console.log(&#39;PrintB&#39;);
+/&#125;);
+</code></pre>
+<p>將兩份JavaScript檔案準備好後就返回到Node.js中，使用gulp執行Concat這個task</p>
+<p><img src="/img/2017-233637/1499869317_95848.png"></p>
+<p>執行成功後可以發現build底下的js如期的出現all.js的檔案，圖中右手邊可以看到gulp已經幫我們把a.js以及b.js完整的打包在一起，是不是很棒呢~</p>
+<p><img src="/img/2017-233637/1499871852_61883.png"></p>
+<p>接下來要介紹的是Uglify這個套件，這個套件可以幫助我們將js檔進行Minify的動作，好處是可以讓程式執行效率變好。</p>
+<p>要使用這個套件的話一樣是使用你的node.js到你的專案目錄底下執行下列指令</p>
+<pre><code>npm install --save-dev gulp-uglify
+</code></pre>
+<p>安裝完成後我們使用之前使用過的程式碼來進行新增，其task名稱更改為「ConcatAndUglify」，引入Uglify的套件並在task中加入uglify的動作。</p>
+<pre><code>var gulp = require(&#39;gulp&#39;),
+    concat = require(&#39;gulp-concat&#39;),引入Concat套件
+    uglify = require(&#39;gulp-uglify&#39;)//引入uglify套件
+
+//將src內的所有js打包成all.js再uglify化後，將all.js輸出至build/js的目錄下
+gulp.task(&#39;ConcatAndUglify&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.js&#39;)
+        .pipe(concat(&#39;all.js&#39;))
+        .pipe(uglify()) //uglify化
+        .pipe(gulp.dest(&#39;./build/js&#39;))
+        .pipe(connect.reload());
+/&#125;);
+</code></pre>
+<p>程式碼完成後執行完成後可以看見all.js中的檔案會變成一行的JavaScript程式，如下圖。</p>
+<p><img src="/img/2017-233637/1499871767_29121.png"></p>
+<p>接下來要講的是sass這個套件，主要功能是幫助我們進行編譯sass檔，我們可以指定編譯後的檔案輸出到我們想要放置的目錄底下。我們要使用這個套件也必須先執行下列指令</p>
+<pre><code>npm install gulp-sass --save-dev
+</code></pre>
+<p>執行完成後，我們再新增一個task來做sass編譯，其task名稱為sassGO。程式碼從舊有的新增，新增完成後如下。因為要分開來執行兩次gulp很繁瑣，所以在最後新增了一個default的task來讓gulp執行ConcatAndUglify和sassGO這兩個task</p>
+<pre><code>var gulp = require(&#39;gulp&#39;),
+    concat = require(&#39;gulp-concat&#39;), //引入concat套件
+    uglify = require(&#39;gulp-uglify&#39;), //引入uglify套件
+    sass = require(&#39;gulp-sass&#39;),     //引入sass套件
+
+//將src內的所有js打包成all.js再uglify化後，將all.js輸出至build/js的目錄下
+gulp.task(&#39;ConcatAndUglify&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.js&#39;)
+        .pipe(concat(&#39;all.js&#39;))
+        .pipe(uglify()) //uglify化
+        .pipe(gulp.dest(&#39;./build/js&#39;))
+        .pipe(connect.reload());
+/&#125;);
+
+//將src內的所有scss檔編譯後輸出到build/的目錄下
+gulp.task(&#39;sassGO&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.scss&#39;)
+        .pipe(sass().on(&#39;error&#39;, sass.logError))
+        .pipe(gulp.dest(&#39;./build/&#39;))
+        .pipe(connect.reload());
+/&#125;);
+
+//預設執行ConcatAndUglify和sassGO這兩個task
+gulp.task(&#39;default&#39;, [&#39;ConcatAndUglify&#39;, &#39;sassGO&#39;]);
+</code></pre>
+<p>在src&#x2F;css的目錄底下我自己先新增了一個scss的檔案，其scss的程式碼內容如下</p>
+<pre><code>$bg:yellow;
+body/&#123;
+    background-color:red;
+    color:white;
+/&#125;
+</code></pre>
+<p>在gulp執行完畢後可以看見css的目錄底下多了一個demo.css的檔案，這代表他已經完成編譯了。其編譯後的css檔程式碼如下。</p>
+<p><img src="/img/2017-233637/1499872068_43143.png"></p>
+<p>這些套件都安裝完成可以成功執行了，但很麻煩的是每一次要編譯都要在執行一次gulp，所以gulp有一個很貼心的功能叫做Watch，他可以幫我們監看某一個目錄底下的檔案是不是有變動，如果有變動，我們可以針對有變動(或有儲存動作)的目錄來執行我們指定的某一個task，廢話不多說我們來看該怎麼使用watch，要使用watch不需要安裝套件，但是也有非內建的watch套件可以讓程式碼變得更好，這個套件我想應該會和下次的connect和livereload一起分享出來~</p>
+<p>若要監控檔案是否有變動也需要建立一個task來讓gulp知道要進行watch的動作，其程式碼如下</p>
+<pre><code>var gulp = require(&#39;gulp&#39;),
+    concat = require(&#39;gulp-concat&#39;), //引入concat套件
+    uglify = require(&#39;gulp-uglify&#39;), //引入uglify套件
+    sass = require(&#39;gulp-sass&#39;)     //引入sass套件
+
+//將src內的所有js打包成all.js再uglify化後，將all.js輸出至build/js的目錄下
+gulp.task(&#39;ConcatAndUglify&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.js&#39;)
+        .pipe(concat(&#39;all.js&#39;))
+        .pipe(uglify()) //uglify化
+        .pipe(gulp.dest(&#39;./build/js&#39;))
+        .pipe(connect.reload());
+/&#125;);
+
+//將src內的所有scss檔編譯後輸出到build/的目錄下
+gulp.task(&#39;sassGO&#39;, function () /&#123;
+    return gulp.src(&#39;src/**/*.scss&#39;)
+        .pipe(sass().on(&#39;error&#39;, sass.logError))
+        .pipe(gulp.dest(&#39;./build/&#39;))
+        .pipe(connect.reload());
+/&#125;);
+
+//讓gulp開始監看目錄下的變動，並執行指定動作
+gulp.task(&#39;watch&#39;, function () /&#123;
+    gulp.watch(&#39;src/**/*.scss&#39;, [&#39;sassGO&#39;]); //監控src下所有的.scss檔，若有變動則執行sassGO這個task
+    gulp.watch(&#39;src/**/*.js&#39;, [&#39;Concat&#39;]);   //監控src下所有的.js檔，若有變動則執行Concat這個task
+/&#125;);
+
+//預設執行ConcatAndUglify和sassGO以及watch這三個task
+gulp.task(&#39;default&#39;, [&#39;ConcatAndUglify&#39;, &#39;sassGO&#39;,&#39;watch&#39;]);
+</code></pre>
+<p>在node.js執行gulp會發現畫面會卡住，並不讓你輸入下一個指令，這代表他正在監看你目錄下的檔案</p>
+<p><img src="/img/2017-233637/1499873560_01025.png"></p>
+<p>我們將src目錄下的scss檔案變更的話在命令視窗內就會顯示他進行指定task動作(sassGO)的畫面</p>
+<p><img src="/img/2017-233637/1499873576_00622.png"></p>
+<p>若更改src目錄下的.js檔也會進行變動，因為我們也有監看src下的.js檔，如下圖</p>
+<p><img src="/img/2017-233637/1499873656_98006.png"></p>
+<p>今天的分享到這邊結束囉，下一次將介紹connect、livereload以及非內建的watch套件</p>
+<p>感謝各位大大的觀看，歡迎一起討論 感謝~</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/07/14/2017-001638/" title="Gulp學習紀錄_Part 3-一起來使用Livereload做前端吧!!"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: Gulp學習紀錄_Part 3-一起來使用Livereload做前端吧!!</span></a><a class="button is-default" href="/2017/07/10/2017-213106/" title="Gulp學習紀錄_Part 1-Hello Gulp!"><span class="has-text-weight-semibold">下一頁: Gulp學習紀錄_Part 1-Hello Gulp!</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

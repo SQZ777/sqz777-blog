@@ -1,0 +1,176 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的? - sqz777's blog</title><meta name="description" content="今天參加了 Agile Community 的變異測試的一個meet up
+覺得很有趣 這算是一個寫Unit Test的後續(吧?
+變異測試 - 一種改進測試和代碼的 “新” 方法
+講師Joseph表示 其實這不是一種新的方式了，這在1970年就有人提出來了 (我都還沒出生呢….) 
+變異測試，.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2018-004634/1521041744_7069.png"><meta name="original-source" content="https://sqz777.github.io/2018/03/15/2018-004634/"><link rel="canonical" href="https://sqz777.github.io/2018/03/15/2018-004634/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的? - sqz777's blog"><meta property="og:description" content="今天參加了 Agile Community 的變異測試的一個meet up
+覺得很有趣 這算是一個寫Unit Test的後續(吧?
+變異測試 - 一種改進測試和代碼的 “新” 方法
+講師Joseph表示 其實這不是一種新的方式了，這在1970年就有人提出來了 (我都還沒出生呢….) 
+變異測試，.."><meta property="og:url" content="https://sqz777.github.io/2018/03/15/2018-004634/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2018-004634/1521041744_7069.png"><meta name="twitter:title" content="Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的? - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2018-004634/1521041744_7069.png"><meta name="twitter:description" content="今天參加了 Agile Community 的變異測試的一個meet up
+覺得很有趣 這算是一個寫Unit Test的後續(吧?
+變異測試 - 一種改進測試和代碼的 “新” 方法
+講師Joseph表示 其實這不是一種新的方式了，這在1970年就有人提出來了 (我都還沒出生呢….) 
+變異測試，.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E5%AF%AB%E5%87%BA%E4%BE%86%E7%9A%84%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%98%AF%E7%84%A1%E6%95%88%E7%9A%84"><span class="toc-text">我寫出來的測試程式碼是無效的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-Coverage-%E6%98%AF%E5%81%87%E7%9A%84"><span class="toc-text">Code Coverage 是假的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E6%A2%9D%E4%BB%B6%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">反向條件的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E9%99%A4%E6%A2%9D%E4%BB%B6%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">移除條件的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%9E%E5%A2%9E%E3%80%81%E9%81%9E%E6%B8%9B%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">遞增、遞減的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E6%95%B8%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">常數的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">返回值的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%BB%E9%99%A4%E7%A8%8B%E5%BC%8F%E7%A2%BC%E7%9A%84%E8%AE%8A%E7%95%B0"><span class="toc-text">移除程式碼的變異</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AA%9E"><span class="toc-text">結語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%95%B0%E8%AE%8A%E9%81%8E%E5%BE%8C%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E8%A6%81%E8%83%BD%E5%A4%A0%E7%B7%A8%E8%AD%AF"><span class="toc-text">異變過後的程式碼要能夠編譯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E4%B8%80%E5%80%8B%E5%8F%AA%E4%BD%BF%E7%94%A8%E5%85%B6%E4%B8%AD%E4%B8%80%E5%80%8B%E8%AE%8A%E7%95%B0%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-text">同一個只使用其中一個變異的方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A2%BA%E5%AE%9A%E7%95%B0%E8%AE%8A%E7%A8%8B%E5%BC%8F%E7%A2%BC%E9%81%8E%E5%BE%8C%EF%BC%8C%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6%E6%87%89%E8%A9%B2%E8%A6%81%E6%98%AF%E5%A4%B1%E6%95%97%E7%9A%84"><span class="toc-text">確定異變程式碼過後，執行測試應該要是失敗的</span></a></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Test"><i class="tag post-item-tag">Test</i></a><a href="/tags/%E5%BF%83%E5%BE%97"><i class="tag post-item-tag">心得</i></a><a href="/tags/%E7%A4%BE%E7%BE%A4"><i class="tag post-item-tag">社群</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</h1><time class="has-text-grey" datetime="2018-03-15T00:00:00.000Z">2018-03-15</time><article class="mt-2 post-content"><p>今天參加了 Agile Community 的變異測試的一個meet up</p>
+<p>覺得很有趣 這算是一個寫Unit Test的後續(吧?</p>
+<p><img src="/img/2018-004634/1521041744_7069.png"><br>變異測試 - 一種改進測試和代碼的 “新” 方法</p>
+<p>講師Joseph表示 其實這不是一種新的方式了，這在1970年就有人提出來了 (我都還沒出生呢….) </p>
+<p>變異測試，所謂的變異，就是從英文的 Mutation 翻譯而來的，意義上就是 病變、突異的意思</p>
+<p>可以想像我們的程式碼就是身體，如果我們的身體出現了突變、病變的話，就代表我們的身體出了問題了，從程式碼的角度來看就是我們的程式碼有變更了</p>
+<p>我們時常寫了許多的測試，但還是很容易出現 Bug 或是有所謂的 「漏網之魚」，或許就可以透過 Mutation Test來找出測試程式碼的漏洞</p>
+<p>我自己稍微寫了一點跟講師一樣的程式碼，但是是C#版本的程式碼與測試程式來講解這樣的情況</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        if (a &gt; 0 &amp;&amp; b &gt; 0)
+          c = b;
+        return c;
+    /&#125;
+/&#125;
+</code></pre>
+<p>而我的測試程式碼長這個樣子</p>
+<pre><code>[TestClass]
+public class TestFoo
+/&#123;
+    [TestMethod]
+    public void input_a_is_1_b_is_1_Should_1()
+    /&#123;
+        var someThing = new SomeThing();
+        Assert.AreEqual(1, someThing.Foo(1, 1));
+    /&#125;
+
+    [TestMethod]
+    public void input_a_is_1_b_is_n1_should_be_0()
+    /&#123;
+        var someThing = new SomeThing();
+        Assert.AreEqual(0, someThing.Foo(1, -1));
+    /&#125;
+
+    [TestMethod]
+    public void input_a_is_n1_b_is_1_should_be_0()
+    /&#123;
+        var someThing = new SomeThing();
+        Assert.AreEqual(0, someThing.Foo(-1, 1));
+    /&#125;
+
+/&#125;
+</code></pre>
+<p>我的測試程式碼事實上已經涵蓋100%了，由內建的工具就可以看得到了</p>
+<p><img src="/img/2018-004634/1521042301_71939.png"></p>
+<p>我的 Code Coverage 已經是100%了 照理來說我改了任何一個程式碼的內容的話，我的測試程式碼都應該要出現錯誤<br>但如果我把我的程式碼改成這個樣子</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        if (a &gt; 0 &amp;&amp; b &gt;= 0)
+          c = b;
+        return c;
+    /&#125;
+/&#125;
+</code></pre>
+<p>我把 判斷 b&gt;0 的條件改成 b&gt;&#x3D;0 我的測試程式碼依然是通過的，代表 2 件事</p>
+<ul>
+<li><h2 id="我寫出來的測試程式碼是無效的"><a href="#我寫出來的測試程式碼是無效的" class="headerlink" title="我寫出來的測試程式碼是無效的"></a>我寫出來的測試程式碼是無效的</h2></li>
+<li><h2 id="Code-Coverage-是假的"><a href="#Code-Coverage-是假的" class="headerlink" title="Code Coverage 是假的"></a>Code Coverage 是假的</h2></li>
+</ul>
+<p><img src="/img/2018-004634/be7ab3eab997586ed77619386aacc115-3-350x183.jpg"></p>
+<p>以測試程式碼無效這件事情來說，這是常有的事，所以我們需要 Mutation Test 來改善我們的程式碼，當然讓程式碼變異的方式有很多種，以下列出其中幾種</p>
+<ul>
+<li>條件邊界的變異</li>
+<li>反向條件的變異</li>
+<li>移除條件的變異</li>
+<li>遞增、遞減的變異</li>
+<li>常數的變異</li>
+<li>返回值的變異</li>
+<li>移除程式碼的變異</li>
+</ul>
+<p>條件邊界的變異很明顯的，剛才的寫出來的範例已經提到了，嘗試將 “&gt;” 變成 “&gt;&#x3D;” 或 “&lt;” 變成 “&lt;&#x3D;” 以這樣的異動來說，整個程式碼的敘述已經變得跟原本不同了，那我們的測試程式碼就應該要抓得出來這樣子的錯誤</p>
+<h2 id="反向條件的變異"><a href="#反向條件的變異" class="headerlink" title="反向條件的變異"></a>反向條件的變異</h2><p>如果是反向條件的變異，就可以試試將原本的程式碼變為這個樣子</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        if (!(a &gt; 0 &amp;&amp; b &gt;= 0))
+          c = b;
+        return c;
+    /&#125;
+/&#125;
+</code></pre>
+<p>將整個判斷句反向過來，試試看我們的測試程式碼有沒有抓到這樣的錯誤</p>
+<h2 id="移除條件的變異"><a href="#移除條件的變異" class="headerlink" title="移除條件的變異"></a>移除條件的變異</h2><p>如果是移除條件的變異，就可以試試將判斷的語句移除</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        c = b;
+        return c;
+    /&#125;
+/&#125;
+</code></pre>
+<p>將整個判斷語句移除之後，跑跑看 Unit Test 是否通過</p>
+<h2 id="遞增、遞減的變異"><a href="#遞增、遞減的變異" class="headerlink" title="遞增、遞減的變異"></a>遞增、遞減的變異</h2><p>這個變異是指如果有for迴圈，將其遞增的狀況變更</p>
+<p>好比說 原本是 for(int i &#x3D; 0; i&lt; somethingNumber; i++)</p>
+<p>變更為 for(int i &#x3D; 0; i&lt; somethingNumber; i–)</p>
+<p>變更後再跑一次Unit Test是否通過</p>
+<h2 id="常數的變異"><a href="#常數的變異" class="headerlink" title="常數的變異"></a>常數的變異</h2><p>這個變異是指，假設今天有一個常數已經定義好為 CONST_NUMBER &#x3D; 5</p>
+<p>如今有一段程式碼是 somethingNumber &#x3D; doSomething(CONST_NUMBER);</p>
+<p>將其改成 somethingNumber &#x3D; doSomething(6);</p>
+<p>嘗試看看測試程式碼是否有幫助你找到錯誤</p>
+<h2 id="返回值的變異"><a href="#返回值的變異" class="headerlink" title="返回值的變異"></a>返回值的變異</h2><p>由範例來修改返回值的程式碼如下，將原本的 return c 變為 return 0</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        if (a &gt; 0 &amp;&amp; b &gt; 0)
+          c = b;
+        return 0;
+    /&#125;
+/&#125;
+</code></pre>
+<p>再試試看這段程式碼被測試程式碼跑過一遍之後會發生什麼事情</p>
+<h2 id="移除程式碼的變異"><a href="#移除程式碼的變異" class="headerlink" title="移除程式碼的變異"></a>移除程式碼的變異</h2><p>顯而易見的如文字上所說，將程式碼移除，然後再進行測試</p>
+<pre><code>public class SomeThing
+/&#123;
+    public int Foo(int a, int b)
+    /&#123;
+        var c = 0;
+        return c;
+    /&#125;
+/&#125;
+</code></pre>
+<p>跑一下Unit Test 看結果會如何</p>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>當然看完上面簡單的範例之後會發現很多程式碼是可以嘗試看看的，如果你的程式碼被移除，或被更動但沒有出錯那就只代表兩件事</p>
+<ul>
+<li>這些被移除的程式碼根本不重要，有跟沒有一樣</li>
+<li>你的測試程式碼的有效性不足夠，所以要加新的測試</li>
+</ul>
+<p>通常是後者就是了XD</p>
+<p>不過嘗試變異測試是有前提跟原則的</p>
+<p>前提是</p>
+<p><strong>這些將要被異變的程式碼最好都有被測試覆蓋</strong></p>
+<p>第一點的理由很明顯，如果你的程式碼沒有測試覆蓋，你連原本自己寫的 Code 都不知道是否是正確的，你還做了這些異變，也根本不會知道會不會是對的。</p>
+<p>而原則是</p>
+<ul>
+<li><h3 id="異變過後的程式碼要能夠編譯"><a href="#異變過後的程式碼要能夠編譯" class="headerlink" title="異變過後的程式碼要能夠編譯"></a>異變過後的程式碼要能夠編譯</h3></li>
+<li><h3 id="同一個只使用其中一個變異的方式"><a href="#同一個只使用其中一個變異的方式" class="headerlink" title="同一個只使用其中一個變異的方式"></a>同一個只使用其中一個變異的方式</h3></li>
+<li><h3 id="確定異變程式碼過後，執行測試應該要是失敗的"><a href="#確定異變程式碼過後，執行測試應該要是失敗的" class="headerlink" title="確定異變程式碼過後，執行測試應該要是失敗的"></a>確定異變程式碼過後，執行測試應該要是失敗的</h3></li>
+</ul>
+<p>第一點，很明顯的，如果你異變過後的程式碼沒辦法編譯，那你連跑 Unit Test 都沒辦法跑</p>
+<p>第二點，一般說雖然同時更改很多部分的程式碼，有可能會比較貼近實際上的異動，但只選擇一種變異的方法就已經足以讓自己的測試程式碼更加完善了，當然你可以不只做一種異變測試，你可以做很多個，但建議不要「同時」一次做很多個</p>
+<p>第三點，這是一種倒過來思考的方式，有在用TDD的人會想著要如何最小步的讓測試通過，而倒過來就是想著程式碼該如何用最小步的方式讓測試失敗，而語句上要是與原本不同的，大部分的方法已經在上面講了大概了~</p>
+<p>現場很少人聽過”變異測試”，但為什麼還是這麼多人不知道變異測試呢?</p>
+<p>我想應該是 Unit Test 還沒有很普及吧，但變異測試對自己的寫出來的程式碼是確實很有幫助的，如果我有需要維護的案子，且有一定的Code Coverage 那我將會嘗試看看這樣子的方式來試試看我的測試程式碼是否寫的足夠好</p>
+<p>當然，這麼廣大的程式碼要手動異動實在是難上加難</p>
+<p>所以 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mutation_testing">wikipedia</a> 上就有介紹很多種不同語言的 Mutation Test 的工具可以使用，至於要不要收費我就不知道了(學講師XD</p>
+<p>PS: 工具找出來的變異測試失敗，不一定是真的失敗，有些情境上是工具無法辨別的，不要被工具限制住了</p>
+<p>感謝各位大大收看 如有錯誤 請告訴我&lt;(_ _)&gt;</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/04/07/2018-180727/" title="閱讀周記 - 測試技術之測試技術分類系統"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: 閱讀周記 - 測試技術之測試技術分類系統</span></a><a class="button is-default" href="/2018/03/11/2018-234606/" title="閱讀周記 - 持續進化的測試文件之測試文件並不是孤單一個人"><span class="has-text-weight-semibold">下一頁: 閱讀周記 - 持續進化的測試文件之測試文件並不是孤單一個人</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

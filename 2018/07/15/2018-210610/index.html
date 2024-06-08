@@ -1,0 +1,146 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>筆記 - 如何在 ASP.NET CORE Web API 中加入 Angular 6 - sqz777's blog</title><meta name="description" content="目前visual studio 專案範本看起來只有出到 angular 4 但是我想用 6 XD
+所以花了不少時間在研究他
+前言這一次實作以 .NET CORE 2.0 來加入angular 6，未來版本可能會有些不同
+文章中若有錯誤的地方麻煩請告知我! &amp;lt;(_ _)&amp;gt;
+直接看Cod.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2018-210610/1531624273_58518.png"><meta name="original-source" content="https://sqz777.github.io/2018/07/15/2018-210610/"><link rel="canonical" href="https://sqz777.github.io/2018/07/15/2018-210610/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="筆記 - 如何在 ASP.NET CORE Web API 中加入 Angular 6 - sqz777's blog"><meta property="og:description" content="目前visual studio 專案範本看起來只有出到 angular 4 但是我想用 6 XD
+所以花了不少時間在研究他
+前言這一次實作以 .NET CORE 2.0 來加入angular 6，未來版本可能會有些不同
+文章中若有錯誤的地方麻煩請告知我! &amp;lt;(_ _)&amp;gt;
+直接看Cod.."><meta property="og:url" content="https://sqz777.github.io/2018/07/15/2018-210610/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2018-210610/1531624273_58518.png"><meta name="twitter:title" content="筆記 - 如何在 ASP.NET CORE Web API 中加入 Angular 6 - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2018-210610/1531624273_58518.png"><meta name="twitter:description" content="目前visual studio 專案範本看起來只有出到 angular 4 但是我想用 6 XD
+所以花了不少時間在研究他
+前言這一次實作以 .NET CORE 2.0 來加入angular 6，未來版本可能會有些不同
+文章中若有錯誤的地方麻煩請告知我! &amp;lt;(_ _)&amp;gt;
+直接看Cod.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">筆記 - 如何在 ASP.NET CORE Web API 中加入 Angular 6</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E5%8B%95%E4%BD%9C"><span class="toc-text">前置動作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%B5%E5%BB%BA%E5%8F%8A%E8%A8%AD%E5%AE%9A-ASP-NET-CORE-Web-API-%E5%B0%88%E6%A1%88"><span class="toc-text">創建及設定 ASP.NET CORE Web API 專案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%B5%E5%BB%BA-Angular-CLI-%E5%B0%88%E6%A1%88"><span class="toc-text">創建 Angular CLI 專案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A3%9C%E5%85%85-%E4%BE%86%E8%87%AA-Poy-Chang-%E7%9A%84%E5%BB%BA%E8%AD%B0"><span class="toc-text">補充: 來自 Poy Chang 的建議</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88%E8%B5%B7%E4%BE%86"><span class="toc-text">整合起來</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E7%AF%87%E7%9A%84-github-%E9%80%A3%E7%B5%90"><span class="toc-text">本篇的 github 連結</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/C#"><i class="tag post-item-tag">C#</i></a><a href="/tags/Angular6"><i class="tag post-item-tag">Angular6</i></a><a href="/tags/.NET%20CORE"><i class="tag post-item-tag">.NET CORE</i></a><a href="/tags/Angular%20CLI"><i class="tag post-item-tag">Angular CLI</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">筆記 - 如何在 ASP.NET CORE Web API 中加入 Angular 6</h1><time class="has-text-grey" datetime="2018-07-15T00:00:00.000Z">2018-07-15</time><article class="mt-2 post-content"><p>目前visual studio 專案範本看起來只有出到 angular 4 但是我想用 6 XD</p>
+<p>所以花了不少時間在研究他</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>這一次實作以 .NET CORE 2.0 來加入angular 6，未來版本可能會有些不同</p>
+<p>文章中若有錯誤的地方麻煩請告知我! &lt;(_ _)&gt;</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SQZ777/AspNetCoreAndAngular6Demo">直接看Code點我(GitHub連結)</a></p>
+<h2 id="前置動作"><a href="#前置動作" class="headerlink" title="前置動作"></a>前置動作</h2><ul>
+<li>確認是否安裝 <a target="_blank" rel="noopener" href="https://www.microsoft.com/net/learn/get-started/windows#windowsvs2017">.NET CORE</a></li>
+<li>確認是否安裝 <a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js 及 npm</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli">Angular CLI</a> 也可參考 <a target="_blank" rel="noopener" href="https://angular.io/guide/quickstart">Angular.io 的 quick start</a> 進行安裝</li>
+</ul>
+<p>請使用 node -v 以及 npm -v，確認 node 版本為 8.x 以及 npm 版本為 5.x 或以上</p>
+<h2 id="創建及設定-ASP-NET-CORE-Web-API-專案"><a href="#創建及設定-ASP-NET-CORE-Web-API-專案" class="headerlink" title="創建及設定 ASP.NET CORE Web API 專案"></a>創建及設定 ASP.NET CORE Web API 專案</h2><p>開啟 Visual Studio 新增一個 Web API 的 .NET CORE 專案</p>
+<p><img src="/img/2018-210610/1531624273_58518.png"></p>
+<p>按下 OK 後選取「API」再按下 OK</p>
+<p><img src="/img/2018-210610/1531624347_73999.png"></p>
+<p>成功開啟後，為了只需要讓 Angular CLI 幫我們編譯，所以需要設定專案設定檔</p>
+<p><img src="/img/2018-210610/1531624727_98045.png"></p>
+<p>在 csproj 檔中加入以下的程式碼</p>
+<pre><code>&lt;PropertyGroup&gt;
+     &lt;TypeScriptCompileBlocked&gt;true&lt;/TypeScriptCompileBlocked&gt;
+&lt;/PropertyGroup&gt;
+</code></pre>
+<p>創建 Web API專案時，會預設開啟 api&#x2F;values 這個頁面 所以為了避免這樣的動作，要到 <strong>Properties</strong> 中的 <strong>launchSettings.json</strong> 進行設定，將 launchUrl 設為空就可以了</p>
+<p>所有的 launchSettings.json 的 Code 如下</p>
+<pre><code>/&#123;
+  &quot;iisSettings&quot;: /&#123;
+    &quot;windowsAuthentication&quot;: false,
+    &quot;anonymousAuthentication&quot;: true,
+    &quot;iisExpress&quot;: /&#123;
+      &quot;applicationUrl&quot;: &quot;http://localhost:8572/&quot;,
+      &quot;sslPort&quot;: 0
+    /&#125;
+  /&#125;,
+  &quot;profiles&quot;: /&#123;
+    &quot;IIS Express&quot;: /&#123;
+      &quot;commandName&quot;: &quot;IISExpress&quot;,
+      &quot;launchBrowser&quot;: true,
+      &quot;launchUrl&quot;: &quot;&quot;,
+      &quot;environmentVariables&quot;: /&#123;
+        &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;
+      /&#125;
+    /&#125;,
+    &quot;AspNetCoreAndAngular6Demo&quot;: /&#123;
+      &quot;commandName&quot;: &quot;Project&quot;,
+      &quot;launchBrowser&quot;: true,
+      &quot;launchUrl&quot;: &quot;&quot;,
+      &quot;environmentVariables&quot;: /&#123;
+        &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;
+      /&#125;,
+      &quot;applicationUrl&quot;: &quot;http://localhost:8573/&quot;
+    /&#125;
+  /&#125;
+/&#125;
+</code></pre>
+<p>接著就需要判斷進來的 request 是需要存取網頁還是要api了，所以在Startup.cs中的 Configure 要加入以下的程式碼</p>
+<pre><code>app.Use(async (context, next) =&gt;
+/&#123;
+    await next();
+    if (context.Response.StatusCode == 404 &amp;&amp;                       // 該資源不存在
+        !System.IO.Path.HasExtension(context.Request.Path.Value) &amp;&amp; // 網址最後沒有帶副檔名
+        !context.Request.Path.Value.StartsWith(&quot;/api&quot;))             // 網址不是 /api 開頭（不是發送 API 需求）
+    /&#123;
+        context.Request.Path = &quot;/index.html&quot;;                       // 將網址改成 /index.html
+        context.Response.StatusCode = 200;                          // 並將 HTTP 狀態碼修改為 200 成功
+
+        await next();
+    /&#125;
+/&#125;);
+</code></pre>
+<p>因為將要使用 Angular CLI會幫助我們編譯出前端網頁的靜態檔案，所以我們需要可以存取靜態檔案的middleware，所以在 Startup.cs 中的 Configure 要加入兩個方法</p>
+<ul>
+<li>app.UseDefaultFiles()</li>
+<li>app.UseStaticFiles()</li>
+</ul>
+<p>目前 Configure 中會變成這個樣子</p>
+<pre><code>public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+/&#123;
+    if (env.IsDevelopment())
+    /&#123;
+        app.UseDeveloperExceptionPage();
+    /&#125;
+
+    app.Use(async (context, next) =&gt;
+    /&#123;
+        await next();
+        if (context.Response.StatusCode == 404 &amp;&amp;                       // 該資源不存在
+            !System.IO.Path.HasExtension(context.Request.Path.Value) &amp;&amp; // 網址最後沒有帶副檔名
+            !context.Request.Path.Value.StartsWith(&quot;/api&quot;))             // 網址不是 /api 開頭（不是發送 API 需求）
+        /&#123;
+            context.Request.Path = &quot;/index.html&quot;;                       // 將網址改成 /index.html
+            context.Response.StatusCode = 200;                          // 並將 HTTP 狀態碼修改為 200 成功
+
+            await next();
+        /&#125;
+    /&#125;);
+
+    app.UseDefaultFiles();
+    app.UseStaticFiles();
+    app.UseMvc();
+/&#125;
+</code></pre>
+<h2 id="創建-Angular-CLI-專案"><a href="#創建-Angular-CLI-專案" class="headerlink" title="創建 Angular CLI 專案"></a>創建 Angular CLI 專案</h2><p>接下來開始創建Angular CLI 的專案了!</p>
+<p>這邊要注意的是，Angular CLI專案的 ng new 方法會在你所屬的資料夾底下創建一個資料夾然後放進去，所以你如果你照著前面的步驟到這裡來的話，你應該要到有 .sln檔的地方下 ng new 的指令來創建專案</p>
+<p>這裡使用以下指令來創建專案</p>
+<p>ng new AspNetCoreAndAngular6Demo -g –routing</p>
+<ul>
+<li>-g 不建立版控，因為已經建立過了</li>
+<li>--routing 建立路由模組</li>
+</ul>
+<h3 id="補充-來自-Poy-Chang-的建議"><a href="#補充-來自-Poy-Chang-的建議" class="headerlink" title="補充: 來自 Poy Chang 的建議"></a>補充: 來自 Poy Chang 的建議</h3><p><img src="/img/2018-210610/1531665586_38827.png"></p>
+<p>下指令之後會自動執行 npm install</p>
+<p><img src="/img/2018-210610/1531656000_53281.png"></p>
+<p>如果 npm install 失敗，請 cd 進去你的專案(有csproj檔的位置) 再執行一次 npm install，你可能還會被提示需要執行 npm audit fix 然後又被提示要執行 npm audit fix –force</p>
+<h2 id="整合起來"><a href="#整合起來" class="headerlink" title="整合起來"></a>整合起來</h2><p>執行完畢後，有幾個需要修正的地方</p>
+<ul>
+<li>“src” 資料夾的命名建議修改為 “client-src” 這樣方便辨認是否為前端的程式碼</li>
+<li>如果修改了 src資料夾名稱為 client-src 請把所有 angular.json內 “src” 的文字修改為 “client-src”</li>
+<li>outputPath 從 dist&#x2F; [your project name] 修改為 wwwroot (如下圖)</li>
+<li>修改.gitignore檔&#x3D;&gt;新增 &#x2F;wwwroot</li>
+</ul>
+<p><img src="/img/2018-210610/1531656531_71272.png"></p>
+<p>接下來執行</p>
+<ul>
+<li>ng build</li>
+<li>在 visual studio 中執行 ctrl + f5(啟動但不偵錯)</li>
+</ul>
+<p>這時候你就可以看到 angular 的頁面囉!!!</p>
+<p><img src="/img/2018-210610/1531656903_88531.png"></p>
+<p>本篇參考: <a target="_blank" rel="noopener" href="https://poychang.github.io/angualr-cli-with-dotnet-core/">Angular CLI 和 ASP.NET Core Web API 專案整合步驟 1 2 3</a></p>
+<h2 id="本篇的-github-連結"><a href="#本篇的-github-連結" class="headerlink" title="本篇的 github 連結"></a><a target="_blank" rel="noopener" href="https://github.com/SQZ777/AspNetCoreAndAngular6Demo">本篇的 github 連結</a></h2></article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/08/14/2018-230816/" title="筆記 - 幫自己寫一個 CLI 來幫自己建資料夾!  使用 nodeJS 的 commander!"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: 筆記 - 幫自己寫一個 CLI 來幫自己建資料夾!  使用 nodeJS 的 commander!</span></a><a class="button is-default" href="/2018/07/02/2018-220745/" title="2018 [台北] 保哥 認識 SOLID 物件導向開發原則"><span class="has-text-weight-semibold">下一頁: 2018 [台北] 保哥 認識 SOLID 物件導向開發原則</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

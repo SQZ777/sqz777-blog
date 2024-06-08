@@ -1,0 +1,135 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI - sqz777's blog</title><meta name="description" content="dotnet core 的 DI 很好用
+所以筆記一下如何在 AWS Lambda 裡面也使用 dotnet core 的 DI
+首先先建立一個 interface, 就叫 ITalkService 好了~
+namespace AWSLambdaAndDI
+/&amp;#123;
+    public .."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2021-AWSLambdaUseDotnetCoreDI/1615732181.png"><meta name="original-source" content="https://sqz777.github.io/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/"><link rel="canonical" href="https://sqz777.github.io/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI - sqz777's blog"><meta property="og:description" content="dotnet core 的 DI 很好用
+所以筆記一下如何在 AWS Lambda 裡面也使用 dotnet core 的 DI
+首先先建立一個 interface, 就叫 ITalkService 好了~
+namespace AWSLambdaAndDI
+/&amp;#123;
+    public .."><meta property="og:url" content="https://sqz777.github.io/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2021-AWSLambdaUseDotnetCoreDI/1615732181.png"><meta name="twitter:title" content="C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2021-AWSLambdaUseDotnetCoreDI/1615732181.png"><meta name="twitter:description" content="dotnet core 的 DI 很好用
+所以筆記一下如何在 AWS Lambda 裡面也使用 dotnet core 的 DI
+首先先建立一個 interface, 就叫 ITalkService 好了~
+namespace AWSLambdaAndDI
+/&amp;#123;
+    public .."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"><a href="/tags/.NET%20CORE"><i class="tag post-item-tag">.NET CORE</i></a><a href="/tags/aws"><i class="tag post-item-tag">aws</i></a><a href="/tags/aws%20lambda"><i class="tag post-item-tag">aws lambda</i></a><a href="/tags/dependency%20injection"><i class="tag post-item-tag">dependency injection</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI</h1><time class="has-text-grey" datetime="2021-03-14T00:00:00.000Z">2021-03-14</time><article class="mt-2 post-content"><p>dotnet core 的 DI 很好用</p>
+<p>所以筆記一下如何在 AWS Lambda 裡面也使用 dotnet core 的 DI</p>
+<p>首先先建立一個 interface, 就叫 ITalkService 好了~</p>
+<pre><code>namespace AWSLambdaAndDI
+/&#123;
+    public interface ITalkService
+    /&#123;
+        string SayHello(string name);
+    /&#125;
+/&#125;
+</code></pre>
+<p>再寫一個他的實體 TalkService</p>
+<pre><code>namespace AWSLambdaAndDI
+/&#123;
+    public class TalkService : ITalkService
+    /&#123;
+        public string SayHello(string name)
+        /&#123;
+            return name + &quot;: hello!&quot;;
+        /&#125;
+    /&#125;
+/&#125;
+</code></pre>
+<p>這樣一來我們已經有了 interface 也有實作他的 class，接下來就來看一下如何在一般的 function 使用 dotnet core 的 DI 吧</p>
+<p>首先需要使用 dotnet core CLI 來新增 package</p>
+<pre><code>dotnet add package Microsoft.Extensions.DependencyInjection
+</code></pre>
+<p>裝完之後就可以看到相依性裡面的套件出現 Microsoft.Extensions.DependencyInjection</p>
+<p><img src="/img/2021-AWSLambdaUseDotnetCoreDI/1615732181.png"></p>
+<p>我使用了 Visual Studio 來建立了一個 AWS Lambda 的專案，初始的程式碼會長這樣，並將這個 lambda 的 function 相依於前面已經實作好的 interface</p>
+<pre><code>using Amazon.Lambda.Core;
+
+// Assembly attribute to enable the Lambda function&#39;s JSON input to be converted into a .NET class.
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+
+namespace AWSLambdaAndDI
+/&#123;
+    private readonly ITalkService _talkService;
+
+    public class Function
+    /&#123;
+        
+        /// &lt;summary&gt;
+        /// A simple function that takes a string and does a ToUpper
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public string FunctionHandler(string input, ILambdaContext context)
+        /&#123;
+            return input?.ToUpper();
+        /&#125;
+    /&#125;
+/&#125;
+</code></pre>
+<p>如果要加入 DI ，需要在 constructor 中將需要用的 instance 跟對應到的 interface 進行註冊</p>
+<p>constructor 的 code 會長這個樣子</p>
+<pre><code>public Function()
+/&#123;
+  // 建立 DI
+  var serviceCollection = new ServiceCollection();
+  // 將 TalkService 註冊進 DI
+  serviceCollection.AddTransient&lt;ITalkService, TalkService&gt;();
+  var serviceProvider = serviceCollection.BuildServiceProvider();
+  // 將註冊進 DI 的 talkService 注入 _talkService 這個 interface
+  this._talkService = serviceProvider.GetService&lt;ITalkService&gt;();
+/&#125;
+</code></pre>
+<p>確定好 talkService 註冊並且注入進 this._talkService 之後，就將 talkService 放進 FunctionHandler 中吧!<br>目前的 Lambda Function code 就會長這個樣子</p>
+<pre><code>using Amazon.Lambda.Core;
+using Microsoft.Extensions.DependencyInjection;
+
+// Assembly attribute to enable the Lambda function&#39;s JSON input to be converted into a .NET class.
+[assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
+
+namespace AWSLambdaAndDI
+/&#123;
+    public class Function
+    /&#123;
+        private readonly ITalkService _talkService;
+        public Function()
+        /&#123;
+            // 建立 DI
+            var serviceCollection = new ServiceCollection();
+            // 將 TalkService 註冊進 DI
+            serviceCollection.AddTransient&lt;ITalkService, TalkService&gt;();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            // 將註冊進 DI 的 talkService 注入 _talkService 這個 interface
+            this._talkService = serviceProvider.GetService&lt;ITalkService&gt;();
+        /&#125;
+
+        // 如果需要 unit test 可以利用這個 constructor 來進行 mock talkService
+        public Function(ITalkService talkService)
+        /&#123;
+            this._talkService = talkService;
+        /&#125;
+
+
+        /// &lt;summary&gt;
+        /// A simple function that takes a string and does a ToUpper
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;input&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;context&quot;&gt;&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public string FunctionHandler(string input, ILambdaContext context)
+        /&#123;
+            return this._talkService.SayHello(input);
+        /&#125;
+    /&#125;
+/&#125;
+</code></pre>
+<p>接著來使用 Mock Lambda Test Tool 來執行看看吧</p>
+<p><img src="/img/2021-AWSLambdaUseDotnetCoreDI/1615734335.png"></p>
+<p>以上就可以看到結果囉 “SQZ777: hello!”</p>
+<p>如果以上訊息有任何錯誤麻煩告知 感謝各位大大 &lt;(_ _)&gt;</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/" title="C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務</span></a><a class="button is-default" href="/2020/11/24/2020-putDiscordBotToHeroku/" title="筆記 - 將自己做好的 Discord bot 放在 Heroku 上"><span class="has-text-weight-semibold">下一頁: 筆記 - 將自己做好的 Discord bot 放在 Heroku 上</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>Gulp學習紀錄_Part 1-Hello Gulp! - sqz777's blog</title><meta name="description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+前陣子開始Follow一些人在直播寫程式，尤其是前端切版之類的
+就很好奇他們一些前置作業之類的動作是如何完成的，偶然間發現Gulp.js這一個方便的東西
+本篇將簡單介紹該如何開始使用Gulp.js，之後也會另外寫文章介紹我個人有在使.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2017-213106/1499691073_2805.png"><meta name="original-source" content="https://sqz777.github.io/2017/07/10/2017-213106/"><link rel="canonical" href="https://sqz777.github.io/2017/07/10/2017-213106/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="Gulp學習紀錄_Part 1-Hello Gulp! - sqz777's blog"><meta property="og:description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+前陣子開始Follow一些人在直播寫程式，尤其是前端切版之類的
+就很好奇他們一些前置作業之類的動作是如何完成的，偶然間發現Gulp.js這一個方便的東西
+本篇將簡單介紹該如何開始使用Gulp.js，之後也會另外寫文章介紹我個人有在使.."><meta property="og:url" content="https://sqz777.github.io/2017/07/10/2017-213106/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2017-213106/1499691073_2805.png"><meta name="twitter:title" content="Gulp學習紀錄_Part 1-Hello Gulp! - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2017-213106/1499691073_2805.png"><meta name="twitter:description" content="前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!
+前陣子開始Follow一些人在直播寫程式，尤其是前端切版之類的
+就很好奇他們一些前置作業之類的動作是如何完成的，偶然間發現Gulp.js這一個方便的東西
+本篇將簡單介紹該如何開始使用Gulp.js，之後也會另外寫文章介紹我個人有在使.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Gulp學習紀錄_Part 1-Hello Gulp!</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile is-hidden"></div><div class="column is-9"><header class="my-4"><a href="/tags/Gulp.js"><i class="tag post-item-tag">Gulp.js</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Gulp學習紀錄_Part 1-Hello Gulp!</h1><time class="has-text-grey" datetime="2017-07-10T00:00:00.000Z">2017-07-10</time><article class="mt-2 post-content"><p>前端的技巧越來越多，要做的事情也越來越繁雜，就交給Gulp吧!</p>
+<p>前陣子開始Follow一些人在直播寫程式，尤其是前端切版之類的</p>
+<p>就很好奇他們一些前置作業之類的動作是如何完成的，偶然間發現Gulp.js這一個方便的東西</p>
+<p>本篇將簡單介紹該如何開始使用Gulp.js，之後也會另外寫文章介紹我個人有在使用的Gulp套件</p>
+<p>Gulp.js是一個<a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js</a>的套件，所以要使用Gulp.js之前必須要先安裝<a target="_blank" rel="noopener" href="https://nodejs.org/en/">Node.js</a>喔!!</p>
+<p>Gulp.js的官方還有中文文件(簡體)可以參考</p>
+<p><a target="_blank" rel="noopener" href="http://www.gulpjs.com.cn/">http://www.gulpjs.com.cn/</a></p>
+<p>若習慣看英文版的朋友可以到這裡</p>
+<p><a target="_blank" rel="noopener" href="http://www.gulpjs.com.cn/">http://www.gulpjs.com/</a></p>
+<p>在開始前請先將Node.js安裝完成</p>
+<p>安裝完成後開啟Node.js的「Node.js command prompt」別開到Node.js囉!</p>
+<p>首先先在你想要使用的gulp專案下輸入並執行</p>
+<pre><code>npm init
+</code></pre>
+<p><img src="/img/2017-213106/1499691073_2805.png"></p>
+<p>執行後他會要你輸入名字、定義等之類的需求，輸入完成後他會幫你輸出一個Package.json的檔案</p>
+<p>我只有輸入名字’sqz’，其餘的都直接按Enter帶過，檔案內容長這樣</p>
+<pre><code>/&#123;
+  &quot;name&quot;: &quot;sqz&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: /&#123;
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+  /&#125;,
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;
+/&#125;
+</code></pre>
+<p>檔案中如果安裝了一些套件他會顯示你安裝過哪些套件，這樣一來如果未來團隊有新人要來學習就可以透過這個檔案知道你們有使用哪些套件進行開發。</p>
+<p>接下來要開始安裝gulp，開啟後在command中輸入</p>
+<pre><code>npm install -g gulp
+</code></pre>
+<p>在全域安裝完成後再到你想要使用gulp的專案下安裝gulp套件</p>
+<p><img src="/img/2017-213106/1499690697_51864.png"></p>
+<p>完成安裝後可以看見你package.json上面顯示說你這個專案有安裝了gulp，檔案內容會長成這個樣子</p>
+<pre><code>/&#123;
+  &quot;name&quot;: &quot;sqz&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;&quot;,
+  &quot;main&quot;: &quot;index.js&quot;,
+  &quot;scripts&quot;: /&#123;
+    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;
+  /&#125;,
+  &quot;author&quot;: &quot;&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: /&#123;
+    &quot;gulp&quot;: &quot;^3.9.1&quot;
+  /&#125;
+/&#125;
+</code></pre>
+<p>接下來你需要在你的專案跟目錄下新增一個gulpfile.js，這個檔案是當你執行gulp時直接讀取的檔案。</p>
+<p>這個檔案內必須先引用gulp plugin，引用後要建立一個gulp的task，讓gulp知道你要做什麼事情，default是gulp預設載入的task名稱，下面是gulpfile.js的檔案內容。</p>
+<pre><code>//引用gulp
+var gulp = require(&#39;gulp&#39;);
+ 
+//建立一個gulp的default task
+gulp.task(&#39;default&#39;, function () /&#123;
+    console.log(&#39;Hello Gulp!&#39;);
+/&#125;);
+</code></pre>
+<p>你只需要gulp即可執行</p>
+<pre><code>gulp
+</code></pre>
+<p>執行成功後可以看見他有幫我們印出Hello Gulp! ，其畫面如下</p>
+<p><img src="/img/2017-213106/1499692307_31067.png"></p>
+<p>若今天想要讓這個task不要讓他自動載入我們只要將default這個字更改為你想要命名的名稱即可。</p>
+<p>但執行gulp時就不能只輸入gulp，你必須輸入 「gulp 你的task名稱」。</p>
+<p>以原本的程式碼為範例，我們將default更改為HelloGulp再到node.js command中輸入gulp肯定是會出現錯誤訊息的，所以我們需要輸入gulp HelloGulp讓gulp找到你的task。下圖可以看見執行失敗以及成功的畫面。</p>
+<p><img src="/img/2017-213106/1499692626_48898.png"></p>
+<p>今天如果我們有很多個task但又想要命名別的名稱可以這樣做，我們先假設我們有task1，task2，task3這三個task，如果我想要預設一次載入他的話，那我要在default的task中這樣撰寫，gulp就知道預設要執行這三個task。以下為gulpfile.js檔案內目前的內容。</p>
+<pre><code>var gulp = require(&#39;gulp&#39;);
+
+gulp.task(&#39;task1&#39;, function () /&#123;
+    console.log(&#39;task1!&#39;);
+/&#125;);
+gulp.task(&#39;task2&#39;, function () /&#123;
+    console.log(&#39;task2!&#39;);
+/&#125;);
+gulp.task(&#39;task3&#39;, function () /&#123;
+    console.log(&#39;task3!&#39;);
+/&#125;);
+gulp.task(&#39;default&#39;, [&#39;task1&#39;,&#39;task2&#39;,&#39;task3&#39;]);
+</code></pre>
+<p>執行後的畫面會如下圖。</p>
+<p><img src="/img/2017-213106/1499692896_01991.png"></p>
+<p>今天gulp的簡單介紹就講到這裡，感謝各位耐心地看完ˊ_&gt;ˋ</p>
+<p>如果有哪些部分不清楚的地方可以再跟我說~</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/07/12/2017-233637/" title="Gulp學習紀錄_Part 2-Gulp可以做什麼事?"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: Gulp學習紀錄_Part 2-Gulp可以做什麼事?</span></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

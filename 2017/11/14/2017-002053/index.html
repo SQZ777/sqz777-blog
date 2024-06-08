@@ -1,0 +1,81 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>C# 學習筆記 - 用 dotNetZip 壓縮一波 - sqz777's blog</title><meta name="description" content="好像有點久沒有寫C#的東西了((並沒有XD
+這一次要紀錄的是 dotNetZip
+其實還有很多其他的方法可以進行壓縮 像是shareZip之類的不過這一次因為需求(?) 的關係 只需要用到Zip檔 所以就選了dotNetZip惹 (而且看起來也比較簡單)
+然後因為需求只需要壓縮 所以我就不寫解壓.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2017-002053/1510583552_7733.png"><meta name="original-source" content="https://sqz777.github.io/2017/11/14/2017-002053/"><link rel="canonical" href="https://sqz777.github.io/2017/11/14/2017-002053/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="C# 學習筆記 - 用 dotNetZip 壓縮一波 - sqz777's blog"><meta property="og:description" content="好像有點久沒有寫C#的東西了((並沒有XD
+這一次要紀錄的是 dotNetZip
+其實還有很多其他的方法可以進行壓縮 像是shareZip之類的不過這一次因為需求(?) 的關係 只需要用到Zip檔 所以就選了dotNetZip惹 (而且看起來也比較簡單)
+然後因為需求只需要壓縮 所以我就不寫解壓.."><meta property="og:url" content="https://sqz777.github.io/2017/11/14/2017-002053/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2017-002053/1510583552_7733.png"><meta name="twitter:title" content="C# 學習筆記 - 用 dotNetZip 壓縮一波 - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2017-002053/1510583552_7733.png"><meta name="twitter:description" content="好像有點久沒有寫C#的東西了((並沒有XD
+這一次要紀錄的是 dotNetZip
+其實還有很多其他的方法可以進行壓縮 像是shareZip之類的不過這一次因為需求(?) 的關係 只需要用到Zip檔 所以就選了dotNetZip惹 (而且看起來也比較簡單)
+然後因為需求只需要壓縮 所以我就不寫解壓.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">C# 學習筆記 - 用 dotNetZip 壓縮一波</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8dotNetZip"><span class="toc-text">如何使用dotNetZip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%93%E7%B8%AE"><span class="toc-text">壓縮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%A3%93%E7%B8%AE"><span class="toc-text">解壓縮</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E8%AA%9E"><span class="toc-text">結語</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8dotNetZip-1"><span class="toc-text">如何使用dotNetZip</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%93%E7%B8%AE-1"><span class="toc-text">壓縮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%A3%93%E7%B8%AE-1"><span class="toc-text">解壓縮</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AA%9E-1"><span class="toc-text">結語</span></a></div><div class="column is-9"><header class="my-4"><a href="/tags/C#"><i class="tag post-item-tag">C#</i></a><a href="/tags/Zip"><i class="tag post-item-tag">Zip</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">C# 學習筆記 - 用 dotNetZip 壓縮一波</h1><time class="has-text-grey" datetime="2017-11-14T00:00:00.000Z">2017-11-14</time><article class="mt-2 post-content"><p>好像有點久沒有寫C#的東西了((並沒有XD</p>
+<p>這一次要紀錄的是 dotNetZip</p>
+<p>其實還有很多其他的方法可以進行壓縮 像是shareZip之類的不過這一次因為需求(?) 的關係 只需要用到Zip檔 所以就選了dotNetZip惹 (而且看起來也比較簡單)</p>
+<p>然後因為需求只需要壓縮 所以我就不寫解壓縮了(被揍爆 開玩笑的啦</p>
+<p>這一次紀錄的重點分4段</p>
+<ul>
+<li><h3 id="如何使用dotNetZip"><a href="#如何使用dotNetZip" class="headerlink" title="如何使用dotNetZip"></a>如何使用dotNetZip</h3></li>
+<li><h3 id="壓縮"><a href="#壓縮" class="headerlink" title="壓縮"></a>壓縮</h3></li>
+<li><h3 id="解壓縮"><a href="#解壓縮" class="headerlink" title="解壓縮"></a>解壓縮</h3></li>
+<li><h3 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h3></li>
+</ul>
+<h2 id="如何使用dotNetZip-1"><a href="#如何使用dotNetZip-1" class="headerlink" title="如何使用dotNetZip"></a>如何使用dotNetZip</h2><p>開始使用dotNetZip時，必須要先using Ionic.Zip</p>
+<p>若要 using using Ionic.Zip 則需要先用 Nuget 幫你的專案加入dotNetZip</p>
+<p><img src="/img/2017-002053/1510583552_7733.png"></p>
+<p>接下來就要搜尋 dotnetzip 進行安裝</p>
+<p><img src="/img/2017-002053/1510583838_11995.png"></p>
+<p>安裝完成後就可以在專案內 using Ionic.Zip了</p>
+<h2 id="壓縮-1"><a href="#壓縮-1" class="headerlink" title="壓縮"></a>壓縮</h2><pre><code>var locate = @&quot;D:\dotNetZip Example Files\&quot;;
+
+using (var zip = new ZipFile())
+/&#123;
+    zip.AddFile(locate + @&quot;resume.pdf&quot;, &quot;TEST Directory&quot;);
+    zip.Save(locate + &quot;resume.zip&quot;);
+/&#125;
+</code></pre>
+<p>以上程式碼為壓縮 就這樣 下一段要講的是解壓縮…….</p>
+<p>zip.AddFile(FileName, directoryArchive)的這個方法</p>
+<p>FileName 就是你即將要壓縮的檔案所在位置<br>directoryArchive 就是你要壓縮時要把它放在哪一個資料夾，若輸入空字串，就是不包進資料夾內<br>若不帶入資料則是該壓所檔案原有的位置</p>
+<p>以上述的程式碼來進行輸出，會得到壓縮檔內長這個樣子</p>
+<p><img src="/img/2017-002053/1510587536_77552.png"></p>
+<p>如果將程式碼改成</p>
+<pre><code>zip.AddFile(locate + @&quot;resume.pdf&quot;);
+</code></pre>
+<p>則會將他所屬的資料夾帶入，resume.pdf目前在我電腦中所屬的資料夾位置是 D:\dotNetZip Example Files</p>
+<p>所以輸出就會變成以下這個樣子</p>
+<p><img src="/img/2017-002053/1510587791_61832.png"></p>
+<p>如果想要命名包入的資料夾則可以改成這樣</p>
+<pre><code>zip.AddFile(locate + @&quot;resume.pdf&quot;,&quot;TEST Directory&quot;);
+</code></pre>
+<p>輸出的ZIP檔就會變成以下這個樣子</p>
+<p><img src="/img/2017-002053/1510587862_6643.png"></p>
+<h2 id="解壓縮-1"><a href="#解壓縮-1" class="headerlink" title="解壓縮"></a>解壓縮</h2><p>這一部分要記錄的是解壓縮的部分</p>
+<p>解壓縮相對沒那麼複雜，只需要指定壓縮出來的檔案如何處理，以及位置</p>
+<pre><code>var locate = @&quot;D:\dotNetZip Example Files\&quot;;
+using (var zip =  ZipFile.Read(locate+&quot;resume.zip&quot;))
+/&#123;
+    foreach (var zipEntry in zip)
+    /&#123;
+        zipEntry.Extract(locate, ExtractExistingFileAction.OverwriteSilently);
+    /&#125;
+/&#125;
+</code></pre>
+<p>ZipFile.Read(“壓縮檔位置”) 這一段程式碼則是告訴電腦我們的壓縮檔在何處</p>
+<p>locate 即為壓縮出來的檔案位置將要放置何處</p>
+<p>ExtractExistingFileAction 有4個動作</p>
+<ul>
+<li>InvokeExtractProgressEvent</li>
+<li>OverwriteSilently</li>
+<li>DoNotOverwrite</li>
+<li>Throw</li>
+</ul>
+<p>個人常用到的是中間兩個，OverwriteSilently 就是直接覆蓋的意思</p>
+<p>而 DoNotOverwrite 就如字面上所述，不要覆蓋</p>
+<h2 id="結語-1"><a href="#結語-1" class="headerlink" title="結語"></a>結語</h2><p>以上大概就是 dotNetZip 的壓縮 及 解壓縮的使用方法</p>
+<p>如果有需要更詳細一點的解說像是壓縮檔加入密碼、解壓縮密碼、壓縮等級等</p>
+<p>可以到別人寫的<a target="_blank" rel="noopener" href="https://dotblogs.com.tw/larrynung/archive/2011/01/03/20534.aspx">部落格</a>或<a target="_blank" rel="noopener" href="https://github.com/haf/DotNetZip.Semverd">官方文件</a>進行參考</p>
+<p>若內容有勘誤 麻煩各位大大指點 &lt;(_ _)&gt;</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/01/20/2018-172123/" title="Test - Ruby + Cucumber 的 Automation- 環境準備"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: Test - Ruby + Cucumber 的 Automation- 環境準備</span></a><a class="button is-default" href="/2017/11/05/2017-130734/" title="Java - IntelliJ 環境安裝之 Hello IntelliJ"><span class="has-text-weight-semibold">下一頁: Java - IntelliJ 環境安裝之 Hello IntelliJ</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

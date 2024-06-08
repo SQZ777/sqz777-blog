@@ -1,0 +1,98 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>Test - 寫點程式碼讓網頁自己動起來之xPath之外的幾個取得元素位置的方式 - sqz777's blog</title><meta name="description" content="這次要記錄的是除了xPath之外的取得路徑方式
+
+cssSelector
+Name
+ID
+ClassName
+
+閱讀本篇前可先參考 Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!! 這篇
+由於在開發時會遇到一些變化，所以就出現了其他的 Laocting 方式
+官方文件內.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2017-011625/1506443527_66941.png"><meta name="original-source" content="https://sqz777.github.io/2017/09/27/2017-011625/"><link rel="canonical" href="https://sqz777.github.io/2017/09/27/2017-011625/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="Test - 寫點程式碼讓網頁自己動起來之xPath之外的幾個取得元素位置的方式 - sqz777's blog"><meta property="og:description" content="這次要記錄的是除了xPath之外的取得路徑方式
+
+cssSelector
+Name
+ID
+ClassName
+
+閱讀本篇前可先參考 Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!! 這篇
+由於在開發時會遇到一些變化，所以就出現了其他的 Laocting 方式
+官方文件內.."><meta property="og:url" content="https://sqz777.github.io/2017/09/27/2017-011625/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2017-011625/1506443527_66941.png"><meta name="twitter:title" content="Test - 寫點程式碼讓網頁自己動起來之xPath之外的幾個取得元素位置的方式 - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2017-011625/1506443527_66941.png"><meta name="twitter:description" content="這次要記錄的是除了xPath之外的取得路徑方式
+
+cssSelector
+Name
+ID
+ClassName
+
+閱讀本篇前可先參考 Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!! 這篇
+由於在開發時會遇到一些變化，所以就出現了其他的 Laocting 方式
+官方文件內.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">Test - 寫點程式碼讓網頁自己動起來之xPath之外的幾個取得元素位置的方式</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#cssSelector-%E5%8F%96%E5%BE%97%E6%96%B9%E5%BC%8F"><span class="toc-text">cssSelector 取得方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Name%E3%80%81ID%E3%80%81ClassName%E5%8F%96%E5%BE%97%E6%96%B9%E5%BC%8F"><span class="toc-text">Name、ID、ClassName取得方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-Hub%E4%B8%8A%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E4%B9%9F%E8%B7%9F%E8%91%97%E6%9B%B4%E6%96%B0%E4%BA%86%EF%BC%8C%E6%9C%89%E8%88%88%E8%B6%A3%E7%9A%84%E5%8F%AF%E4%BB%A5%E7%9C%8B%E7%9C%8B"><span class="toc-text">Git Hub上的程式碼也跟著更新了，有興趣的可以看看</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Test"><i class="tag post-item-tag">Test</i></a><a href="/tags/Java"><i class="tag post-item-tag">Java</i></a><a href="/tags/Selenium"><i class="tag post-item-tag">Selenium</i></a><a href="/tags/ChromeDriver"><i class="tag post-item-tag">ChromeDriver</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">Test - 寫點程式碼讓網頁自己動起來之xPath之外的幾個取得元素位置的方式</h1><time class="has-text-grey" datetime="2017-09-27T00:00:00.000Z">2017-09-27</time><article class="mt-2 post-content"><p>這次要記錄的是除了xPath之外的取得路徑方式</p>
+<ul>
+<li>cssSelector</li>
+<li>Name</li>
+<li>ID</li>
+<li>ClassName</li>
+</ul>
+<p>閱讀本篇前可先參考 <a target="_blank" rel="noopener" href="https://dotblogs.com.tw/im_sqz777/2017/09/20/002538">Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!!</a> 這篇</p>
+<p>由於在開發時會遇到一些變化，所以就出現了其他的 Laocting 方式</p>
+<p><a target="_blank" rel="noopener" href="http://selenium-python.readthedocs.io/locating-elements.html">官方文件</a>內有詳細的說明，裡面也有這次沒有紀錄的FindLikText的方式，有興趣可以到這裡看看</p>
+<h3 id="cssSelector-取得方式"><a href="#cssSelector-取得方式" class="headerlink" title="cssSelector 取得方式"></a>cssSelector 取得方式</h3><p>與xPath取得的方式一樣，只是在選擇時，選擇「Copy selector」</p>
+<p><img src="/img/2017-011625/1506443527_66941.png"></p>
+<p>將cssSelector 複製下來之後，就可以像xPath一樣的運用，以下的程式碼是將上次所有的Code更改為cssSelector的方式</p>
+<p>主要變化的部分就是將「By.xpath」更改成「By.cssSelector」</p>
+<pre><code>///使用cssSelector的方式
+    public void cssSelectorMethod() throws InterruptedException/&#123;
+        System.setProperty(&quot;webdriver.chrome.driver&quot;, &quot;C:/selenium/chromedriver.exe&quot;); // 設定chromedriver位置
+        WebDriver chromeDriver = new ChromeDriver(); // 建立一個WebDriver物件
+        chromeDriver.manage().window().maximize(); // 開啟的視窗要放大 才比較好讓我們觀看執行的過程
+        chromeDriver.get(&quot;https://www.google.com/&quot;); // 開啟google首頁
+        chromeDriver.findElement(By.cssSelector(&quot;#lst-ib&quot;)).sendKeys(&quot;1+1&quot;);
+        chromeDriver.findElement(By.cssSelector(&quot;#tsf &gt; div.tsf-p &gt; div.jsb &gt; center &gt; input[type=\&quot;submit\&quot;]:nth-child(1)&quot;)).submit();
+        chromeDriver.findElement(By.cssSelector(&quot;#rso &gt; div:nth-child(2) &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; h3 &gt; a&quot;)).click();
+        Thread.sleep(3000); 
+        chromeDriver.quit(); 
+    /&#125;
+</code></pre>
+<p>這裡值得注意的是</p>
+<p>若複製下來的cssSelector碼有雙引號，要在字串內表示雙引號則需要以斜線+雙引號來表示「 \“ 」。</p>
+<h3 id="Name、ID、ClassName取得方式"><a href="#Name、ID、ClassName取得方式" class="headerlink" title="Name、ID、ClassName取得方式"></a>Name、ID、ClassName取得方式</h3><p>針對google搜尋列按下右鍵&#x3D;&gt;檢查，一樣會看到被選取的元素被反白，如下圖(放大過)。<br>若要取得以上三種標籤，則要觀看網頁該物件有無被賦予「Name」、「ID」、「ClassName」，下圖被紅色框起來的是 className，橘色的是 ID而綠色的則是 name</p>
+<p><img src="/img/2017-011625/1506443848_46596.png"></p>
+<p>如果可以找到以上三種元素程式則分別可以更改為以下幾種方式</p>
+<ul>
+<li>若是 name 則將 原本的「By.xpath」更改成「By.name」</li>
+<li>若是 id 則將 原本的「By.xpath」更改成「By.id」</li>
+<li>若是 name 則將 原本的「By.xpath」更改成「By.className」</li>
+</ul>
+<p>程式碼大多都雷同，所以這三種元素只紀錄較好演示的 name 和 id 方法</p>
+<p>因為最下面要做click動作的元素沒有Name故用cssSelector來做取代</p>
+<pre><code>///使用ID的方式
+public void FindByIDMethod() throws InterruptedException/&#123;
+System.setProperty(&quot;webdriver.chrome.driver&quot;, &quot;C:/selenium/chromedriver.exe&quot;); // 設定chromedriver位置
+WebDriver chromeDriver = new ChromeDriver(); // 建立一個WebDriver物件
+chromeDriver.manage().window().maximize(); // 開啟的視窗要放大 才比較好讓我們觀看執行的過程
+chromeDriver.get(&quot;https://www.google.com/&quot;); // 開啟google首頁
+chromeDriver.findElement(By.id(&quot;lst-ib&quot;)).sendKeys(&quot;1+1&quot;);
+chromeDriver.findElement(By.id(&quot;tsf&quot;)).submit();
+chromeDriver.findElement(By.cssSelector(&quot;#rso &gt; div:nth-child(2) &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; h3 &gt; a&quot;)).click();
+Thread.sleep(3000); 
+chromeDriver.quit(); 
+/&#125;
+    
+///使用Name的方式
+public void FindByNameMethod() throws InterruptedException/&#123;
+System.setProperty(&quot;webdriver.chrome.driver&quot;, &quot;C:/selenium/chromedriver.exe&quot;); // 設定chromedriver位置
+WebDriver chromeDriver = new ChromeDriver(); // 建立一個WebDriver物件
+chromeDriver.manage().window().maximize(); // 開啟的視窗要放大 才比較好讓我們觀看執行的過程
+chromeDriver.get(&quot;https://www.google.com/&quot;); // 開啟google首頁
+chromeDriver.findElement(By.name(&quot;q&quot;)).sendKeys(&quot;1+1&quot;);
+chromeDriver.findElement(By.name(&quot;btnK&quot;)).submit();
+chromeDriver.findElement(By.cssSelector(&quot;#rso &gt; div:nth-child(2) &gt; div &gt; div:nth-child(1) &gt; div &gt; div &gt; h3 &gt; a&quot;)).click();
+Thread.sleep(3000); 
+chromeDriver.quit(); 
+/&#125;
+</code></pre>
+<h3 id="Git-Hub上的程式碼也跟著更新了，有興趣的可以看看"><a href="#Git-Hub上的程式碼也跟著更新了，有興趣的可以看看" class="headerlink" title="Git Hub上的程式碼也跟著更新了，有興趣的可以看看"></a><a target="_blank" rel="noopener" href="https://github.com/SQZ777/DemoWebTest.git">Git Hub上的程式碼</a>也跟著更新了，有興趣的可以看看</h3><p>以上是今天的紀錄 若有錯誤或可以寫得更好的地方 請各位大大告知我 感謝 &lt;(_ _)&gt;</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/10/12/2017-235521/" title="敏捷開發 -  Agile_Neihu_Sprint 9 - Scrum Drawing Game"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: 敏捷開發 -  Agile_Neihu_Sprint 9 - Scrum Drawing Game</span></a><a class="button is-default" href="/2017/09/20/2017-002538/" title="Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!!"><span class="has-text-weight-semibold">下一頁: Test - 哦哦哦哦 網站會自己動欸!! 寫點程式碼讓網站自己動起來!!</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

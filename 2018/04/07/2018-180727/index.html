@@ -1,0 +1,141 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>閱讀周記 - 測試技術之測試技術分類系統 - sqz777's blog</title><meta name="description" content="測試技術好多種RRR
+根本就像用了魔法卡繁殖的小精靈
+來源:http://immortalnova.hatenablog.com/entry/2016/06/17/181726
+我覺得單一個測試技術就像一個小精靈
+一個小精靈一點都沒有威脅性，但是當他搭配了魔法卡「繁殖」之後多了好多個小精靈，根本.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2018-180727/20080306124457.jpg"><meta name="original-source" content="https://sqz777.github.io/2018/04/07/2018-180727/"><link rel="canonical" href="https://sqz777.github.io/2018/04/07/2018-180727/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="閱讀周記 - 測試技術之測試技術分類系統 - sqz777's blog"><meta property="og:description" content="測試技術好多種RRR
+根本就像用了魔法卡繁殖的小精靈
+來源:http://immortalnova.hatenablog.com/entry/2016/06/17/181726
+我覺得單一個測試技術就像一個小精靈
+一個小精靈一點都沒有威脅性，但是當他搭配了魔法卡「繁殖」之後多了好多個小精靈，根本.."><meta property="og:url" content="https://sqz777.github.io/2018/04/07/2018-180727/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2018-180727/20080306124457.jpg"><meta name="twitter:title" content="閱讀周記 - 測試技術之測試技術分類系統 - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2018-180727/20080306124457.jpg"><meta name="twitter:description" content="測試技術好多種RRR
+根本就像用了魔法卡繁殖的小精靈
+來源:http://immortalnova.hatenablog.com/entry/2016/06/17/181726
+我覺得單一個測試技術就像一個小精靈
+一個小精靈一點都沒有威脅性，但是當他搭配了魔法卡「繁殖」之後多了好多個小精靈，根本.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">閱讀周記 - 測試技術之測試技術分類系統</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AF%84%E5%9C%8D-%E8%A2%AB%E6%B8%AC%E5%B0%8D%E8%B1%A1"><span class="toc-text">範圍 &#x3D;&gt; 被測對象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A6%86%E8%93%8B-%E6%B8%AC%E8%A9%A6%E6%B7%B1%E5%BA%A6%E8%88%87%E5%BB%A3%E5%BA%A6"><span class="toc-text">覆蓋 &#x3D;&gt; 測試深度與廣度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%AC%E8%A9%A6%E8%80%85-%E6%B8%AC%E8%A9%A6%E8%80%85"><span class="toc-text">測試者 &#x3D;&gt; 測試者</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%A8%E9%9A%AA-%E9%9C%80%E8%A6%81%E8%A2%AB%E7%99%BC%E7%8F%BE%E7%9A%84%E6%BD%9B%E5%9C%A8%E5%95%8F%E9%A1%8C"><span class="toc-text">風險 &#x3D;&gt; 需要被發現的潛在問題</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B4%BB%E5%8B%95-%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="toc-text">活動 &#x3D;&gt; 如何執行測試</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A9%95%E4%BC%B0%E5%92%8C%E6%B8%AC%E8%A9%A6%E5%85%88%E7%9F%A5-%E5%B0%8D%E6%B8%AC%E8%A9%A6%E7%B5%90%E6%9E%9C%E9%80%B2%E8%A1%8C%E8%A9%95%E4%BC%B0"><span class="toc-text">評估和測試先知 &#x3D;&gt; 對測試結果進行評估</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E6%9E%9C%E5%B0%8E%E5%90%91-%E6%B8%AC%E8%A9%A6%E7%9A%84%E7%9B%AE%E6%A8%99"><span class="toc-text">結果導向 &#x3D;&gt; 測試的目標</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%96%BC%E6%B6%B5%E8%93%8B%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%B8%AC%E8%A9%A6%E7%9A%84%E7%AF%84%E5%9C%8D%E5%92%8C%E6%B6%B5%E8%93%8B"><span class="toc-text">基於涵蓋的測試技術，關注測試的範圍和涵蓋</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%96%BC%E6%B8%AC%E8%A9%A6%E8%80%85%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E8%AA%B0%E4%BE%86%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="toc-text">基於測試者的測試技術，關注誰來執行測試</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%96%BC%E9%A2%A8%E9%9A%AA%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%BD%9B%E5%9C%A8%E5%95%8F%E9%A1%8C"><span class="toc-text">基於風險的測試技術，關注潛在問題</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%96%BC%E6%B4%BB%E5%8B%95%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="toc-text">基於活動的測試技術，關注如何執行測試</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%96%BC%E8%A9%95%E4%BC%B0%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%B7%E6%B8%AC%E8%A9%A6%E9%80%9A%E9%81%8E"><span class="toc-text">基於評估的測試技術，關注如何判斷測試通過</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B5%90%E6%9E%9C%E5%B0%8E%E5%90%91%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%96%BC%E7%89%B9%E5%AE%9A%E7%9B%AE%E6%A8%99%E6%88%96%E6%AA%94%E6%A1%88"><span class="toc-text">結果導向的測試技術，關注於特定目標或檔案</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%9F%BA%E6%96%BC%E6%B6%B5%E8%93%8B%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%B8%AC%E8%A9%A6%E7%9A%84%E7%AF%84%E5%9C%8D%E5%92%8C%E6%B6%B5%E8%93%8B"><span class="toc-text">1. 基於涵蓋的測試技術，關注測試的範圍和涵蓋</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E6%96%BC%E6%B8%AC%E8%A9%A6%E8%80%85%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E8%AA%B0%E4%BE%86%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="toc-text">2. 基於測試者的測試技術，關注誰來執行測試</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%9F%BA%E6%96%BC%E9%A2%A8%E9%9A%AA%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%BD%9B%E5%9C%A8%E5%95%8F%E9%A1%8C"><span class="toc-text">3. 基於風險的測試技術，關注潛在問題</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%9F%BA%E6%96%BC%E6%B4%BB%E5%8B%95%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E5%A6%82%E4%BD%95%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6"><span class="toc-text">4. 基於活動的測試技術，關注如何執行測試</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E6%88%90%E6%9C%AC%E5%B0%B1%E6%98%AF%E6%99%82%E9%96%93"><span class="toc-text">其成本就是時間</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%9F%BA%E6%96%BC%E8%A9%95%E4%BC%B0%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%B7%E6%B8%AC%E8%A9%A6%E9%80%9A%E9%81%8E%E3%80%82"><span class="toc-text">5. 基於評估的測試技術，關注如何判斷測試通過。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E7%B5%90%E6%9E%9C%E5%B0%8E%E5%90%91%E7%9A%84%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93%EF%BC%8C%E9%97%9C%E6%B3%A8%E6%96%BC%E7%89%B9%E5%AE%9A%E7%9B%AE%E6%A8%99%E6%88%96%E6%AA%94%E6%A1%88"><span class="toc-text">6. 結果導向的測試技術，關注於特定目標或檔案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B5%90%E8%AA%9E"><span class="toc-text">結語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A2%E7%B4%A2%E5%BC%8F%E6%B8%AC%E8%A9%A6%E5%85%B6%E5%AF%A6%E5%B0%B1%E6%98%AF%E4%B8%80%E7%A8%AEInterface%EF%BC%8C%E8%80%8C%E5%85%B6%E4%BB%96%E5%9F%B7%E8%A1%8C%E6%B8%AC%E8%A9%A6%E7%9A%84%E9%81%8E%E7%A8%8B%E8%88%87%E6%8A%80%E8%A1%93%EF%BC%8C%E5%B0%B1%E6%98%AF%E5%AF%A6%E4%BD%9C%E9%80%99%E5%80%8B%E6%8E%A2%E7%B4%A2%E5%BC%8F%E6%B8%AC%E8%A9%A6%E7%9A%84%E5%90%84%E7%A8%AE%E6%96%B9%E6%B3%95"><span class="toc-text">探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E7%9F%A5%E9%81%93%E5%A4%A7%E5%AE%B6%E5%B0%8D%E6%96%BC%E6%8E%A2%E7%B4%A2%E5%BC%8F%E6%B8%AC%E8%A9%A6%E7%9A%84%E7%9C%8B%E6%B3%95%E5%8F%8A%E4%BD%9C%E6%B3%95%E6%98%AF%E7%94%9A%E9%BA%BC"><span class="toc-text">不知道大家對於探索式測試的看法及作法是甚麼?</span></a></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/Test"><i class="tag post-item-tag">Test</i></a><a href="/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97!?"><i class="tag post-item-tag">讀書心得!?</i></a><a href="/tags/%E5%BF%83%E5%BE%97"><i class="tag post-item-tag">心得</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">閱讀周記 - 測試技術之測試技術分類系統</h1><time class="has-text-grey" datetime="2018-04-07T00:00:00.000Z">2018-04-07</time><article class="mt-2 post-content"><p>測試技術好多種RRR</p>
+<p>根本就像用了魔法卡繁殖的小精靈</p>
+<p><img src="/img/2018-180727/20080306124457.jpg" alt="f:id:immortalnova:20080306124457j:plain">來源:<a target="_blank" rel="noopener" href="http://immortalnova.hatenablog.com/entry/2016/06/17/181726">http://immortalnova.hatenablog.com/entry/2016/06/17/181726</a></p>
+<p>我覺得單一個測試技術就像一個小精靈</p>
+<p>一個小精靈一點都沒有威脅性，但是當他搭配了魔法卡「繁殖」之後多了好多個小精靈，根本厲害啊，打也打不完</p>
+<p>這也代表著多個測試技術組合起來的測試方法會更能夠掌握目前產品的風險</p>
+<p>這一篇的心得來自於 <em>微軟測試之鑰 微軟一線測試專家技術精華</em>  這一本書的第5章第1節，以下簡稱為此書</p>
+<blockquote>
+<p><em>如果說測試是為了發現錯誤而執行程式的過程，那麼測試技術就是執行程式並判斷其對錯的具體方法</em></p>
+<hr>
+<p>節錄自此書第 5-2 頁</p>
+</blockquote>
+<p>我覺得，測試就好像在開車，而測試技術就像停車技巧、打檔、踩油門、轉方向盤等等的各種具體開車行為。</p>
+<p>在此書的這一個章節中引用了 Cem Kaner 教授建立的測試技術分類系統來撰寫</p>
+<p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cem_Kaner">Cem Karner教授的相關資料 https://en.wikipedia.org/wiki/Cem_Kaner</a></p>
+<p>測試技術會從 7 個方面對測試過程進行指導</p>
+<ul>
+<li><h3 id="範圍-被測對象"><a href="#範圍-被測對象" class="headerlink" title="範圍 &#x3D;&gt; 被測對象"></a>範圍 &#x3D;&gt; 被測對象</h3></li>
+<li><h3 id="覆蓋-測試深度與廣度"><a href="#覆蓋-測試深度與廣度" class="headerlink" title="覆蓋 &#x3D;&gt; 測試深度與廣度"></a>覆蓋 &#x3D;&gt; 測試深度與廣度</h3></li>
+<li><h3 id="測試者-測試者"><a href="#測試者-測試者" class="headerlink" title="測試者 &#x3D;&gt; 測試者"></a>測試者 &#x3D;&gt; 測試者</h3></li>
+<li><h3 id="風險-需要被發現的潛在問題"><a href="#風險-需要被發現的潛在問題" class="headerlink" title="風險 &#x3D;&gt; 需要被發現的潛在問題"></a>風險 &#x3D;&gt; 需要被發現的潛在問題</h3></li>
+<li><h3 id="活動-如何執行測試"><a href="#活動-如何執行測試" class="headerlink" title="活動 &#x3D;&gt; 如何執行測試"></a>活動 &#x3D;&gt; 如何執行測試</h3></li>
+<li><h3 id="評估和測試先知-對測試結果進行評估"><a href="#評估和測試先知-對測試結果進行評估" class="headerlink" title="評估和測試先知 &#x3D;&gt; 對測試結果進行評估"></a>評估和測試先知 &#x3D;&gt; 對測試結果進行評估</h3></li>
+<li><h3 id="結果導向-測試的目標"><a href="#結果導向-測試的目標" class="headerlink" title="結果導向 &#x3D;&gt; 測試的目標"></a>結果導向 &#x3D;&gt; 測試的目標</h3></li>
+</ul>
+<p>Cem Karner 建立了六要素測試分類系統，以下是測試分類系統的六大分之</p>
+<ul>
+<li><h3 id="基於涵蓋的測試技術，關注測試的範圍和涵蓋"><a href="#基於涵蓋的測試技術，關注測試的範圍和涵蓋" class="headerlink" title="基於涵蓋的測試技術，關注測試的範圍和涵蓋"></a>基於涵蓋的測試技術，關注測試的範圍和涵蓋</h3></li>
+<li><h3 id="基於測試者的測試技術，關注誰來執行測試"><a href="#基於測試者的測試技術，關注誰來執行測試" class="headerlink" title="基於測試者的測試技術，關注誰來執行測試"></a>基於測試者的測試技術，關注誰來執行測試</h3></li>
+<li><h3 id="基於風險的測試技術，關注潛在問題"><a href="#基於風險的測試技術，關注潛在問題" class="headerlink" title="基於風險的測試技術，關注潛在問題"></a>基於風險的測試技術，關注潛在問題</h3></li>
+<li><h3 id="基於活動的測試技術，關注如何執行測試"><a href="#基於活動的測試技術，關注如何執行測試" class="headerlink" title="基於活動的測試技術，關注如何執行測試"></a>基於活動的測試技術，關注如何執行測試</h3></li>
+<li><h3 id="基於評估的測試技術，關注如何判斷測試通過"><a href="#基於評估的測試技術，關注如何判斷測試通過" class="headerlink" title="基於評估的測試技術，關注如何判斷測試通過"></a>基於評估的測試技術，關注如何判斷測試通過</h3></li>
+<li><h3 id="結果導向的測試技術，關注於特定目標或檔案"><a href="#結果導向的測試技術，關注於特定目標或檔案" class="headerlink" title="結果導向的測試技術，關注於特定目標或檔案"></a>結果導向的測試技術，關注於特定目標或檔案</h3></li>
+</ul>
+<p>關於這六大分之作者也有對其中相關的測試技術進行列舉</p>
+<h2 id="1-基於涵蓋的測試技術，關注測試的範圍和涵蓋"><a href="#1-基於涵蓋的測試技術，關注測試的範圍和涵蓋" class="headerlink" title="1. 基於涵蓋的測試技術，關注測試的範圍和涵蓋"></a>1. 基於涵蓋的測試技術，關注測試的範圍和涵蓋</h2><p>這個是典型的測試技術，其包含了</p>
+<ul>
+<li>功能測試</li>
+<li>功能或特性的整合測試</li>
+<li>邊界測試</li>
+<li>最佳代表測試</li>
+</ul>
+<p>作者提出了不只這 4 個名詞其主要要表達的是基於涵蓋的測試技術所關注的都是被測對象的功能和功能之間的互動性是否符合預期</p>
+<p>這邊特別可以說的是最佳代表測試</p>
+<blockquote>
+<p><em>最佳代表測試 : 要求從眾多測試範例中選擇最有代表性的測試範例，常見的例子包含使用者最可能使用的資料、給產品最大挑戰的資料、最能暴露風險的資料等</em> </p>
+<hr>
+<p>節錄自此書第 5-3 頁</p>
+</blockquote>
+<p>我想，最佳代表測試，就是拿來自動化測試跑的一種測試範例吧，畢竟他風險最大、最容易暴露風險。<br>當然，並不是只有最佳代表測試才能被自動化執行。</p>
+<h2 id="2-基於測試者的測試技術，關注誰來執行測試"><a href="#2-基於測試者的測試技術，關注誰來執行測試" class="headerlink" title="2. 基於測試者的測試技術，關注誰來執行測試"></a>2. 基於測試者的測試技術，關注誰來執行測試</h2><p>其實這一個基於測試者的測試技術十分常見，在遊戲業界中就會常常聽到要封測，就算是一種用戶的 Beta Test</p>
+<p>這一種測試技術其實也很常見，以下是作者列舉的測試技術的其中幾種</p>
+<ul>
+<li>缺陷大掃除 (Bug Bash)</li>
+<li>結對測試 (Pair Testing) </li>
+<li>內部試用</li>
+</ul>
+<p>缺陷大掃除可以參考我之前在自己團隊所執行的結果與經驗(趁機打廣告XD</p>
+<p><strong><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/im_sqz777/2018/02/28/195303">Test - 我舉辦了一場 Bug Bash－大家都進來測試吧!!</a></strong></p>
+<p>結對測試就跟結對編程很像</p>
+<p>由另一個人來觀察、指導與紀錄測試過程，在這一個執行的過程之中就可以獲得對於產品不同角度的Feedback</p>
+<p>內部試用這點可以參考這一篇 wiki</p>
+<p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Eating_your_own_dog_food">Eating your own dog food</a></p>
+<p>主要的目的就是讓自己可以在日常中使用自己的產品，讓自己對於產品更有自信心，也可以在日常的開發週期中發現一些實際使用者會遇到的問題。</p>
+<h2 id="3-基於風險的測試技術，關注潛在問題"><a href="#3-基於風險的測試技術，關注潛在問題" class="headerlink" title="3. 基於風險的測試技術，關注潛在問題"></a>3. 基於風險的測試技術，關注潛在問題</h2><p>以風險作為角度的測試，就是用來避免非常態的使用情境來發現問題，以下是作者列出的其中幾種測試技術</p>
+<ul>
+<li>邊界測試</li>
+<li>壓力測試</li>
+<li>負載測試</li>
+<li>可用性測試</li>
+<li>基於歷史的測試</li>
+</ul>
+<p>這幾點可以看得出來都是以非常態的使用狀態來進行測試，這些基於風險的測試，通常都會使用工具來輔助測試人員來進行測試。</p>
+<p>常見的壓力測試及負載測試的工具用google就可以找到很多了~ EX: jmeter、apache bench等等之類的</p>
+<p>甚至有些已經發展成一種服務囉~</p>
+<h2 id="4-基於活動的測試技術，關注如何執行測試"><a href="#4-基於活動的測試技術，關注如何執行測試" class="headerlink" title="4. 基於活動的測試技術，關注如何執行測試"></a>4. 基於活動的測試技術，關注如何執行測試</h2><p>以下是作者列出的其中幾種測試技術</p>
+<ul>
+<li>隨機測試</li>
+<li>猴子測試</li>
+<li>情境測試</li>
+<li>回歸測試</li>
+</ul>
+<p>其實猴子測試也可以算是基於風險的測試技術，但作者將其歸類於基於活動的測試技術。<br>不過我覺得不管測試技術被分類於哪一種分類底下，只要他能夠達成想要達成的測試目的，就可以了。</p>
+<p>這邊可以特別說的是回歸測試，回歸測試的目的就是為了避免產品的程式碼在進行變更之後而產生問題的一種測試技術，但他有一個很大的成本</p>
+<h3 id="其成本就是時間"><a href="#其成本就是時間" class="headerlink" title="其成本就是時間"></a>其成本就是時間</h3><p>時間越長的回歸測試，能涵蓋及避免的問題就越廣，即時間越短的回歸測試，能涵蓋及避免的問題就越狹隘。</p>
+<h2 id="5-基於評估的測試技術，關注如何判斷測試通過。"><a href="#5-基於評估的測試技術，關注如何判斷測試通過。" class="headerlink" title="5. 基於評估的測試技術，關注如何判斷測試通過。"></a>5. 基於評估的測試技術，關注如何判斷測試通過。</h2><p>我認為，基於評估的測試技術，主要是根據用戶的需求，或是訂製出來的規範而進行的一種測試技術。</p>
+<p>不過有趣的是，訂定出來的規範以及用戶需求，都不是測試人員自己所決定的，常常是需要第三方的人、事、物來一同決定其測試是否通過。</p>
+<p>所謂人，就是團隊或客戶</p>
+<p>所謂事、物，就是「討論」、「執行」之後所產出的「文件」</p>
+<p>以下是作者提到諸多的基於評估測試技術的其中兩種測試技術</p>
+<ul>
+<li>比較規格說明或其他權威檔案</li>
+<li>基於診斷的測試</li>
+</ul>
+<p>第 1 個就是依據文件來執行的測試技術，比對文件內容與軟體執行結果是否符合來評估目前測試是否通過</p>
+<p>第 2 個就是依據工具來執行的測試技術，使用工具來進行對於產品的測試，其結果通常會有報告，然後再依據報告結果進行評估目前測試是否通過。</p>
+<h2 id="6-結果導向的測試技術，關注於特定目標或檔案"><a href="#6-結果導向的測試技術，關注於特定目標或檔案" class="headerlink" title="6. 結果導向的測試技術，關注於特定目標或檔案"></a>6. 結果導向的測試技術，關注於特定目標或檔案</h2><p>結果導向的測試技術，就是所謂的「以終為始」，以最終最能夠解決客戶需求的功能，來進行測試，這樣的測試通常是最簡單但很重要的測試。</p>
+<p>有些軟體也會要求須要符合某些認證標準才能夠Release。</p>
+<p>以下測試技術是作者列出的其中 2 種測試技術</p>
+<ul>
+<li>用戶接受測試</li>
+<li>認證測試</li>
+</ul>
+<h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><blockquote>
+<p><em>在學習測試技術時，測試人員可以快速定位它在分類系統中的位置。</em></p>
+<p><em>在選擇測試技術時，他可以同時運用來自不同分支的測試技術，以實施多樣化的測試。</em></p>
+<hr>
+<p>節錄自此書第 5-8 頁</p>
+</blockquote>
+<p>在最後此書也有提到由 Lisa Chrispin 和 Janet Gregory 提出的測試象限的概念，如下圖，該圖拍攝於此書的 5-9 頁</p>
+<p><img src="/img/2018-180727/1523095025_11786.jpg"></p>
+<p>在此圖可以清楚看到它的架構分類四大象限，相較於 Cem Kaner所提出的六大分支來得易於理解許多。</p>
+<p>不過這邊特別要說的是作者不同意 Lisa Chrispin 和 Janet Gregory將探索式測試置於第三象限，原因是因為</p>
+<blockquote>
+<p><em>探索式測試是一種並行地實施測試學習、測試設計、測試執行呵結果評估的測試風格，作為一種測試思維方法，它可以指導測試象限的任何一種測試技術的使用</em></p>
+<hr>
+<p>節錄自此書第 5-9 頁</p>
+</blockquote>
+<p>我覺得…</p>
+<h3 id="探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法"><a href="#探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法" class="headerlink" title="探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法"></a>探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法</h3><p>以上是跟大家分享 <em>微軟測試之鑰 微軟一線測試專家技術精華</em> 5-1 的內容</p>
+<p>最後想問大家一個問題</p>
+<h3 id="不知道大家對於探索式測試的看法及作法是甚麼"><a href="#不知道大家對於探索式測試的看法及作法是甚麼" class="headerlink" title="不知道大家對於探索式測試的看法及作法是甚麼?"></a>不知道大家對於探索式測試的看法及作法是甚麼?</h3><p>感謝各位大大觀看 &lt;(_ _)&gt;</p>
+<p>周記碎碎念</p>
+<p>連續好幾周沒有寫了..要轉動齒輪真的需要比較大的力氣，希望自己可以再持續下去，我想一定是動力還不構，看來要弄個連續寫三周就吃大餐的 Bonus (誤</p>
+</article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2018/05/03/2018-001921/" title="Ruby - 如果要複製出一樣的物件變數應該怎麼做?"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: Ruby - 如果要複製出一樣的物件變數應該怎麼做?</span></a><a class="button is-default" href="/2018/03/15/2018-004634/" title="Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?"><span class="has-text-weight-semibold">下一頁: Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>

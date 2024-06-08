@@ -1,0 +1,232 @@
+<!DOCTYPE html><html class="appearance-auto" lang="zh-TW"><head><meta charset="UTF-8"><title>TDD練習 Codewars_Which Are In - sqz777's blog</title><meta name="description" content="
+首先解析這份題目要得需求是甚麼
+輸入兩個字串 a1 和 a2 ，輸出的字串陣列內容為 a2每一個字串陣列元素中包含a1任一個陣列元素的的字串，並且將其排序輸出，不可重複
+聽起來很饒口 就看看他的範例唄
+a1是要比對的字串陣列 [“arp”, “live”, “strong”]
+a2是要被比對的.."><meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1"><meta name="image" content="https://sqz777.github.io/img/2017-143526/1508562623_18716.png"><meta name="original-source" content="https://sqz777.github.io/2017/10/21/2017-143526/"><link rel="canonical" href="https://sqz777.github.io/2017/10/21/2017-143526/"><meta property="og:locale" content="zh-TW"><meta property="og:type" content="article"><meta property="og:title" content="TDD練習 Codewars_Which Are In - sqz777's blog"><meta property="og:description" content="
+首先解析這份題目要得需求是甚麼
+輸入兩個字串 a1 和 a2 ，輸出的字串陣列內容為 a2每一個字串陣列元素中包含a1任一個陣列元素的的字串，並且將其排序輸出，不可重複
+聽起來很饒口 就看看他的範例唄
+a1是要比對的字串陣列 [“arp”, “live”, “strong”]
+a2是要被比對的.."><meta property="og:url" content="https://sqz777.github.io/2017/10/21/2017-143526/"><meta property="og:site_name" content="SQZ777's blog"><meta property="og:image" content="https://sqz777.github.io/img/2017-143526/1508562623_18716.png"><meta name="twitter:title" content="TDD練習 Codewars_Which Are In - sqz777's blog"><meta name="twitter:image" content="https://sqz777.github.io/img/2017-143526/1508562623_18716.png"><meta name="twitter:description" content="
+首先解析這份題目要得需求是甚麼
+輸入兩個字串 a1 和 a2 ，輸出的字串陣列內容為 a2每一個字串陣列元素中包含a1任一個陣列元素的的字串，並且將其排序輸出，不可重複
+聽起來很饒口 就看看他的範例唄
+a1是要比對的字串陣列 [“arp”, “live”, “strong”]
+a2是要被比對的.."><meta name="twitter:card" content="summary_large_image"><meta name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE"><!-- Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V"></script><script>window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-4N118JY08V');</script><!-- End Google Analytics --><link rel="icon" href="/images/favicon.ico"><link rel="stylesheet" href="/style/common/bulma.css"><link rel="stylesheet" href="/style/base.css"><link rel="stylesheet" href="/style/common/helper.css"><script src="/js/common.js"></script><link rel="stylesheet" href="/style/post.css"><link rel="stylesheet" href="/style/themes/highlight-theme-light.css"><link rel="stylesheet" href="/style/common/jquery.fancybox.min.css"><script src="/js/highlight.pack.js"></script><meta name="generator" content="Hexo 7.2.0"><link rel="alternate" href="/atom.xml" title="SQZ777's blog" type="application/atom+xml">
+</head><body class="is-flex is-flex-direction-column"><header class="header-widget is-flex-shrink-0 is-hidden-mobile"><div class="container is-fullhd is-flex is-justify-content-space-between is-align-items-center is-full-height"><section class="is-hidden-mobile is-flex-shrink-0"><h2><a href="/">sqz777's blog</a></h2></section><h3 class="is-hidden-mobile is-family-serif is-full-height is-flex is-align-items-center is-flex-shrink-0"><div class="is-full-height" id="postTopic"><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">TDD練習 Codewars_Which Are In</p><p class="is-full-height is-flex-shrink-0 is-flex is-align-items-center is-justify-content-center">點擊返回開頭</p></div></h3><aside class="is-flex-shrink-0"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></aside></div></header><header class="is-flex header-widget is-flex-shrink-0 is-align-items-center is-justify-content-center is-hidden-tablet"><h3 class="is-inline-block"><a href="/">首頁</a></h3><h3 class="is-inline-block"><a href="/about">關於我</a></h3><h3 class="is-inline-block"><a href="/archives">文章列表</a></h3></header><main><main class="container is-max-widescreen content section post-page pt-4 px-4"><div class="columns is-flex-desktop is-justify-content-center is-flex-direction-row-reverse"><div class="column is-3 is-hidden-mobile"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%83%E5%BE%97"><span class="toc-text">心得:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%91%E6%83%B3Codewars%E5%B0%B1%E6%98%AF%E4%B8%80%E5%80%8B%E5%BE%88%E6%A3%92%E7%9A%84%E5%9B%9E%E9%A5%8B%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%9B%A0%E7%82%BA%E4%BD%A0%E4%BB%A5%E7%82%BA%E4%BD%A0%E5%B7%B2%E7%B6%93%E5%AF%AB%E5%88%B0%E5%BE%88%E7%B2%BE%E7%B0%A1%E7%9A%84Code%E6%99%82%EF%BC%8C%E5%9C%A8%E6%8F%90%E4%BA%A4%E4%B9%8B%E5%BE%8C%E5%B0%B1%E6%9C%83%E7%99%BC%E7%8F%BE%E4%B8%80%E5%80%8B%E6%96%B0%E7%9A%84%E4%B8%96%E7%95%8C"><span class="toc-text">我想Codewars就是一個很棒的回饋方式，因為你以為你已經寫到很精簡的Code時，在提交之後就會發現一個新的世界!!!</span></a></li></ol></li></ol></li></ol></div><div class="column is-9"><header class="my-4"><a href="/tags/C#"><i class="tag post-item-tag">C#</i></a><a href="/tags/TDD"><i class="tag post-item-tag">TDD</i></a></header><h1 class="mt-0 mb-1 is-family-serif" id="postTitle">TDD練習 Codewars_Which Are In</h1><time class="has-text-grey" datetime="2017-10-21T00:00:00.000Z">2017-10-21</time><article class="mt-2 post-content"><p><img src="/img/2017-143526/1508562623_18716.png"></p>
+<p>首先解析這份題目要得需求是甚麼</p>
+<p>輸入兩個字串 a1 和 a2 ，輸出的字串陣列內容為 a2每一個字串陣列元素中包含a1任一個陣列元素的的字串，並且將其排序輸出，不可重複</p>
+<p>聽起來很饒口 就看看他的範例唄</p>
+<p>a1是要比對的字串陣列 [“arp”, “live”, “strong”]</p>
+<p>a2是要被比對的字串陣列 [“lively”, “alive”, “harp”, “sharp”, “armstrong”]</p>
+<p>以”arp”為例，他會比對到 “harp” 和 “sharp” 但是 我的輸出只能輸出一個 “arp” 這樣</p>
+<p>以上的範例可以方便我來拆解這一次的需求</p>
+<ul>
+<li>Contains方法 用來找尋包含的字串元素</li>
+<li>比對在輸出結果有沒有重複的字串 一樣是用 Contains</li>
+<li>最後的排序 OrderBy</li>
+</ul>
+<p>起手就先以a1和a2各1個元素的比對來做測試案例起手，a1的元素是arp，a2的元素是aaa</p>
+<p>程式碼如下 我預期的結果要是空的字串陣列</p>
+<pre><code>[TestMethod]
+public void Input_arpAnd_aaa_Should_Be_EmptyArray()
+/&#123;
+var actual = Kata.inArray(new string[] /&#123;&quot;arp&quot;/&#125;, new string[] /&#123;&quot;aaa&quot;/&#125;);
+var expected = new string[] /&#123; /&#125;;
+Assert.AreEqual(expected,actual);
+/&#125;
+</code></pre>
+<p>而Production Code 則生成了下面這個樣子</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+ return new string[]/&#123;/&#125;;
+/&#125;
+</code></pre>
+<p>很理所當然的 這一個測試案例亮了第一次的<strong>紅燈</strong></p>
+<p>接下來用最簡單的方式讓紅燈變成<strong>綠燈</strong>，直接Return一個空的字串陣列XDDD</p>
+<p>然後把剛才的筆誤Assert.AreEqual更改成 <strong>CollectionAssert.AreEqual</strong> 因為是比較陣列的關係所以要使用 <strong>CollectionAssert.AreEqual</strong></p>
+<p>再來新增一個會發生錯誤且Prodction Code 更改幅度為最小的測試案例，那就是會回傳正確答案的字串了</p>
+<pre><code>[TestMethod]
+public void Input_arpAnd_aaa_Should_Be_EmptyArray()
+/&#123;
+var actual = Kata.inArray(new string[] /&#123;&quot;arp&quot;/&#125;, new string[] /&#123;&quot;arp&quot;/&#125;);
+var expected = new string[] /&#123;&quot;arp&quot; /&#125;;
+CollectionAssert.AreEqual(expected,actual);
+/&#125;
+</code></pre>
+<p>很正常的，這一個測試案例會亮你紅燈，就將程式碼更改為</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+List&lt;string&gt; result = new List&lt;string&gt;();
+foreach (var s in array2)
+/&#123; 
+ if (s.Equals(array1[0]) )
+ /&#123;
+   result.Add(s);
+ /&#125;
+/&#125;
+return result.ToArray();
+/&#125;
+</code></pre>
+<p>直接宣告一個result字串陣列變數，方便我直接用add的方法就在foreach內新增一個字元，不用去標記index為多少<br>然後只用一個Foreach來完成這一次的需求，並且判斷有沒有包含(<strong>這裡的Equal當初寫錯，是後來才發現寫錯的</strong>)，雖然把包含方法誤寫成Equal但還是通過了測試案例，亮了綠燈</p>
+<p>接下來新增第三個測試案例，一樣是以可能最小步的方式來思考測試案例的方向，第三個測試案例就這樣產生了</p>
+<pre><code>[TestMethod]
+public void Input_arpAnd_aaa_Should_Be_EmptyArray()
+/&#123;
+var actual = Kata.inArray(new string[] /&#123;&quot;ss&quot;, &quot;arp&quot;/&#125;, new string[] /&#123;&quot;arp&quot;/&#125;);
+var expected = new string[] /&#123;&quot;arp&quot;/&#125;;
+CollectionAssert.AreEqual(expected,actual);
+/&#125;
+</code></pre>
+<p>因為上一個測試案例所更改的 Production Code 只有找第一個 a1 元素來做比對，這一次就故意把他新增成兩個，很理所當然的，這一個測試案例也產生了紅燈的結果</p>
+<p>所以在 Production Code 加上了第二個 Foreach 迴圈，這個迴圈以目前的測資來說 也會是沒有問題的，所以也亮了綠燈</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+ List&lt;string&gt; result = new List&lt;string&gt;();
+ foreach (var a2 in array2)
+ /&#123;
+     foreach (var a1 in array1)
+     /&#123;
+         if (a2.Equals(a1))
+         /&#123;
+             result.Add(a2);
+         /&#125;
+     /&#125;
+ /&#125;
+ return result.ToArray();
+/&#125;
+</code></pre>
+<p>亮了綠燈之後要檢視程式碼</p>
+<p>這時候就發現不應該使用 Equals 而是要使用Contains 、 result add的不應該是 a2 而要是 a1、上層的迴圈應該要是array1 下層的則是array2</p>
+<p>就把Production Code改成以下的樣子</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+var result = new List&lt;string&gt;();
+foreach (var a1 in array1)
+    foreach (var a2 in array2)
+        if (a2.Contains(a1))
+            result.Add(a1);
+
+ return result.ToArray();
+/&#125;
+</code></pre>
+<p>接下來再新增一個測試案例，這個測試案例是為了避免重複的結果，所以測試案例中的a2有多一個包含arp的字串</p>
+<pre><code>[TestMethod]
+public void Input_ss_arp_And_art_starpoint_garp_Should_Be_arp()
+/&#123;
+    var actual = Kata.inArray(new string[] /&#123; &quot;ss&quot;, &quot;arp&quot; /&#125;, new string[] /&#123; &quot;art&quot;, &quot;starpoint&quot;,&quot;garp&quot; /&#125;);
+    var expected = new string[] /&#123; &quot;arp&quot; /&#125;;
+    CollectionAssert.AreEqual(expected, actual);
+/&#125;
+</code></pre>
+<p>一樣這一個測試案例使我的專案亮了紅燈</p>
+<p>接下來就把Production Code更改成下面這個樣子 讓他再新增元素時除了判斷有無包含之外，還判斷原有的字串陣列中有沒有包含一樣的元素，如此一來就可以把這個測試案例亮成綠燈</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+var result = new List&lt;string&gt;();
+foreach (var a1 in array1)
+    foreach (var a2 in array2)
+        if (a2.Contains(a1) &amp;&amp; !result.Contains(a1))
+            result.Add(a1);
+
+ return result.ToArray();
+/&#125;
+</code></pre>
+<p>再來就是最後一個需求，排序的部分，所以新增了一個需要排序才能成功的測試案例，其測試案例如下</p>
+<pre><code>[TestMethod]
+public void Input_bc_abc_And_bbbc_dsssaabcasd_Should_Be_arp()
+/&#123;
+    var actual = Kata.inArray(new string[] /&#123; &quot;bc&quot;,&quot;abc&quot; /&#125;, new string[] /&#123; &quot;bbbc&quot;,&quot;dsssaabcasd&quot;/&#125;);
+    var expected = new string[] /&#123; &quot;abc&quot;,&quot;bc&quot; /&#125;;
+    CollectionAssert.AreEqual(expected, actual);
+/&#125;
+</code></pre>
+<p>這個測試案例我故意把 a 開頭的比較字串放在 a1 的第二個元素 b開頭擺在第一個，如此一來我的測試案例就會亮紅燈 </p>
+<p>接下來只需要在我返回字串陣列的時候用Linq排序就可以完成這個需求了，也因此亮了綠燈</p>
+<pre><code>public static string[] inArray(string[] array1, string[] array2)
+/&#123;
+    var result = new List&lt;string&gt;();
+    foreach (var a1 in array1)
+        foreach (var a2 in array2)
+            if (a2.Contains(a1) &amp;&amp; !result.Contains(a1))
+                result.Add(a1);
+    return result.OrderBy(x =&gt; x).ToArray();
+/&#125;
+</code></pre>
+<p>這一次的所有測試案例如下</p>
+<pre><code>    [TestClass]
+    public class UnitTest1
+    /&#123;
+        [TestMethod]
+        public void Input_arpAnd_aaa_Should_Be_EmptyArray()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;arp&quot; /&#125;, new string[] /&#123; &quot;aaa&quot; /&#125;);
+            var expected = new string[] /&#123; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void Input_arpAndarp_Should_Be_arpOfArray()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;arp&quot; /&#125;, new string[] /&#123; &quot;arp&quot; /&#125;);
+            var expected = new string[] /&#123; &quot;arp&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void Input_ss_arpAndarp_Should_Be_arpOfArray()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;ss&quot;, &quot;arp&quot; /&#125;, new string[] /&#123; &quot;arp&quot; /&#125;);
+            var expected = new string[] /&#123; &quot;arp&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void Input_ss_arp_And_art_starpoint_Should_Be_arp()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;ss&quot;, &quot;arp&quot; /&#125;, new string[] /&#123; &quot;art&quot;, &quot;starpoint&quot; /&#125;);
+            var expected = new string[] /&#123; &quot;arp&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void Input_ss_arp_And_art_starpoint_garp_Should_Be_arp()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;ss&quot;, &quot;arp&quot; /&#125;, new string[] /&#123; &quot;art&quot;, &quot;starpoint&quot;,&quot;garp&quot; /&#125;);
+            var expected = new string[] /&#123; &quot;arp&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void Input_bc_abc_And_bbbc_dsssaabcasd_Should_Be_arp()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;bc&quot;,&quot;abc&quot; /&#125;, new string[] /&#123; &quot;bbbc&quot;,&quot;dsssaabcasd&quot;/&#125;);
+            var expected = new string[] /&#123; &quot;abc&quot;,&quot;bc&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+
+        [TestMethod]
+        public void CodewarsExampleTest()
+        /&#123;
+            var actual = Kata.inArray(new string[] /&#123; &quot;arp&quot;, &quot;live&quot;, &quot;strong&quot; /&#125;,
+                new string[] /&#123; &quot;lively&quot;, &quot;alive&quot;, &quot;harp&quot;, &quot;sharp&quot;, &quot;armstrong&quot; /&#125;);
+            var expected = new string[] /&#123; &quot;arp&quot;, &quot;live&quot;, &quot;strong&quot; /&#125;;
+            CollectionAssert.AreEqual(expected, actual);
+        /&#125;
+    /&#125;
+</code></pre>
+<p>接下來就把程式提交，就可以看到美妙的綠燈亮出來啦</p>
+<p><img src="/img/2017-143526/1508567305_49316.png"></p>
+<p>不過最重要的是在提交之後可以看見別人所寫的程式碼，其中有一個人寫的程式碼跟我的邏輯相同但他們以Linq的方式寫出來，也更精簡，如下</p>
+<p><img src="/img/2017-143526/1508567401_42697.png"></p>
+<h2 id="心得"><a href="#心得" class="headerlink" title="心得:"></a>心得:</h2><p>在這次的練習過稱中儘管不小心把Contains方法寫成Equal 也把 加入的字串a1 寫成 a2 還有 迴圈比較也寫反，但也因為後面的測試案例修改以及每一次的重新審視Production Code而及早發現程式碼發生的問題，所以覺得除了自己的測試案例還有進步的空間之外還有自己在寫Code的時候也要更加謹慎才能更有效率地把程式完成。</p>
+<hr>
+<p>91在介紹codewars以及跟我私聊幾句時說了下面這段話</p>
+<blockquote>
+<p>我們需要找到一種持續給自己回饋的方式，才能持續改善<br>所以 scrum 裡面有 iteration (迭代)<br>所以有 retrospective<br>一切都是持續改善的基本要素</p>
+</blockquote>
+<h4 id="我想Codewars就是一個很棒的回饋方式，因為你以為你已經寫到很精簡的Code時，在提交之後就會發現一個新的世界"><a href="#我想Codewars就是一個很棒的回饋方式，因為你以為你已經寫到很精簡的Code時，在提交之後就會發現一個新的世界" class="headerlink" title="我想Codewars就是一個很棒的回饋方式，因為你以為你已經寫到很精簡的Code時，在提交之後就會發現一個新的世界!!!"></a>我想Codewars就是一個很棒的回饋方式，因為你以為你已經寫到很精簡的Code時，在提交之後就會發現一個新的世界!!!</h4></article><section class="jump-container is-flex is-justify-content-space-between my-6"><!-- em is empty placeholder--><a class="button is-default" href="/2017/11/05/2017-130734/" title="Java - IntelliJ 環境安裝之 Hello IntelliJ"><i class="iconfont icon-prev mr-2 has-text-grey"></i><span class="has-text-weight-semibold">上一頁: Java - IntelliJ 環境安裝之 Hello IntelliJ</span></a><a class="button is-default" href="/2017/10/12/2017-235521/" title="敏捷開發 -  Agile_Neihu_Sprint 9 - Scrum Drawing Game"><span class="has-text-weight-semibold">下一頁: 敏捷開發 -  Agile_Neihu_Sprint 9 - Scrum Drawing Game</span><i class="iconfont icon-next ml-2 has-text-grey"></i></a></section><article class="mt-6 comment-container"><script async repo="SQZ777/sqz777-blog" src="https://utteranc.es/client.js" issue-term="title" theme="preferred-color-scheme"></script></article></div></div></main></main><footer class="is-flex is-flex-direction-column is-align-items-center is-flex-shrink-0 is-family-serif"><section class="sns-container"><!-- Github--><a title="github" target="_blank" rel="noopener nofollow" href="//github.com/sqz777"><i class="iconfont icon-github"></i></a><!-- Ins--><!-- RSS--><!-- 知乎--><!-- 领英--><!-- 脸书--></section><p><span>Copyright ©</span><span> sqz777 2024</span></p><div class="is-flex is-justify-content-center is-flex-wrap-wrap"><p>Powered by Hexo &verbar;&nbsp;</p><p class="is-flex is-justify-content-center"><a title="Hexo theme author" target="_blank" rel="noopener" href="//github.com/haojen">Theme by Haojen&nbsp;</a></p><div style="margin-top: 2px"><a class="github-button" title="github-button" target="_blank" rel="noopener" href="https://github.com/haojen/hexo-theme-Claudia" data-color-scheme="no-preference: light; light: light; dark: dark;" data-show-count="true"></a></div></div><div><span></span></div></footer><script async defer src="https://buttons.github.io/buttons.js"></script><script src="/js/jquery-3.6.1.min.js"></script><script src="/js/jquery-fancybox.min.js"></script><script src="/js/img_zoom.js"></script><script src="/js/post.js"></script></body></html>
