@@ -11,7 +11,7 @@ async function fetchArticleTitles(variable) {
         // 選擇所有 class 為 article__title 的元素
         $('.article__title a').each((index, element) => {
             const titleUrl = $(element).attr('href');
-            console.log('https://dotblogs.com.tw/' + titleUrl);
+            console.log('https://dotblogs.com.tw' + titleUrl);
         });
     } catch (error) {
         console.error(`Error fetching data from ${url}:`, error);
