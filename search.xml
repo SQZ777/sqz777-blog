@@ -8,7 +8,7 @@
       <link href="/2024/06/08/2024-migrate-blog-by-chatgpt/"/>
       <url>/2024/06/08/2024-migrate-blog-by-chatgpt/</url>
       
-        <content type="html"><![CDATA[<p><img src="/img/2024-migrate-blog-by-chatgpt/image0.png"><br>圖是使用<a href="https://memes.tw/">梗圖產生器</a>產生的，AI 真的可以取代我們嗎? 讓我們繼續看下去</p><p>最近自己使用了 ChatGPT 進行部落格文章的搬遷<br>搬站的原因很膚淺，想知道的話再去<a href="https://sqz777.com/about/">關於我</a>看，就不多做贅述 🤣<br>原本這篇只是單純想記錄搬遷的過程，但剛好最近社團討論很熱烈就把文章的撰寫方式稍微改變一下<br>讓這篇可以更符合社團最近討論度很高的主題： </p><blockquote><p>因為 AI 的出現，工程師會不會失業?</p></blockquote><p><strong>本文使用的 ChatGPT 模型是 GPT-4o</strong></p><h2 id="正文開始，我的第一步是拆分需求"><a href="#正文開始，我的第一步是拆分需求" class="headerlink" title="正文開始，我的第一步是拆分需求"></a>正文開始，我的第一步是拆分需求</h2><p>需求很簡單</p><ul><li>提供 URL 將部落格的文章內容轉成 markdown</li><li>取得舊部落格的所有文章 URL</li><li>讓第一個需求可以批次處理</li></ul><p>這種一次性的 script，就不考慮維護性了<br>所以基本上所有 code 都讓 ChatGPT 產生再做細節的調整就好</p><h2 id="第二步，描述需求讓-ChatGPT-產生程式碼"><a href="#第二步，描述需求讓-ChatGPT-產生程式碼" class="headerlink" title="第二步，描述需求讓 ChatGPT 產生程式碼"></a>第二步，描述需求讓 ChatGPT 產生程式碼</h2><p>直接讓 ChatGPT 幫我產生一段關於文章內容轉成 markdown 的 Node.js Code</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image1.png"></p><p>以下是 ChatGPT 產生的 Node.js Code</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const axios = require(&#x27;axios&#x27;);</span><br><span class="line">const cheerio = require(&#x27;cheerio&#x27;);</span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line"></span><br><span class="line">const URL = &#x27;https://dotblogs.azurewebsites.net/Im_sqz777/2022/10/06/223559&#x27;;</span><br><span class="line"></span><br><span class="line">axios.get(URL)</span><br><span class="line">  .then(response =&gt; &#123;</span><br><span class="line">    const html = response.data;</span><br><span class="line">    const $ = cheerio.load(html);</span><br><span class="line"></span><br><span class="line">    // 假設文章內容在 class 為 &#x27;post-content&#x27; 的元素中</span><br><span class="line">    const postContent = $(&#x27;.post-content&#x27;).html();</span><br><span class="line"></span><br><span class="line">    if (!postContent) &#123;</span><br><span class="line">      throw new Error(&#x27;未能找到文章內容，請檢查選擇器是否正確&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 將 HTML 轉換為 Markdown 格式</span><br><span class="line">    const markdownContent = convertToMarkdown(postContent);</span><br><span class="line"></span><br><span class="line">    // 將 Markdown 內容寫入文件</span><br><span class="line">    fs.writeFileSync(&#x27;article.md&#x27;, markdownContent);</span><br><span class="line">    console.log(&#x27;文章已成功轉換為 Markdown 格式並儲存至 article.md&#x27;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(error =&gt; &#123;</span><br><span class="line">    console.error(&#x27;發生錯誤:&#x27;, error);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">function convertToMarkdown(html) &#123;</span><br><span class="line">  // 這裡使用 turndown 庫來轉換 HTML 為 Markdown</span><br><span class="line">  const TurndownService = require(&#x27;turndown&#x27;);</span><br><span class="line">  const turndownService = new TurndownService();</span><br><span class="line"></span><br><span class="line">  return turndownService.turndown(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="第三步，修正-ChatGPT-的程式碼"><a href="#第三步，修正-ChatGPT-的程式碼" class="headerlink" title="第三步，修正 ChatGPT 的程式碼"></a>第三步，修正 ChatGPT 的程式碼</h2><p>我發現了 ChatGPT 提供的 code 中有一個「假設」</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 假設文章內容在 class 為 &#x27;post-content&#x27; 的元素中</span><br><span class="line">const postContent = $(&#x27;.post-content&#x27;).html();</span><br></pre></td></tr></table></figure><p>這一個假設讓我需要回到文章的頁面中找到文章內容的 class 為 <code>article__content</code>，如圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image2.png"></p><p>將 <code>.post-content</code> 取代為 <code>.article__content</code> 了之後執行程式碼</p><blockquote><p>記得在<code>article__content</code>前面加上點: <code>.</code></p></blockquote><p>驗證產生出來的 markdown 有幾個小問題</p><ol><li>舊文章日期&#x2F;標籤&#x2F;標題，沒有被寫進我預期的格式中</li><li>檔案名稱是寫死的，舊文章產生的檔案名稱應該依照文章年份及對應名稱</li></ol><h2 id="第四步，修正小問題，讓-ChatGPT-重新產生程式碼"><a href="#第四步，修正小問題，讓-ChatGPT-重新產生程式碼" class="headerlink" title="第四步，修正小問題，讓 ChatGPT 重新產生程式碼"></a>第四步，修正小問題，讓 ChatGPT 重新產生程式碼</h2><p>依照小問題 1，我需要道舊文章中找到文章對應的標題&#x2F;標籤&#x2F;日期的 html，然後產生 prompt 讓 GPT 幫我改 code<br>prompt 如下圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image3.png"></p><p>避免文章太長，就不貼 GPT 產生的 code 了<br>接著再解小問題 2<br>這個問題很簡單，直接讓 GPT 修正並且改掉先前提到的文章內容 class 的問題</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image4.png"></p><p>小問題解完之後，執行了 script，確認 markdown 可以被 hexo 解析就可以進到下一步了</p><h2 id="第四步，讓-URL-可以批次輸入"><a href="#第四步，讓-URL-可以批次輸入" class="headerlink" title="第四步，讓 URL 可以批次輸入"></a>第四步，讓 URL 可以批次輸入</h2><p>為了讓舊站的連結可以透過 git 記錄，所以決定透過檔案的方式來進行批次處理<br>這樣一來我有紀錄的同時又可以透過檔案來進行文章的轉換，prompt 如下</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image5.png"></p><p>在檔案中隨便貼上兩個舊站的文章測試一下，確認沒問題之後就往下一步</p><h2 id="第五步，取得舊站所有文章的-URL"><a href="#第五步，取得舊站所有文章的-URL" class="headerlink" title="第五步，取得舊站所有文章的 URL"></a>第五步，取得舊站所有文章的 URL</h2><p>在舊站首頁中可以觀測到 title 的 class 為 <code>article__title</code><br>然後可以在 URL 觀測到頁面會因為尾數不同而換頁，URL 如下</p><blockquote><p><a href="https://dotblogs.com.tw/Im_sqz777/1">https://dotblogs.com.tw/Im_sqz777/1</a> &lt;&lt; 這個 1 就是頁數</p></blockquote><p>我們就可依照這個狀況產生對應的 prompt:</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image6.png"></p><p>產生的程式碼如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const axios = require(&#x27;axios&#x27;);</span><br><span class="line">const cheerio = require(&#x27;cheerio&#x27;);</span><br><span class="line"></span><br><span class="line">async function fetchArticleTitles(variable) &#123;</span><br><span class="line">    const url = `https://dotblogs.com.tw/Im_sqz777/$&#123;variable&#125;`;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        const &#123; data &#125; = await axios.get(url);</span><br><span class="line">        const $ = cheerio.load(data);</span><br><span class="line"></span><br><span class="line">        // 選擇所有 class 為 article__title 的元素</span><br><span class="line">        $(&#x27;.article__title a&#x27;).each((index, element) =&gt; &#123;</span><br><span class="line">            const titleUrl = $(element).attr(&#x27;href&#x27;);</span><br><span class="line">            console.log(titleUrl);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; catch (error) &#123;</span><br><span class="line">        console.error(`Error fetching data from $&#123;url&#125;:`, error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 迭代變數 1 到 8</span><br><span class="line">for (let i = 1; i &lt;= 8; i++) &#123;</span><br><span class="line">    fetchArticleTitles(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>接著執行產生的程式碼會發現他並沒有符合我們的需求，如下圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image7.png"></p><p>我們的需求是需要讓 text file 中描述 URL，所以只需要在第 14 行加入 <code>&#39;https://dotblogs.com.tw/&#39; + </code> 就可以了<br>執行結果如下</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image8.png"></p><h2 id="第六步，修復-hexo-解析的問題"><a href="#第六步，修復-hexo-解析的問題" class="headerlink" title="第六步，修復 hexo 解析的問題"></a>第六步，修復 hexo 解析的問題</h2><p>接著就會發現 hexo 解析的 2 個錯誤</p><ol><li>title 格式的問題<br><img src="/img/2024-migrate-blog-by-chatgpt/image9.png"></li><li>舊文中出現大括弧 <code>&#123;&#125;</code> 時的解析問題</li></ol><p>title 的格式問題很簡單，在原程式碼中的 title 中加入單引號即可，如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#x27;$&#123;title&#125;&#x27;</span><br><span class="line">date: $&#123;date&#125;</span><br><span class="line">tags: </span><br><span class="line">$&#123;tags.map(tag =&gt; `  - $&#123;tag&#125;`).join(&#x27;\n&#x27;)&#125;</span><br><span class="line">---</span><br></pre></td></tr></table></figure><p>第 2 個問題直接讓 ChatGPT 解決</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image10.png"><br>但是 ChatGPT 提供的程式碼有問題，關鍵程式碼如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 替換文章內容中的 &#123; 和 &#125; 字符</span><br><span class="line">markdownContent = markdownContent.replace(/(&#123;|&#125;)/g, &#x27;\\$1&#x27;);</span><br></pre></td></tr></table></figure><p>我預期和描述的 prompt 斜線是 <code>/</code>，但 ChatGPT 睜眼說瞎話的寫成了 <code>\</code>，改掉之後確認解析沒問題後</p><p>還剩下一個細節的需求，是一開始需求分析時沒有寫到的:</p><ul><li>圖片應該要下載下來，並且在 markdown 中顯示</li></ul><p>但這一段 ChatGPT 完美的解決了我的問題，所以就不記錄了，想要看最後的程式碼的話可以到 Github 上看<br>連結附上</p><ul><li><a href="https://github.com/SQZ777/sqz777-blog/blob/main/apps/dotblogTurnMarkdown.js">DotBlogs 文章轉 markdown</a></li><li><a href="https://github.com/SQZ777/sqz777-blog/blob/main/apps/getDotblogPostsURLs.js">取得 DotBlogs 的文章 URLs</a></li></ul><h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>總結一下透過 ChatGPT 搬遷 blogs 文章會需要的技能</p><ol><li>知道網站相關的知識<ul><li>知道在程式碼中描述 class 前面要加上 <code>.</code></li><li>知道 URL 中哪個值是對應頁數</li></ul></li><li>知道如何使用 Chrome 的開發者工具</li><li>知道 regex 的組成</li><li>知道錯誤訊息怎麼看<ul><li>如何快速定位哪一篇是發生錯誤的文章</li></ul></li><li>知道 hexo 解析錯誤的原因<ul><li>在 {} 前要加上 <code>/</code> 而非 <code>\\</code></li><li>在標題中出現 <code>&#39;</code> 要在 script 中針對標題兩側加上 <code>&#39;</code></li></ul></li><li>…之後想到再補充</li></ol><p>以上程式碼的內容，要我自己寫是完全沒問題，有 AI 之後<br>原本可能要花 1 小時左右的時間，最後壓縮成 20 分鐘內甚至更短就解決了<br>依照今天這樣子的搬遷紀錄來看，我應該還不至於被「純粹的 AI 工具」或是「無基礎但使用 AI 工具的人」取代</p><p>不過要注意的是那些努力且能夠善用 AI 工具的人，這些人的生產力可能會是 AI 出現前的好幾倍</p><p>不說了，我要睡了，明早再修這個 blog theme 程式碼會置中的問題了 🙈🙈🙈<br>感謝大家收看 &lt;(_ _)&gt;</p>]]></content>
+        <content type="html"><![CDATA[<p><img src="/img/2024-migrate-blog-by-chatgpt/image0.png"><br>圖是使用<a href="https://memes.tw/">梗圖產生器</a>產生的，AI 真的可以取代我們嗎? 讓我們繼續看下去</p><p>最近自己使用了 ChatGPT 進行部落格文章的搬遷<br>搬站的原因很膚淺，想知道的話再去<a href="https://sqz777.com/about/">關於我</a>看，就不多做贅述 🤣<br>原本這篇只是單純想記錄搬遷的過程，但剛好最近社團討論很熱烈就把文章的撰寫方式稍微改變一下<br>讓這篇可以更符合社團最近討論度很高的主題： </p><blockquote><p>因為 AI 的出現，工程師會不會失業?</p></blockquote><p><strong>本文使用的 ChatGPT 模型是 GPT-4o</strong></p><h2 id="正文開始，我的第一步是拆分需求"><a href="#正文開始，我的第一步是拆分需求" class="headerlink" title="正文開始，我的第一步是拆分需求"></a>正文開始，我的第一步是拆分需求</h2><p>需求很簡單</p><ul><li>提供 URL 將部落格的文章內容轉成 markdown</li><li>取得舊部落格的所有文章 URL</li><li>讓第一個需求可以批次處理</li></ul><p>這種一次性的 script，就不考慮維護性了<br>所以基本上所有 code 都讓 ChatGPT 產生再做細節的調整就好</p><h2 id="第二步，描述需求讓-ChatGPT-產生程式碼"><a href="#第二步，描述需求讓-ChatGPT-產生程式碼" class="headerlink" title="第二步，描述需求讓 ChatGPT 產生程式碼"></a>第二步，描述需求讓 ChatGPT 產生程式碼</h2><p>直接讓 ChatGPT 幫我產生一段關於文章內容轉成 markdown 的 Node.js Code</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image1.png"></p><p>以下是 ChatGPT 產生的 Node.js Code</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">const axios = require(&#x27;axios&#x27;);</span><br><span class="line">const cheerio = require(&#x27;cheerio&#x27;);</span><br><span class="line">const fs = require(&#x27;fs&#x27;);</span><br><span class="line"></span><br><span class="line">const URL = &#x27;https://dotblogs.azurewebsites.net/Im_sqz777/2022/10/06/223559&#x27;;</span><br><span class="line"></span><br><span class="line">axios.get(URL)</span><br><span class="line">  .then(response =&gt; &#123;</span><br><span class="line">    const html = response.data;</span><br><span class="line">    const $ = cheerio.load(html);</span><br><span class="line"></span><br><span class="line">    // 假設文章內容在 class 為 &#x27;post-content&#x27; 的元素中</span><br><span class="line">    const postContent = $(&#x27;.post-content&#x27;).html();</span><br><span class="line"></span><br><span class="line">    if (!postContent) &#123;</span><br><span class="line">      throw new Error(&#x27;未能找到文章內容，請檢查選擇器是否正確&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 將 HTML 轉換為 Markdown 格式</span><br><span class="line">    const markdownContent = convertToMarkdown(postContent);</span><br><span class="line"></span><br><span class="line">    // 將 Markdown 內容寫入文件</span><br><span class="line">    fs.writeFileSync(&#x27;article.md&#x27;, markdownContent);</span><br><span class="line">    console.log(&#x27;文章已成功轉換為 Markdown 格式並儲存至 article.md&#x27;);</span><br><span class="line">  &#125;)</span><br><span class="line">  .catch(error =&gt; &#123;</span><br><span class="line">    console.error(&#x27;發生錯誤:&#x27;, error);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">function convertToMarkdown(html) &#123;</span><br><span class="line">  // 這裡使用 turndown 庫來轉換 HTML 為 Markdown</span><br><span class="line">  const TurndownService = require(&#x27;turndown&#x27;);</span><br><span class="line">  const turndownService = new TurndownService();</span><br><span class="line"></span><br><span class="line">  return turndownService.turndown(html);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><h2 id="第三步，修正-ChatGPT-的程式碼"><a href="#第三步，修正-ChatGPT-的程式碼" class="headerlink" title="第三步，修正 ChatGPT 的程式碼"></a>第三步，修正 ChatGPT 的程式碼</h2><p>我發現了 ChatGPT 提供的 code 中有一個「假設」</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 假設文章內容在 class 為 &#x27;post-content&#x27; 的元素中</span><br><span class="line">const postContent = $(&#x27;.post-content&#x27;).html();</span><br></pre></td></tr></table></figure><p>這一個假設讓我需要回到文章的頁面中找到文章內容的 class 為 <code>article__content</code>，如圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image2.png"></p><p>將 <code>.post-content</code> 取代為 <code>.article__content</code> 了之後執行程式碼</p><blockquote><p>記得在<code>article__content</code>前面加上點: <code>.</code></p></blockquote><p>驗證產生出來的 markdown 有幾個小問題</p><ol><li>舊文章日期&#x2F;標籤&#x2F;標題，沒有被寫進我預期的格式中</li><li>檔案名稱是寫死的，舊文章產生的檔案名稱應該依照文章年份及對應名稱</li></ol><h2 id="第四步，修正小問題，讓-ChatGPT-重新產生程式碼"><a href="#第四步，修正小問題，讓-ChatGPT-重新產生程式碼" class="headerlink" title="第四步，修正小問題，讓 ChatGPT 重新產生程式碼"></a>第四步，修正小問題，讓 ChatGPT 重新產生程式碼</h2><p>依照小問題 1，我需要道舊文章中找到文章對應的標題&#x2F;標籤&#x2F;日期的 html，然後產生 prompt 讓 GPT 幫我改 code<br>prompt 如下圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image3.png"></p><p>避免文章太長，就不貼 GPT 產生的 code 了<br>接著再解小問題 2<br>這個問題很簡單，直接讓 GPT 修正並且改掉先前提到的文章內容 class 的問題</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image4.png"></p><p>小問題解完之後，執行了 script，確認 markdown 可以被 hexo 解析就可以進到下一步了</p><h2 id="第四步，讓-URL-可以批次輸入"><a href="#第四步，讓-URL-可以批次輸入" class="headerlink" title="第四步，讓 URL 可以批次輸入"></a>第四步，讓 URL 可以批次輸入</h2><p>為了讓舊站的連結可以透過 git 記錄，所以決定透過檔案的方式來進行批次處理<br>這樣一來我有紀錄的同時又可以透過檔案來進行文章的轉換，prompt 如下</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image5.png"></p><p>在檔案中隨便貼上兩個舊站的文章測試一下，確認沒問題之後就往下一步</p><h2 id="第五步，取得舊站所有文章的-URL"><a href="#第五步，取得舊站所有文章的-URL" class="headerlink" title="第五步，取得舊站所有文章的 URL"></a>第五步，取得舊站所有文章的 URL</h2><p>在舊站首頁中可以觀測到 title 的 class 為 <code>article__title</code><br>然後可以在 URL 觀測到頁面會因為尾數不同而換頁，URL 如下</p><blockquote><p><a href="https://dotblogs.com.tw/Im_sqz777/1">https://dotblogs.com.tw/Im_sqz777/1</a> &lt;&lt; 這個 1 就是頁數</p></blockquote><p>我們就可依照這個狀況產生對應的 prompt:</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image6.png"></p><p>產生的程式碼如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">const axios = require(&#x27;axios&#x27;);</span><br><span class="line">const cheerio = require(&#x27;cheerio&#x27;);</span><br><span class="line"></span><br><span class="line">async function fetchArticleTitles(variable) &#123;</span><br><span class="line">    const url = `https://dotblogs.com.tw/Im_sqz777/$&#123;variable&#125;`;</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        const &#123; data &#125; = await axios.get(url);</span><br><span class="line">        const $ = cheerio.load(data);</span><br><span class="line"></span><br><span class="line">        // 選擇所有 class 為 article__title 的元素</span><br><span class="line">        $(&#x27;.article__title a&#x27;).each((index, element) =&gt; &#123;</span><br><span class="line">            const titleUrl = $(element).attr(&#x27;href&#x27;);</span><br><span class="line">            console.log(titleUrl);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; catch (error) &#123;</span><br><span class="line">        console.error(`Error fetching data from $&#123;url&#125;:`, error);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 迭代變數 1 到 8</span><br><span class="line">for (let i = 1; i &lt;= 8; i++) &#123;</span><br><span class="line">    fetchArticleTitles(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>接著執行產生的程式碼會發現他並沒有符合我們的需求，如下圖</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image7.png"></p><p>我們的需求是需要讓 text file 中描述 URL，所以只需要在第 14 行加入 <code>&#39;https://dotblogs.com.tw&#39; + </code> 就可以了<br>執行結果如下</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image8.png"></p><h2 id="第六步，修復-hexo-解析的問題"><a href="#第六步，修復-hexo-解析的問題" class="headerlink" title="第六步，修復 hexo 解析的問題"></a>第六步，修復 hexo 解析的問題</h2><p>接著就會發現 hexo 解析的 2 個錯誤</p><ol><li>title 格式的問題<br><img src="/img/2024-migrate-blog-by-chatgpt/image9.png"></li><li>舊文中出現大括弧 <code>&#123;&#125;</code> 時的解析問題</li></ol><p>title 的格式問題很簡單，在原程式碼中的 title 中加入單引號即可，如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: &#x27;$&#123;title&#125;&#x27;</span><br><span class="line">date: $&#123;date&#125;</span><br><span class="line">tags: </span><br><span class="line">$&#123;tags.map(tag =&gt; `  - $&#123;tag&#125;`).join(&#x27;\n&#x27;)&#125;</span><br><span class="line">---</span><br></pre></td></tr></table></figure><p>第 2 個問題直接讓 ChatGPT 解決</p><p><img src="/img/2024-migrate-blog-by-chatgpt/image10.png"><br>但是 ChatGPT 提供的程式碼有問題，關鍵程式碼如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 替換文章內容中的 &#123; 和 &#125; 字符</span><br><span class="line">markdownContent = markdownContent.replace(/(&#123;|&#125;)/g, &#x27;\\$1&#x27;);</span><br></pre></td></tr></table></figure><p>我預期和描述的 prompt 斜線是 <code>/</code>，但 ChatGPT 睜眼說瞎話的寫成了 <code>\</code>，改掉之後確認解析沒問題後</p><p>還剩下一個細節的需求，是一開始需求分析時沒有寫到的:</p><ul><li>圖片應該要下載下來，並且在 markdown 中顯示</li></ul><p>但這一段 ChatGPT 完美的解決了我的問題，所以就不記錄了，想要看最後的程式碼的話可以到 Github 上看<br>連結附上</p><ul><li><a href="https://github.com/SQZ777/sqz777-blog/blob/main/apps/dotblogTurnMarkdown.js">DotBlogs 文章轉 markdown</a></li><li><a href="https://github.com/SQZ777/sqz777-blog/blob/main/apps/getDotblogPostsURLs.js">取得 DotBlogs 的文章 URLs</a></li></ul><h2 id="總結"><a href="#總結" class="headerlink" title="總結"></a>總結</h2><p>總結一下透過 ChatGPT 搬遷 blogs 文章會需要的技能</p><ol><li>知道網站相關的知識<ul><li>知道在程式碼中描述 class 前面要加上 <code>.</code></li><li>知道 URL 中哪個值是對應頁數</li></ul></li><li>知道如何使用 Chrome 的開發者工具</li><li>知道 regex 的組成</li><li>知道錯誤訊息怎麼看<ul><li>如何快速定位哪一篇是發生錯誤的文章</li></ul></li><li>知道 hexo 解析錯誤的原因<ul><li>在 {} 前要加上 <code>/</code> 而非 <code>\\</code></li><li>在標題中出現 <code>&#39;</code> 要在 script 中針對標題兩側加上 <code>&#39;</code></li></ul></li><li>…之後想到再補充</li></ol><p>以上程式碼的內容，要我自己寫是完全沒問題，有 AI 之後<br>原本可能要花 1 小時左右的時間，最後壓縮成 20 分鐘內甚至更短就解決了<br>依照今天這樣子的搬遷紀錄來看，我應該還不至於被「純粹的 AI 工具」或是「無基礎但使用 AI 工具的人」取代</p><p>不過要注意的是那些努力且能夠善用 AI 工具的人，這些人的生產力可能會是 AI 出現前的好幾倍</p><p>不說了，我要睡了，明早再修這個 blog theme 程式碼會置中的問題了 🙈🙈🙈<br>感謝大家收看 &lt;(_ _)&gt;</p>]]></content>
       
       
       
@@ -260,29 +260,6 @@
     
     
     <entry>
-      <title>筆記 - Node.js 環境變數套件 dotenv</title>
-      <link href="/2020/11/21/2020-231542/"/>
-      <url>/2020/11/21/2020-231542/</url>
-      
-        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Node.js </tag>
-            
-            <tag> config </tag>
-            
-            <tag> dotenv </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
       <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
       <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
@@ -300,6 +277,29 @@
             <tag> discord </tag>
             
             <tag> discord.js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - Node.js 環境變數套件 dotenv</title>
+      <link href="/2020/11/21/2020-231542/"/>
+      <url>/2020/11/21/2020-231542/</url>
+      
+        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> config </tag>
+            
+            <tag> dotenv </tag>
             
         </tags>
       
@@ -377,25 +377,6 @@
     
     
     <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/03/2020-220256/"/>
-      <url>/2020/09/03/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/03/2020-222746/"/>
       <url>/2020/09/03/2020-222746/</url>
@@ -411,6 +392,25 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/03/2020-220256/"/>
+      <url>/2020/09/03/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
             
         </tags>
       
@@ -990,9 +990,9 @@
             
             <tag> Automation </tag>
             
-            <tag> Ruby </tag>
-            
             <tag> Cucumber </tag>
+            
+            <tag> Ruby </tag>
             
         </tags>
       
@@ -1038,9 +1038,9 @@
             
             <tag> Automation </tag>
             
-            <tag> Ruby </tag>
-            
             <tag> Cucumber </tag>
+            
+            <tag> Ruby </tag>
             
         </tags>
       
@@ -1065,9 +1065,9 @@
             
             <tag> Automation </tag>
             
-            <tag> Ruby </tag>
-            
             <tag> Cucumber </tag>
+            
+            <tag> Ruby </tag>
             
         </tags>
       
@@ -1119,9 +1119,9 @@
             
             <tag> Automation </tag>
             
-            <tag> Ruby </tag>
-            
             <tag> Cucumber </tag>
+            
+            <tag> Ruby </tag>
             
         </tags>
       
