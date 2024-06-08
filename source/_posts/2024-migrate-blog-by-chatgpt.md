@@ -156,7 +156,7 @@ for (let i = 1; i <= 8; i++) {
 
 ![](/img/2024-migrate-blog-by-chatgpt/image7.png)
 
-我們的需求是需要讓 text file 中描述 URL，所以只需要在第 14 行加入 `'https://dotblogs.com.tw/' + ` 就可以了
+我們的需求是需要讓 text file 中描述 URL，所以只需要在第 14 行加入 `'https://dotblogs.com.tw' + ` 就可以了
 執行結果如下
 
 ![](/img/2024-migrate-blog-by-chatgpt/image8.png)
