@@ -3,7 +3,7 @@
 title: "C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務"
 date: 2021-03-18
 tags: 
-  - '.NET CORE'
+  - '.NetCore'
   - 'Constructor'
   - 'DI'
 ---
