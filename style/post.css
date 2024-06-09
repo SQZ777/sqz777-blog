@@ -38,6 +38,7 @@
 .post-page .post-content pre {
   padding: 0;
   background: transparent;
+  text-align: left;
 }
 .post-page .post-content pre code {
   padding: 15px;

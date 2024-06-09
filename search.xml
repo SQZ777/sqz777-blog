@@ -260,29 +260,6 @@
     
     
     <entry>
-      <title>筆記 - Node.js 環境變數套件 dotenv</title>
-      <link href="/2020/11/21/2020-231542/"/>
-      <url>/2020/11/21/2020-231542/</url>
-      
-        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Node.js </tag>
-            
-            <tag> config </tag>
-            
-            <tag> dotenv </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
       <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
       <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
@@ -300,6 +277,29 @@
             <tag> discord </tag>
             
             <tag> discord.js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - Node.js 環境變數套件 dotenv</title>
+      <link href="/2020/11/21/2020-231542/"/>
+      <url>/2020/11/21/2020-231542/</url>
+      
+        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> config </tag>
+            
+            <tag> dotenv </tag>
             
         </tags>
       
