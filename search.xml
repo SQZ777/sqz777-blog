@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>【翻譯】5 件與測試有關的難搞事</title>
+      <link href="/2024/06/10/2024-five-tricky-things-with-testing/"/>
+      <url>/2024/06/10/2024-five-tricky-things-with-testing/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/../img/2024-five-tricky-things-with-testing/image.jpg"></p><p>這是一篇翻譯文，文末才會有一些個人的心得與見解<br>原文連結:<br><a href="https://thetesteye.com/blog/2016/09/five-tricky-things-with-testing/">Five Tricky Things With Testing - Rikard Edgren</a></p><h2 id="內文翻譯"><a href="#內文翻譯" class="headerlink" title="內文翻譯"></a>內文翻譯</h2><p>今天我去了哥德堡的 SAST Väst，進行了一個可以翻譯為 <em>5 件與測試有關的難搞事</em> 的<a href="https://thetesteye.com/presentations/Edgren_SASTVAST2016_FemBesvarligaSakerMedTestning.pdf">演講</a>。<br>這是一個非常愉快的日子，我見到了舊友和新朋友。這也是我好久以來第一次寫 Blogs 的機會，下面是非常簡潔的版本：</p><ol><li><p><strong>人們不懂測試</strong>，但都有自己的見解。<br>他們認為測試是一種成本，沒有考慮到它的價值。<br>解決方法：討論資訊需求以及測試可以幫助人們了解的重要事項。</p></li><li><p><strong>心理上的困難</strong><br>你找到的問題越多，完成的時間就會越長。<br>解決方法：強調長期利益，對自己和他人都一樣。</p></li><li><p><strong>你永遠不會完成</strong><br>總有更多的東西需要測試，但你必須停止。<br>解決方法：多與同事交流，進行更豐富的測試。</p></li><li><p><strong>隱性知識。</strong><br>極少數情況下，你能寫下如何測試，然後進行良好的測試。<br>解決方法：更多的深層的討論</p></li><li><p><strong>有需求，但薪水低。</strong><br>解決方法：用正確的詞語談論測試的價值，並用小的努力而不僅僅是找到漏洞來提供價值。</p></li></ol><p>總結：確保你的測試能提供價值，這也有助於測試社群。</p><p>演講中有一些好問題，其中一個特別困難：<br><strong>如何確保訊息傳達到應該接收的人？</strong></p><p>回答：對於離你近的人，這並不困難；從一開始就討論要報告哪些訊息以及如何報告。<br>我不喜歡模板，所以我通常為每個項目製作一個新模板，並詢問是否包含了正確的訊息。</p><p>但我猜你的意思是對於那些離你較遠的人，尤其是階層較高的人，這可能非常困難。這可能是一些你「不能」直接交談的人，你也不被邀請參加他們的會議。<br>我嘗試過的一個技巧是以一種容易傳播的格式報告，這樣很容易複製和貼上精華部分，使你的話語能夠傳達到你無法直接交談的參與者。</p><p>更好的答案需要你在自己的情境中找到。</p><p>作者: Rikard Edgren<br>日期: September 27, 2016</p><hr><h2 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h2><p>到了 2024 年，測試的工作仍然會遇到上面這些難搞事<br>測試相關的工作者永遠必須抱持的態度就是「持續溝通」<br>並且不斷地談論「測試價值」這件事</p><h3 id="關於第一點的個人看法"><a href="#關於第一點的個人看法" class="headerlink" title="關於第一點的個人看法"></a>關於第一點的個人看法</h3><blockquote><p><em>解決方法：討論資訊需求以及測試可以幫助人們了解的重要事項。</em></p></blockquote><p>這部分我個人認位作者想要表達的是測試人員應該不斷的與相關利益者或者團隊成員討論他們對於「測試結果」的需求，以及「測試」可以幫助他們瞭解的重要事項</p><p>這樣的討論就可以幫助到大家更好地理解測試的價值，而不單單只是將「測試」視為一種成本</p><h3 id="關於第四點的個人看法"><a href="#關於第四點的個人看法" class="headerlink" title="關於第四點的個人看法"></a>關於第四點的個人看法</h3><blockquote><p><em>「極少數情況下，你能寫下如何測試，然後進行良好的測試。」</em></p></blockquote><p>我認為非常的貼切，因為大部分的 bug，發生在你意料之外的地方，而不是你預想的地方<br>這一句話所代表的是，開發者在大多數的情況下，會依照功能的描述進行開發<br>測試者則必須同時保證功能描述與開發者的實作成果一致之外，還得探索功能以外的可能性<br>以確保功能在完成時給予客戶的是驚訝，而不是驚嚇</p><p>Photo by <a href="https://unsplash.com/@icons8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Icons8 Team</a> on <a href="https://unsplash.com/photos/man-teaching-woman-while-pointing-on-gray-laptop-yTwXpLO5HAA?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a></a>  </p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 翻譯系列 </tag>
+            
+            <tag> 測試相關 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>使用 ChatGPT 進行部落格文章搬遷的我會被 AI 取代嗎?</title>
       <link href="/2024/06/08/2024-migrate-blog-by-chatgpt/"/>
       <url>/2024/06/08/2024-migrate-blog-by-chatgpt/</url>
