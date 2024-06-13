@@ -209,9 +209,9 @@
             
             <tag> 筆記 </tag>
             
-            <tag> DI </tag>
-            
             <tag> CodeSmell </tag>
+            
+            <tag> DI </tag>
             
         </tags>
       
@@ -232,9 +232,9 @@
             
             <tag> .NetCore </tag>
             
-            <tag> Constructor </tag>
-            
             <tag> DI </tag>
+            
+            <tag> Constructor </tag>
             
         </tags>
       
