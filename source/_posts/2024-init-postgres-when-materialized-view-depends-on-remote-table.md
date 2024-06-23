@@ -29,6 +29,8 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 
 ## 這次 issue 的相關檔案
 
+想要在 local 重現的話，執行一次這裡提到的檔案就可以看到了~
+
 ### dockerfile:
 ```dockerfile
 FROM postgres:14-alpine
