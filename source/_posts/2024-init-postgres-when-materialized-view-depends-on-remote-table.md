@@ -176,5 +176,10 @@ CMD ["/init.sh"]
 以及我們自己放在 `/docker-entrypoint-initdb.d/` 裡面的 shell script 的執行順序
 
 不過我不知道我這個解法到底是對的還是錯的 XD
-如果有更好的解法歡迎告訴我
-感謝
+
+所以，最後想問一下
+透過 Dockerfile 建置 postgres DB schema 的 best practice 是什麼？
+~~不要跟我說透過 dockerfile 建置 postgres DB 本身就是錯的 XDD~~
+
+如果有更好的解法或是有寫錯的地方，歡迎告訴我
+感謝大家
