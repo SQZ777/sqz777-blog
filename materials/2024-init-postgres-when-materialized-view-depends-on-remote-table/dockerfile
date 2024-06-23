@@ -1,0 +1,15 @@
+FROM postgres:14-alpine
+
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=12345
+ENV POSTGRES_DB=test1
+
+COPY test1.sql /test1.sql
+COPY test2.sql /test2.sql
+
+# COPY init.sh /docker-entrypoint-initdb.d/init.sh
+COPY init.sh /init.sh
+
+RUN chmod +x /init.sh
+
+CMD ["/init.sh"]
