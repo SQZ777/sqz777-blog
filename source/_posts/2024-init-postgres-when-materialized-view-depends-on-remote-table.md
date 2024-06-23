@@ -13,7 +13,7 @@ tags:
 執行 REFRESH MATERIALIZED VIEW 的時候發生的問題
 所以就發生了這個問題，錯誤訊息如下
 
-```shell
+```log
 2024-06-18 00:51:17.451 UTC [68] ERROR:  could not connect to server "test1_db"
 2024-06-18 00:51:17.451 UTC [68] DETAIL:  connection to server at "localhost" (::1), port 5432 failed: Connection refused
 		Is the server running on that host and accepting TCP/IP connections?
@@ -115,6 +115,25 @@ CREATE UNIQUE INDEX uix_test2_mv ON test2_db_schema.test2_mv USING btree (cupid_
 -- Permissions
 ALTER TABLE test2_db_schema.test2_mv OWNER TO postgres;
 GRANT ALL ON TABLE test2_db_schema.test2_mv TO postgres;
+```
+
+這裡特別提一下建立 Materialized View 時的細節，以下 script 擷取於上面提到的內容
+```
+CREATE MATERIALIZED VIEW test2_db_schema.test2_mv
+TABLESPACE pg_default
+AS SELECT t.id,
+    t.another_column
+   FROM test2_db_schema.test1_table t
+WITH NO DATA;
+```
+如果這裡寫的是 WITH DATA，報錯會報在這裡，而不是 REFRESH 的時候，錯誤訊息會像這樣
+
+```log
+2024-06-23 09:28:15.912 UTC [59] ERROR:  could not connect to server "test1_db"
+2024-06-23 09:28:15.912 UTC [59] DETAIL:  connection to server at "localhost" (::1), port 5432 failed: Connection refused
+		Is the server running on that host and accepting TCP/IP connections?
+	connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+		Is the server running on that host and accepting TCP/IP connections?
 ```
 
 ## 解法
