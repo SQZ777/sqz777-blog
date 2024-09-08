@@ -4,9 +4,30 @@
   
     
     <entry>
+      <title>Playwright 攔截 request 簡易筆記和範例</title>
+      <link href="/2024/09/08/2024-easy-playwright-intercept-note/"/>
+      <url>/2024/09/08/2024-easy-playwright-intercept-note/</url>
+      
+        <content type="html"><![CDATA[<p>工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象<br>Web SDK 會根據當下使用者的事件觸發順序而產生不同的 request 內容<br>今天準備了一個可以觸發 request 的 HTML、接收 request 的簡單 Node.js Backend API Server<br>還有筆記用的 Playwright 攔截 request 範例程式碼</p><p>所有程式碼都放在這: <a href="https://github.com/SQZ777/playwright-intercept-example">範例程式碼</a></p><p>這張圖應該能表達到今天文章範例中的攔截器概念(?)</p><p><img src="/../img/2024-easy-playwright-intercept-note/1.png" alt="interceptor_meme"></p><p>自動化的執行流程:</p><ol><li>啟動 server.js，讓 html 可以透過本地伺服器瀏覽</li><li>使用瀏覽器瀏覽 localhost:3000</li><li>點擊按鈕觸發 request 發送的動作</li><li>攔截 request 驗證 request 被發送的正確性</li></ol><h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p><del>可能不算程式碼…? 沒有人:可是它裡面有 js</del></p><p>此 HTML 會在按下按鈕後擷取當下瀏覽器中的 timezone，將 timezone 夾帶進去 request 發送到 Backend Server</p><pre><code class="HTML">&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;    &lt;title&gt;Playwright Example&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;h1&gt;Playwright Intercept Request Example&lt;/h1&gt;    &lt;button id=&quot;sendRequest&quot;&gt;Send Request&lt;/button&gt;    &lt;script&gt;        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;        document.getElementById(&#39;sendRequest&#39;).addEventListener(&#39;click&#39;, () =&gt; &#123;            fetch(&#39;/api/data&#39;, &#123;                method: &#39;POST&#39;,                headers: &#123;                    &#39;Content-Type&#39;: &#39;application/json&#39;                &#125;,                body: JSON.stringify(&#123; location: timezone &#125;)            &#125;)                .then(response =&gt; response.json())                .then(data =&gt; console.log(&#39;Response from server:&#39;, data))                .catch(error =&gt; console.error(&#39;Error:&#39;, error));        &#125;);    &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>接收 request 以及讓 HTML 可以被瀏覽</p><p>Node.js Server</p><pre><code>const express = require(&#39;express&#39;);const path = require(&#39;path&#39;);const app = express();const port = 3000;app.use(express.json());// 提供 public 資料夾中的靜態檔案app.use(express.static(path.join(__dirname, &#39;public&#39;)));app.post(&#39;/api/data&#39;, (req, res) =&gt; &#123;    console.log(&#39;Received data:&#39;, req.body);    res.json(&#123; message: &#39;Data received successfully&#39;, receivedData: req.body &#125;);&#125;);// 服務 index.htmlapp.get(&#39;/&#39;, (req, res) =&gt; &#123;    res.sendFile(path.join(__dirname, &#39;index.html&#39;));&#125;);app.listen(port, () =&gt; &#123;    console.log(`Server is running on http://localhost:$&#123;port&#125;`);&#125;);</code></pre><h2 id="Playwright-攔截範例"><a href="#Playwright-攔截範例" class="headerlink" title="Playwright 攔截範例"></a>Playwright 攔截範例</h2><p>先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone<br>我目前待在台灣，所以 timezone id 會是 <code>Asia/Taipei</code></p><pre><code>const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Asia/Taipei&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 <code>Europe/Paris</code>，再執行瀏覽 HTML 的動作</p><pre><code>test.describe(&#39;test with franch&#39;, () =&gt; &#123;    test.use(&#123; timezoneId: &#39;Europe/Paris&#39; &#125;);    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Europe/Paris&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>兩個案例執行完之後在 console 中可以見到以下結果</p><p><img src="/../img/2024-easy-playwright-intercept-note/2.png" alt="playwright_result"></p><h2 id="額外筆記"><a href="#額外筆記" class="headerlink" title="額外筆記"></a>額外筆記</h2><p>因為這一種會持續監聽瀏覽器事件的 Web SDK，是不會有 request 停止的一刻，所以選擇使用的是 <code>page.waitForTimeout(1000)</code><br>而非 <code>page.waitForLoadState(&#39;networkidle&#39;)</code></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Playwright </tag>
+            
+            <tag> 攔截Request </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Dockerfile x Postgres：Materialized View 的 REFRESH 奇幻（？）之旅！</title>
-      <link href="/2024/06/23/2024-init-postgres-when-materialized-view-depends-on-remote-table/"/>
-      <url>/2024/06/23/2024-init-postgres-when-materialized-view-depends-on-remote-table/</url>
+      <link href="/2024/09/08/2024-init-postgres-when-materialized-view-depends-on-remote-table/"/>
+      <url>/2024/09/08/2024-init-postgres-when-materialized-view-depends-on-remote-table/</url>
       
         <content type="html"><![CDATA[<p><img src="/../img/2024-init-postgres-when-materialized-view-depends-on-remote-table/image1.png" alt="我是小丑"></p><p>遇到這個 Issue 是因為測試上的需求，情境是要做 API Automation<br>而 SUT(System Under Test) 的 API 相依於 Postgres 中的某一個 Materialized View<br>又剛好，這個 Materialized View 會用到 remote table 的資料<br>再剛好，這個 remote table 也是你要做 init DB 的對象（在同一個 image）<br>執行 REFRESH MATERIALIZED VIEW 的時候發生的問題<br>所以就發生了這個問題，錯誤訊息如下</p><pre><code class="shell">2024-06-18 00:51:17.451 UTC [68] ERROR:  could not connect to server &quot;test1_db&quot;2024-06-18 00:51:17.451 UTC [68] DETAIL:  connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused        Is the server running on that host and accepting TCP/IP connections?    connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused        Is the server running on that host and accepting TCP/IP connections?2024-06-18 00:51:17.451 UTC [68] STATEMENT:  REFRESH MATERIALIZED VIEW test2_db_schema.test2_mvERROR:  could not connect to server &quot;test1_db&quot;DETAIL:  connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused    Is the server running on that host and accepting TCP/IP connections?connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused    Is the server running on that host and accepting TCP/IP connections?</code></pre><h2 id="這次-issue-的相關檔案"><a href="#這次-issue-的相關檔案" class="headerlink" title="這次 issue 的相關檔案"></a>這次 issue 的相關檔案</h2><p>想要在 local 重現的話，執行一次這裡提到的檔案就可以看到了~</p><h3 id="dockerfile"><a href="#dockerfile" class="headerlink" title="dockerfile:"></a>dockerfile:</h3><pre><code class="dockerfile">FROM postgres:14-alpineENV POSTGRES_USER=postgresENV POSTGRES_PASSWORD=12345ENV POSTGRES_DB=test1COPY test1.sql /test1.sqlCOPY test2.sql /test2.sqlCOPY init.sh /docker-entrypoint-initdb.d/init.sh</code></pre><h3 id="init-sh"><a href="#init-sh" class="headerlink" title="init.sh:"></a>init.sh:</h3><pre><code class="shell">psql -U postgres -c &quot;CREATE DATABASE test2;&quot;psql -U postgres -d test1 -a -f /test1.sqlpsql -U postgres -d test2 -a -f /test2.sqlpsql -U postgres -d test2 -c &quot;REFRESH MATERIALIZED VIEW test2_db_schema.test2_mv&quot;</code></pre><h3 id="test1-sql"><a href="#test1-sql" class="headerlink" title="test1.sql:"></a>test1.sql:</h3><pre><code class="sql">CREATE SCHEMA test1_db_schema AUTHORIZATION postgres;-- test1_db_schema.test1_table definition-- Drop table-- DROP TABLE test1_db_schema.test1_table;CREATE TABLE test1_db_schema.test1_table (    id varchar(10) NOT NULL,    another_column varchar(50) NOT NULL)</code></pre><h3 id="test2-sql"><a href="#test2-sql" class="headerlink" title="test2.sql:"></a>test2.sql:</h3><pre><code class="sql">CREATE SCHEMA test2_db_schema AUTHORIZATION postgres;CREATE EXTENSION postgres_fdw;CREATE SERVER test1_db        FOREIGN DATA WRAPPER postgres_fdw        OPTIONS (host &#39;localhost&#39;, port &#39;5432&#39;, dbname &#39;test1&#39;);CREATE USER MAPPING FOR postgresSERVER test1_dbOPTIONS (user &#39;postgres&#39;, password &#39;12345&#39;);-- test2_db_schema.test1_table definition-- Drop table-- DROP FOREIGN TABLE test2_db_schema.test1_table;CREATE FOREIGN TABLE test2_db_schema.test1_table (    id varchar(10) NOT NULL,    another_column varchar(50) NOT NULL)SERVER test1_dbOPTIONS (schema_name &#39;test1_db_schema&#39;, table_name &#39;test1_table&#39;);-- PermissionsALTER TABLE test2_db_schema.test1_table OWNER TO postgres;GRANT ALL ON TABLE test2_db_schema.test1_table TO postgres;CREATE MATERIALIZED VIEW test2_db_schema.test2_mvTABLESPACE pg_defaultAS SELECT t.id,    t.another_column   FROM test2_db_schema.test1_table tWITH NO DATA;-- View indexes:CREATE UNIQUE INDEX uix_test2_mv ON test2_db_schema.test2_mv USING btree (cupid_id, outer_id);-- PermissionsALTER TABLE test2_db_schema.test2_mv OWNER TO postgres;GRANT ALL ON TABLE test2_db_schema.test2_mv TO postgres;</code></pre><p>這裡特別提一下建立 Materialized View 時的細節，以下 script 擷取於上面提到的內容</p><pre><code>CREATE MATERIALIZED VIEW test2_db_schema.test2_mvTABLESPACE pg_defaultAS SELECT t.id,    t.another_column   FROM test2_db_schema.test1_table tWITH NO DATA;</code></pre><p>如果這裡寫的是 WITH DATA，報錯會報在這裡，而不是 REFRESH 的時候，錯誤訊息會像這樣</p><pre><code class="shell">2024-06-23 09:28:15.912 UTC [59] ERROR:  could not connect to server &quot;test1_db&quot;2024-06-23 09:28:15.912 UTC [59] DETAIL:  connection to server at &quot;localhost&quot; (::1), port 5432 failed: Connection refused        Is the server running on that host and accepting TCP/IP connections?    connection to server at &quot;localhost&quot; (127.0.0.1), port 5432 failed: Connection refused        Is the server running on that host and accepting TCP/IP connections?</code></pre><h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>根據 <a href="https://github.com/docker-library/postgres/blob/master/Dockerfile-alpine.template#L216">postgres 在 github 上的 dockerfile</a>，可以注意到</p><ol><li>原始 postgres 的 docker-entrypoint.sh 放置於 <code>/usr/local/bin</code></li><li>你的 dockerfile 中，位於 <code>/docker-entrypoint-initdb.d/</code> 的 shell script，會早於 postgres 啟動的時間點</li></ol><h3 id="步驟"><a href="#步驟" class="headerlink" title="步驟"></a>步驟</h3><ol><li>init.sh 中啟動 postgres，並確認 postgres 啟動後再執行我們的原本要執行的 script，並讓 image 保持啟動狀態</li><li>dockerfile 改為 <code>RUN init.sh</code>，而非原本將 init.sh 放進 <code>/docker-entrypoint-initdb.d/</code> 的方式</li></ol><h3 id="改變後的-init-sh："><a href="#改變後的-init-sh：" class="headerlink" title="改變後的 init.sh："></a>改變後的 init.sh：</h3><pre><code class="shell">#!/bin/bashecho &quot;Starting PostgreSQL...&quot;/usr/local/bin/docker-entrypoint.sh postgres &amp; # 將 postgres 啟動until pg_isready -h localhost -p 5432; do # 檢查 postgres 啟動狀態  echo &quot;Waiting for PostgreSQL to start...&quot;  sleep 1done# psql -U postgres -c &quot;CREATE DATABASE test1;&quot;psql -U postgres -c &quot;CREATE DATABASE test2;&quot;psql -U postgres -d test1 -a -f /test1.sqlpsql -U postgres -d test2 -a -f /test2.sqlpsql -U postgres -d test2 -c &quot;REFRESH MATERIALIZED VIEW test2_db_schema.test2_mv&quot;tail -f /dev/null # 讓 container 保持運作狀態</code></pre><h3 id="改變後的-dockerfile"><a href="#改變後的-dockerfile" class="headerlink" title="改變後的 dockerfile:"></a>改變後的 dockerfile:</h3><pre><code class="dockerfile">FROM postgres:14-alpineENV POSTGRES_USER=postgresENV POSTGRES_PASSWORD=12345ENV POSTGRES_DB=test1COPY test1.sql /test1.sqlCOPY test2.sql /test2.sql# COPY init.sh /docker-entrypoint-initdb.d/init.shCOPY init.sh /init.shRUN chmod +x /init.shCMD [&quot;/init.sh&quot;]</code></pre><h2 id="感想"><a href="#感想" class="headerlink" title="感想"></a>感想</h2><p>我真的沒想到會遇到這種問題，一開始單純只是想要快樂 init DB schema 而已，所以就單純放在 <code>/docker-entrypoint-initdb.d/</code> 裡面<br>這個過程讓我學到 Dockerhub 上的 image 中，他的 Dockerfile 是如何被執行的<br>以及我們自己放在 <code>/docker-entrypoint-initdb.d/</code> 裡面的 shell script 的執行順序</p><p>不過我不知道我這個解法到底是對的還是錯的 XD</p><p>所以，最後想問一下<br>透過 Dockerfile 建置 postgres DB schema 的 best practice 是什麼？<br><del>不要跟我說透過 dockerfile 建置 postgres DB 本身就是錯的 XDD</del></p><p>如果有更好的解法或是有寫錯的地方，歡迎告訴我<br>感謝大家</p>]]></content>
       
@@ -230,9 +251,9 @@
             
             <tag> 筆記 </tag>
             
-            <tag> CodeSmell </tag>
-            
             <tag> DI </tag>
+            
+            <tag> CodeSmell </tag>
             
         </tags>
       
@@ -253,9 +274,9 @@
             
             <tag> .NetCore </tag>
             
-            <tag> DI </tag>
-            
             <tag> Constructor </tag>
+            
+            <tag> DI </tag>
             
         </tags>
       
@@ -358,6 +379,25 @@
     
     
     <entry>
+      <title>PowerShell - 如何重新 load 環境變數</title>
+      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
+      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
+      
+        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Windows </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - 使用 PowerShell 安裝 aws cli</title>
       <link href="/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/"/>
       <url>/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/</url>
@@ -377,25 +417,6 @@
             <tag> powershell </tag>
             
             <tag> 安裝 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PowerShell - 如何重新 load 環境變數</title>
-      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
-      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
-      
-        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Windows </tag>
             
         </tags>
       
@@ -427,25 +448,6 @@
     
     
     <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/03/2020-220256/"/>
-      <url>/2020/09/03/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/03/2020-222746/"/>
       <url>/2020/09/03/2020-222746/</url>
@@ -461,6 +463,25 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/03/2020-220256/"/>
+      <url>/2020/09/03/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
             
         </tags>
       
