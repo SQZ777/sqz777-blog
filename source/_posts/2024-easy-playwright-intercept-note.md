@@ -95,7 +95,7 @@ app.listen(port, () => {
 
 先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone
 我目前待在台灣，所以 timezone id 會是 `Asia/Taipei`
-```
+```javascript
 const { test, expect } = require('@playwright/test');
 
 test.describe('test with local and no change', () => {
@@ -118,7 +118,7 @@ test.describe('test with local and no change', () => {
 
 再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 `Europe/Paris`，再執行瀏覽 HTML 的動作
 
-```
+```javascript
 test.describe('test with franch', () => {
     test.use({ timezoneId: 'Europe/Paris' });
     test('test intercept request for no change', async ({ page }) => {
