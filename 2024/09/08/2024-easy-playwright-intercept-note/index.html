@@ -74,7 +74,7 @@ app.listen(port, () =&gt; &#123;
 &#125;);
 </code></pre>
 <h2 id="Playwright-攔截範例"><a href="#Playwright-攔截範例" class="headerlink" title="Playwright 攔截範例"></a>Playwright 攔截範例</h2><p>先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone<br>我目前待在台灣，所以 timezone id 會是 <code>Asia/Taipei</code></p>
-<pre><code>const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);
+<pre><code class="javascript">const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);
 
 test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;
     test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;
@@ -94,7 +94,7 @@ test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;
 &#125;);
 </code></pre>
 <p>再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 <code>Europe/Paris</code>，再執行瀏覽 HTML 的動作</p>
-<pre><code>test.describe(&#39;test with franch&#39;, () =&gt; &#123;
+<pre><code class="javascript">test.describe(&#39;test with franch&#39;, () =&gt; &#123;
     test.use(&#123; timezoneId: &#39;Europe/Paris&#39; &#125;);
     test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;
         await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;

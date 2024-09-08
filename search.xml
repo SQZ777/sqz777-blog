@@ -8,7 +8,7 @@
       <link href="/2024/09/08/2024-easy-playwright-intercept-note/"/>
       <url>/2024/09/08/2024-easy-playwright-intercept-note/</url>
       
-        <content type="html"><![CDATA[<p>工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象<br>Web SDK 會根據當下使用者的事件觸發順序而產生不同的 request 內容<br>今天準備了一個可以觸發 request 的 HTML、接收 request 的簡單 Node.js Backend API Server<br>還有筆記用的 Playwright 攔截 request 範例程式碼</p><p>所有程式碼都放在這: <a href="https://github.com/SQZ777/playwright-intercept-example">範例程式碼</a></p><p>這張圖應該能表達到今天文章範例中的攔截器概念(?)</p><p><img src="/../img/2024-easy-playwright-intercept-note/1.png" alt="interceptor_meme"></p><p>自動化的執行流程:</p><ol><li>啟動 server.js，讓 html 可以透過本地伺服器瀏覽</li><li>使用瀏覽器瀏覽 localhost:3000</li><li>點擊按鈕觸發 request 發送的動作</li><li>攔截 request 驗證 request 被發送的正確性</li></ol><h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p><del>可能不算程式碼…? 沒有人:可是它裡面有 js</del></p><p>此 HTML 會在按下按鈕後擷取當下瀏覽器中的 timezone，將 timezone 夾帶進去 request 發送到 Backend Server</p><pre><code class="HTML">&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;    &lt;title&gt;Playwright Example&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;h1&gt;Playwright Intercept Request Example&lt;/h1&gt;    &lt;button id=&quot;sendRequest&quot;&gt;Send Request&lt;/button&gt;    &lt;script&gt;        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;        document.getElementById(&#39;sendRequest&#39;).addEventListener(&#39;click&#39;, () =&gt; &#123;            fetch(&#39;/api/data&#39;, &#123;                method: &#39;POST&#39;,                headers: &#123;                    &#39;Content-Type&#39;: &#39;application/json&#39;                &#125;,                body: JSON.stringify(&#123; location: timezone &#125;)            &#125;)                .then(response =&gt; response.json())                .then(data =&gt; console.log(&#39;Response from server:&#39;, data))                .catch(error =&gt; console.error(&#39;Error:&#39;, error));        &#125;);    &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>接收 request 以及讓 HTML 可以被瀏覽</p><p>Node.js Server</p><pre><code>const express = require(&#39;express&#39;);const path = require(&#39;path&#39;);const app = express();const port = 3000;app.use(express.json());// 提供 public 資料夾中的靜態檔案app.use(express.static(path.join(__dirname, &#39;public&#39;)));app.post(&#39;/api/data&#39;, (req, res) =&gt; &#123;    console.log(&#39;Received data:&#39;, req.body);    res.json(&#123; message: &#39;Data received successfully&#39;, receivedData: req.body &#125;);&#125;);// 服務 index.htmlapp.get(&#39;/&#39;, (req, res) =&gt; &#123;    res.sendFile(path.join(__dirname, &#39;index.html&#39;));&#125;);app.listen(port, () =&gt; &#123;    console.log(`Server is running on http://localhost:$&#123;port&#125;`);&#125;);</code></pre><h2 id="Playwright-攔截範例"><a href="#Playwright-攔截範例" class="headerlink" title="Playwright 攔截範例"></a>Playwright 攔截範例</h2><p>先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone<br>我目前待在台灣，所以 timezone id 會是 <code>Asia/Taipei</code></p><pre><code>const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Asia/Taipei&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 <code>Europe/Paris</code>，再執行瀏覽 HTML 的動作</p><pre><code>test.describe(&#39;test with franch&#39;, () =&gt; &#123;    test.use(&#123; timezoneId: &#39;Europe/Paris&#39; &#125;);    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Europe/Paris&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>兩個案例執行完之後在 console 中可以見到以下結果</p><p><img src="/../img/2024-easy-playwright-intercept-note/2.png" alt="playwright_result"></p><h2 id="額外筆記"><a href="#額外筆記" class="headerlink" title="額外筆記"></a>額外筆記</h2><p>因為這一種會持續監聽瀏覽器事件的 Web SDK，是不會有 request 停止的一刻，所以選擇使用的是 <code>page.waitForTimeout(1000)</code><br>而非 <code>page.waitForLoadState(&#39;networkidle&#39;)</code></p>]]></content>
+        <content type="html"><![CDATA[<p>工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象<br>Web SDK 會根據當下使用者的事件觸發順序而產生不同的 request 內容<br>今天準備了一個可以觸發 request 的 HTML、接收 request 的簡單 Node.js Backend API Server<br>還有筆記用的 Playwright 攔截 request 範例程式碼</p><p>所有程式碼都放在這: <a href="https://github.com/SQZ777/playwright-intercept-example">範例程式碼</a></p><p>這張圖應該能表達到今天文章範例中的攔截器概念(?)</p><p><img src="/../img/2024-easy-playwright-intercept-note/1.png" alt="interceptor_meme"></p><p>自動化的執行流程:</p><ol><li>啟動 server.js，讓 html 可以透過本地伺服器瀏覽</li><li>使用瀏覽器瀏覽 localhost:3000</li><li>點擊按鈕觸發 request 發送的動作</li><li>攔截 request 驗證 request 被發送的正確性</li></ol><h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p><del>可能不算程式碼…? 沒有人:可是它裡面有 js</del></p><p>此 HTML 會在按下按鈕後擷取當下瀏覽器中的 timezone，將 timezone 夾帶進去 request 發送到 Backend Server</p><pre><code class="HTML">&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;    &lt;title&gt;Playwright Example&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;h1&gt;Playwright Intercept Request Example&lt;/h1&gt;    &lt;button id=&quot;sendRequest&quot;&gt;Send Request&lt;/button&gt;    &lt;script&gt;        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;        document.getElementById(&#39;sendRequest&#39;).addEventListener(&#39;click&#39;, () =&gt; &#123;            fetch(&#39;/api/data&#39;, &#123;                method: &#39;POST&#39;,                headers: &#123;                    &#39;Content-Type&#39;: &#39;application/json&#39;                &#125;,                body: JSON.stringify(&#123; location: timezone &#125;)            &#125;)                .then(response =&gt; response.json())                .then(data =&gt; console.log(&#39;Response from server:&#39;, data))                .catch(error =&gt; console.error(&#39;Error:&#39;, error));        &#125;);    &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>接收 request 以及讓 HTML 可以被瀏覽</p><p>Node.js Server</p><pre><code>const express = require(&#39;express&#39;);const path = require(&#39;path&#39;);const app = express();const port = 3000;app.use(express.json());// 提供 public 資料夾中的靜態檔案app.use(express.static(path.join(__dirname, &#39;public&#39;)));app.post(&#39;/api/data&#39;, (req, res) =&gt; &#123;    console.log(&#39;Received data:&#39;, req.body);    res.json(&#123; message: &#39;Data received successfully&#39;, receivedData: req.body &#125;);&#125;);// 服務 index.htmlapp.get(&#39;/&#39;, (req, res) =&gt; &#123;    res.sendFile(path.join(__dirname, &#39;index.html&#39;));&#125;);app.listen(port, () =&gt; &#123;    console.log(`Server is running on http://localhost:$&#123;port&#125;`);&#125;);</code></pre><h2 id="Playwright-攔截範例"><a href="#Playwright-攔截範例" class="headerlink" title="Playwright 攔截範例"></a>Playwright 攔截範例</h2><p>先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone<br>我目前待在台灣，所以 timezone id 會是 <code>Asia/Taipei</code></p><pre><code class="javascript">const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Asia/Taipei&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 <code>Europe/Paris</code>，再執行瀏覽 HTML 的動作</p><pre><code class="javascript">test.describe(&#39;test with franch&#39;, () =&gt; &#123;    test.use(&#123; timezoneId: &#39;Europe/Paris&#39; &#125;);    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Europe/Paris&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>兩個案例執行完之後在 console 中可以見到以下結果</p><p><img src="/../img/2024-easy-playwright-intercept-note/2.png" alt="playwright_result"></p><h2 id="額外筆記"><a href="#額外筆記" class="headerlink" title="額外筆記"></a>額外筆記</h2><p>因為這一種會持續監聽瀏覽器事件的 Web SDK，是不會有 request 停止的一刻，所以選擇使用的是 <code>page.waitForTimeout(1000)</code><br>而非 <code>page.waitForLoadState(&#39;networkidle&#39;)</code></p>]]></content>
       
       
       
@@ -379,25 +379,6 @@
     
     
     <entry>
-      <title>PowerShell - 如何重新 load 環境變數</title>
-      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
-      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
-      
-        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Windows </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - 使用 PowerShell 安裝 aws cli</title>
       <link href="/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/"/>
       <url>/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/</url>
@@ -417,6 +398,25 @@
             <tag> powershell </tag>
             
             <tag> 安裝 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>PowerShell - 如何重新 load 環境變數</title>
+      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
+      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
+      
+        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Windows </tag>
             
         </tags>
       
@@ -448,6 +448,25 @@
     
     
     <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/03/2020-220256/"/>
+      <url>/2020/09/03/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/03/2020-222746/"/>
       <url>/2020/09/03/2020-222746/</url>
@@ -463,25 +482,6 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/03/2020-220256/"/>
-      <url>/2020/09/03/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
             
         </tags>
       
