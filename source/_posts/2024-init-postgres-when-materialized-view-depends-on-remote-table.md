@@ -1,5 +1,6 @@
 ---
 title: Dockerfile x Postgres：Materialized View 的 REFRESH 奇幻（？）之旅！
+date: 2024-06-18 16:18:00
 tags:
   - Postgres
   - Docker
