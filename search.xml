@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>我的 macbook 系統資料好大RRRRRRR</title>
+      <link href="/2025/02/21/2025-mac-system-data-clean-up/"/>
+      <url>/2025/02/21/2025-mac-system-data-clean-up/</url>
+      
+        <content type="html"><![CDATA[<h2 id="緣起"><a href="#緣起" class="headerlink" title="緣起"></a>緣起</h2><p>最近安裝 xcode 新的 simulator 時，我的 mac 出現了一個錯誤訊息是 <code>您的啟動硬碟將滿</code><br>於是我確認了一下整個硬碟空間的佔比，發現我的系統資料真的好大，竟然佔了一半(247.9GB)</p><p><img src="/img/2025-mac-system-data-clean-up/image1.png" alt="system-data"></p><p>：你的系統資料有多大？<br>：三、四層樓那麼大(X)</p><p><img src="/img/2025-mac-system-data-clean-up/gif1.gif" alt="alt text"></p><p>嘗試找呂布（Reboot）救援之後意外的少了 30GB</p><p><img src="/img/2025-mac-system-data-clean-up/image2.png" alt="system-data-after-reboot"></p><p>找 google 求救之後發現有很多工具和軟體可以使用，有些要付費有些則不需要，但本人我就比較奇葩，不喜歡裝一堆有的沒的，所以決定找看看有沒有不安裝軟體的解決方式</p><p>於是找到了這一篇 <a href="https://www.reddit.com/r/mac/comments/ynv4d0/system_data_taking_up_all_my_storage_how_do_i_fix/">reddit</a></p><h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>簡單來說就是使用 <code>du</code> 和 <code>df</code> 指令來確認磁碟空間中使用最多的地方，然後再針對那些資料夾進行手動清理</p><p>df 指令如下，這行的目的是讓你了解目前硬碟空間的使用狀況，並且僅顯示 size 為 GB 層級的資訊</p><pre><code>df -h | grep Gi</code></pre><p>du 指令如下，這行指令會先用 du -h 計算 &#x2F;System&#x2F;Volumes&#x2F;Data 內所有檔案和資料夾的磁碟使用量（並以 KB、MB、GB 等易讀單位顯示）。接著 grep “G\t” 只篩選出顯示為 GB 的結果，再用 sort 進行排序，讓你能快速找出哪些資料夾或檔案最佔空間</p><pre><code>du -h /System/Volumes/Data | grep &quot;G\t&quot; | sort</code></pre><p>找到那些最佔空間的檔案之後就可以用 finder 手動找到他再自行判斷是否刪除<br>這一次我找到很多垃圾 image，還有一些不知道為什麼垃圾桶沒清空的內容<br>最後我總共刪了 100GB 左右的資料，真是清清爽爽</p><p><img src="/img/2025-mac-system-data-clean-up/image3.png"></p><p><img src="/img/2025-mac-system-data-clean-up/image4.png"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> macOS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Playwright 攔截 request 簡易筆記和範例</title>
       <link href="/2024/09/08/2024-easy-playwright-intercept-note/"/>
       <url>/2024/09/08/2024-easy-playwright-intercept-note/</url>
@@ -216,6 +235,29 @@
     
     
     <entry>
+      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
+      <link href="/2021/04/18/2021-what-is-temporal-coupling/"/>
+      <url>/2021/04/18/2021-what-is-temporal-coupling/</url>
+      
+        <content type="html"><![CDATA[<p>最近在看 <a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式</a><br>其中第四章提到了時序耦合（Temporal Coupling）<br>覺得是一個值得寫下來筆記的東西，所以就產出了這篇。</p><p>第一次看到時序耦合這個詞的時候還以為是…Dio?</p><p><img src="/img/2021-what-is-temporal-coupling/1618680807.png"></p><p>結果並不是，讓我太失望了（並沒有失望）</p><h2 id="正文開始"><a href="#正文開始" class="headerlink" title="正文開始"></a>正文開始</h2><p><strong>耦合是指程式中模組及模組之間資訊或參數依賴的程度。</strong><br><strong>其相對的一個概念的詞叫做聚合性，也就是說低耦合性代表高內聚性。</strong></p><p>時序耦合是多種耦合分類中的其中一種　<a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>時序耦合指的是這個 Class 中含有的 Functions 有隱性的「先後順序」的耦合性，這是一個「Design Smell」<br>舉參考資料的程式碼為例</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public void Initialize(string fileName)  /&#123;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>使用這個程式碼，會是這樣</p><pre><code>var fileName = &quot;C:\test.txt&quot;;var fileLogger = new FileLogger();fileLogger.Initialize(fileName);fileLogger.Write(&quot;Log message.&quot;);</code></pre><p>假設這個 fileLogger 沒有在呼叫 Write 這個 Function 之前先呼叫 Initialize 就會造成 fileLogger 在 Write 訊息的時候造成無法找到檔案名稱的錯誤<br>而這樣子的程式碼所造成的結果就稱之為時序耦合。</p><h2 id="如何避免時序耦合"><a href="#如何避免時序耦合" class="headerlink" title="如何避免時序耦合?"></a>如何避免時序耦合?</h2><h3 id="透過-Constructor-Injection-的方式"><a href="#透過-Constructor-Injection-的方式" class="headerlink" title="透過 Constructor Injection 的方式"></a>透過 Constructor Injection 的方式</h3><p>在這個案例中，可以透過 Constructor Injection 的方式進行注入 fileName 即可<br>範例程式碼</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public FileLoger(string fileName)  /&#123;    if(string.IsNullOrEmpty(fileName))    /&#123;      throw new ArgumentNullException(&quot;fileName&quot;);    /&#125;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>這樣的方式除了可以避免時序耦合之外，也能夠減少外部呼叫的次數（不需要再呼叫 Initialize）。<br>另外也能夠透過建構子的方式觀察到這個 FileLogger 本身所依賴的事情有哪些。</p><p>參考資料：<br><a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br><a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式 (Dependency Injection: Principles, Practices, Patterns, 2&#x2F;e)</a><br><a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>備註：<a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br>這篇當中有提到另一個避免時序耦合的方式（抽象工廠 <strong>abstract factory</strong>），但如果沒有特殊限制的話，我會比較偏好使用本篇所記錄的 constructor injection 的方式來避免時序耦合。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 筆記 </tag>
+            
+            <tag> CodeSmell </tag>
+            
+            <tag> DI </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - 4/17 技術管理者論壇－商業與技術的平衡</title>
       <link href="/2021/04/18/2021-235858/"/>
       <url>/2021/04/18/2021-235858/</url>
@@ -239,29 +281,6 @@
     
     
     <entry>
-      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
-      <link href="/2021/04/18/2021-what-is-temporal-coupling/"/>
-      <url>/2021/04/18/2021-what-is-temporal-coupling/</url>
-      
-        <content type="html"><![CDATA[<p>最近在看 <a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式</a><br>其中第四章提到了時序耦合（Temporal Coupling）<br>覺得是一個值得寫下來筆記的東西，所以就產出了這篇。</p><p>第一次看到時序耦合這個詞的時候還以為是…Dio?</p><p><img src="/img/2021-what-is-temporal-coupling/1618680807.png"></p><p>結果並不是，讓我太失望了（並沒有失望）</p><h2 id="正文開始"><a href="#正文開始" class="headerlink" title="正文開始"></a>正文開始</h2><p><strong>耦合是指程式中模組及模組之間資訊或參數依賴的程度。</strong><br><strong>其相對的一個概念的詞叫做聚合性，也就是說低耦合性代表高內聚性。</strong></p><p>時序耦合是多種耦合分類中的其中一種　<a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>時序耦合指的是這個 Class 中含有的 Functions 有隱性的「先後順序」的耦合性，這是一個「Design Smell」<br>舉參考資料的程式碼為例</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public void Initialize(string fileName)  /&#123;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>使用這個程式碼，會是這樣</p><pre><code>var fileName = &quot;C:\test.txt&quot;;var fileLogger = new FileLogger();fileLogger.Initialize(fileName);fileLogger.Write(&quot;Log message.&quot;);</code></pre><p>假設這個 fileLogger 沒有在呼叫 Write 這個 Function 之前先呼叫 Initialize 就會造成 fileLogger 在 Write 訊息的時候造成無法找到檔案名稱的錯誤<br>而這樣子的程式碼所造成的結果就稱之為時序耦合。</p><h2 id="如何避免時序耦合"><a href="#如何避免時序耦合" class="headerlink" title="如何避免時序耦合?"></a>如何避免時序耦合?</h2><h3 id="透過-Constructor-Injection-的方式"><a href="#透過-Constructor-Injection-的方式" class="headerlink" title="透過 Constructor Injection 的方式"></a>透過 Constructor Injection 的方式</h3><p>在這個案例中，可以透過 Constructor Injection 的方式進行注入 fileName 即可<br>範例程式碼</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public FileLoger(string fileName)  /&#123;    if(string.IsNullOrEmpty(fileName))    /&#123;      throw new ArgumentNullException(&quot;fileName&quot;);    /&#125;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>這樣的方式除了可以避免時序耦合之外，也能夠減少外部呼叫的次數（不需要再呼叫 Initialize）。<br>另外也能夠透過建構子的方式觀察到這個 FileLogger 本身所依賴的事情有哪些。</p><p>參考資料：<br><a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br><a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式 (Dependency Injection: Principles, Practices, Patterns, 2&#x2F;e)</a><br><a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>備註：<a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br>這篇當中有提到另一個避免時序耦合的方式（抽象工廠 <strong>abstract factory</strong>），但如果沒有特殊限制的話，我會比較偏好使用本篇所記錄的 constructor injection 的方式來避免時序耦合。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 筆記 </tag>
-            
-            <tag> DI </tag>
-            
-            <tag> CodeSmell </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務</title>
       <link href="/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/"/>
       <url>/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/</url>
@@ -274,9 +293,9 @@
             
             <tag> .NetCore </tag>
             
-            <tag> Constructor </tag>
-            
             <tag> DI </tag>
+            
+            <tag> Constructor </tag>
             
         </tags>
       
@@ -331,29 +350,6 @@
     
     
     <entry>
-      <title>筆記 - Node.js 環境變數套件 dotenv</title>
-      <link href="/2020/11/21/2020-231542/"/>
-      <url>/2020/11/21/2020-231542/</url>
-      
-        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Node.js </tag>
-            
-            <tag> config </tag>
-            
-            <tag> dotenv </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
       <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
       <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
@@ -371,6 +367,29 @@
             <tag> discord </tag>
             
             <tag> discord.js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - Node.js 環境變數套件 dotenv</title>
+      <link href="/2020/11/21/2020-231542/"/>
+      <url>/2020/11/21/2020-231542/</url>
+      
+        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> config </tag>
+            
+            <tag> dotenv </tag>
             
         </tags>
       
@@ -1657,11 +1676,11 @@
     
     
     <entry>
-      <title>Day 1_與91接觸的這4天</title>
-      <link href="/2017/07/18/2017-230008/"/>
-      <url>/2017/07/18/2017-230008/</url>
+      <title>Day 2_與91接觸的這4天</title>
+      <link href="/2017/07/18/2017-231255/"/>
+      <url>/2017/07/18/2017-231255/</url>
       
-        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><p>從上個月的部門會議中就知道這個月91就會來到公司帶領公司正職的人(目前我是個實習生 O_O)</p><p><img src="/img/2017-230008/1500387075_17811.png"></p><h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><p>在7&#x2F;17終於看到了傳說中的91，第一天的中午91就與大家聊聊天，並在白板畫下了上面這張圖，講到工程師的職涯之路就像一個巨大的技能樹<br>中說了五點(棵樹?)</p><ul><li>Tech Skill</li><li>Tech collaboration</li><li>Agile Method log</li><li>Domain</li><li>Soft-Skill</li></ul><p>從白板上可以看到Tech Skill 和 Tech collaboration(應該是這樣吧ˊ_&gt;ˋ)有分支出來另外三項<br>從Tech Skill延伸出 最基本的Coding能力 然後 設計能力(ex:OOP) 再來架構(ex:MVC)<br>從Tech Skill拉出來用C#來講 91就一一列舉出一些C#上所使用到的技術，一個Move就畫出了下面這張圖(持續成長中..?)</p><p><img src="/img/2017-230008/1500387859_03355.png"></p><p>從Tech collaboration延伸出來的Review 然後 團隊合作 最後是 影響力(91表示這點是最稀有的能力)<br>我覺得從 Review ,Team collaboration到 Leading Changes都是一個影響力發展<br>從Review你要如何影響一個人(Coding Style? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個Team(引入某種技術? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個公司(導入敏捷? or 其他叭啦叭啦)<br>*****Agile Method log 在這指的是 <strong>系統發展生命週期(System Development Life Cycle) 所有相關的協作、流程與基礎建設</strong> 感謝91回覆我這個我不記得當初所說的事&lt;(_ _)&gt;<br>Domain則是說你的領域在哪，像是博奕類、購物網站，這種就屬於高頻訪問類型(是這樣說的嗎..ˊ_&gt;ˋ)的Domain，也有ERP或是其他的Domain<br>Soft-Skill顧名思義就是軟實力他所涵蓋的範圍非常的廣，像是簡報能力、嘴砲八啦叭啦等等等等等等。  </p><p>大家都知道</p><blockquote><p>技術的學習曲線，永遠不是線性的，而我們的時間是有限的。</p></blockquote><p>91表示這幾棵樹(?)都要花時間去投資技能點數，技能等級越高的就越得花更多的技能點數(時間)去投資他，才會有更大的進步。<br>找到自己對他有愛的技術，去研究它，鑽研它。會比樣樣都通但樣樣不精還要來得值得投資。<br>詳細可以參考91的這兩篇文章:<br><a href="https://dotblogs.com.tw/hatelove/2017/02/06/investing-your-time-to-produce-synergies">全端工程師才有價值？</a><br><a href="https://dotblogs.com.tw/hatelove/2016/05/24/181324">[隨筆] Developer 自我養成之路</a></p>]]></content>
+        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>今天中午91分享了一部名叫Dinner的日劇給大家看(第一集)，換個角度來看<br>片中廚房裡每一個人的分工方式真的很像我們在Run敏捷開發的感覺，<br>廚房裡做菜的是Team，服務生是 PO 而廚師長則是 Scrum Master，在餐廳內吃飯的就是Customer。<br>裡面發生了一件事情是<br>一名顧客在餐廳裡吃飯，廚房做菜時遇到了問題，雖然馬上就解決了也很開心的找到了這個替代方案，過程一路順利，但忽略了新的解決方案會衍生出這個餐點會太鹹的問題<br>這個顧客一吃下去就發現這個不是他要的餐點並點出了Team忽略了替代方案會衍生出來的問題。<br>而Team並不接受這名顧客所提出的點，並表示我們用了很多心意與努力等等的，如下圖<br><img src="/img/2017-231255/1500391983_98126.png"></p><p>現實的是客戶要的不是努力與心意，而客戶反問了一句話</p><blockquote><p>「你們所謂的心意，究竟是甚麼味道? 影響這道菜的好壞不是團隊合作和心意，是一克鹽巴，僅僅一克鹽巴就可能會失去自己的常客」</p></blockquote><p>跟現實開發的現況其實十分相像<br>今天我們工程師做事都做得很愉快，努力的寫Code，開心的產出<br>最後我們忽略了客戶的感受與需求，如果客戶不滿意今天的產出，他們一點都不會在乎你們開發過程有多快樂多努力<br>他們要的是今天這個需求能不能滿足他們，幫他們賺錢(之類的)。</p><p>在看完影片之後，91決定在下班前辦一個 Visual Studio的熱鍵大賽<br>(沒有懲罰，真要說的話就是說不出來的要喝啤酒或是喝綠茶 哈哈哈哈)<br>主要的目的不是比賽，而是讓大家知道自己有沒有不知道的東西，對於大家也是一種複習和學習，真心覺得很棒。</p><p>在幾個月前公司的某個禮拜二記得Cash和Tim有分享一些熱鍵，那時候發現這些熱鍵<br>真的是覺得十分的新奇與興奮，所以我先詢問了實習生是否可以參加這個大賽，得到答案之後我就第一個寫下了我的名字，五點半之後報名區上面的名字才陸陸續續的長出來(?)變成下面這張圖的樣子<br>牆壁上就可以看見很多熱鍵，其中有自己很常在使用的，也有沒有用過的，這一次又學到了不少東西，是一個寶貴的經驗 :D  </p><p><img src="/img/2017-231255/1500693610_13777.png"></p>]]></content>
       
       
       
@@ -1676,11 +1695,11 @@
     
     
     <entry>
-      <title>Day 2_與91接觸的這4天</title>
-      <link href="/2017/07/18/2017-231255/"/>
-      <url>/2017/07/18/2017-231255/</url>
+      <title>Day 1_與91接觸的這4天</title>
+      <link href="/2017/07/18/2017-230008/"/>
+      <url>/2017/07/18/2017-230008/</url>
       
-        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>今天中午91分享了一部名叫Dinner的日劇給大家看(第一集)，換個角度來看<br>片中廚房裡每一個人的分工方式真的很像我們在Run敏捷開發的感覺，<br>廚房裡做菜的是Team，服務生是 PO 而廚師長則是 Scrum Master，在餐廳內吃飯的就是Customer。<br>裡面發生了一件事情是<br>一名顧客在餐廳裡吃飯，廚房做菜時遇到了問題，雖然馬上就解決了也很開心的找到了這個替代方案，過程一路順利，但忽略了新的解決方案會衍生出這個餐點會太鹹的問題<br>這個顧客一吃下去就發現這個不是他要的餐點並點出了Team忽略了替代方案會衍生出來的問題。<br>而Team並不接受這名顧客所提出的點，並表示我們用了很多心意與努力等等的，如下圖<br><img src="/img/2017-231255/1500391983_98126.png"></p><p>現實的是客戶要的不是努力與心意，而客戶反問了一句話</p><blockquote><p>「你們所謂的心意，究竟是甚麼味道? 影響這道菜的好壞不是團隊合作和心意，是一克鹽巴，僅僅一克鹽巴就可能會失去自己的常客」</p></blockquote><p>跟現實開發的現況其實十分相像<br>今天我們工程師做事都做得很愉快，努力的寫Code，開心的產出<br>最後我們忽略了客戶的感受與需求，如果客戶不滿意今天的產出，他們一點都不會在乎你們開發過程有多快樂多努力<br>他們要的是今天這個需求能不能滿足他們，幫他們賺錢(之類的)。</p><p>在看完影片之後，91決定在下班前辦一個 Visual Studio的熱鍵大賽<br>(沒有懲罰，真要說的話就是說不出來的要喝啤酒或是喝綠茶 哈哈哈哈)<br>主要的目的不是比賽，而是讓大家知道自己有沒有不知道的東西，對於大家也是一種複習和學習，真心覺得很棒。</p><p>在幾個月前公司的某個禮拜二記得Cash和Tim有分享一些熱鍵，那時候發現這些熱鍵<br>真的是覺得十分的新奇與興奮，所以我先詢問了實習生是否可以參加這個大賽，得到答案之後我就第一個寫下了我的名字，五點半之後報名區上面的名字才陸陸續續的長出來(?)變成下面這張圖的樣子<br>牆壁上就可以看見很多熱鍵，其中有自己很常在使用的，也有沒有用過的，這一次又學到了不少東西，是一個寶貴的經驗 :D  </p><p><img src="/img/2017-231255/1500693610_13777.png"></p>]]></content>
+        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><p>從上個月的部門會議中就知道這個月91就會來到公司帶領公司正職的人(目前我是個實習生 O_O)</p><p><img src="/img/2017-230008/1500387075_17811.png"></p><h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><p>在7&#x2F;17終於看到了傳說中的91，第一天的中午91就與大家聊聊天，並在白板畫下了上面這張圖，講到工程師的職涯之路就像一個巨大的技能樹<br>中說了五點(棵樹?)</p><ul><li>Tech Skill</li><li>Tech collaboration</li><li>Agile Method log</li><li>Domain</li><li>Soft-Skill</li></ul><p>從白板上可以看到Tech Skill 和 Tech collaboration(應該是這樣吧ˊ_&gt;ˋ)有分支出來另外三項<br>從Tech Skill延伸出 最基本的Coding能力 然後 設計能力(ex:OOP) 再來架構(ex:MVC)<br>從Tech Skill拉出來用C#來講 91就一一列舉出一些C#上所使用到的技術，一個Move就畫出了下面這張圖(持續成長中..?)</p><p><img src="/img/2017-230008/1500387859_03355.png"></p><p>從Tech collaboration延伸出來的Review 然後 團隊合作 最後是 影響力(91表示這點是最稀有的能力)<br>我覺得從 Review ,Team collaboration到 Leading Changes都是一個影響力發展<br>從Review你要如何影響一個人(Coding Style? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個Team(引入某種技術? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個公司(導入敏捷? or 其他叭啦叭啦)<br>*****Agile Method log 在這指的是 <strong>系統發展生命週期(System Development Life Cycle) 所有相關的協作、流程與基礎建設</strong> 感謝91回覆我這個我不記得當初所說的事&lt;(_ _)&gt;<br>Domain則是說你的領域在哪，像是博奕類、購物網站，這種就屬於高頻訪問類型(是這樣說的嗎..ˊ_&gt;ˋ)的Domain，也有ERP或是其他的Domain<br>Soft-Skill顧名思義就是軟實力他所涵蓋的範圍非常的廣，像是簡報能力、嘴砲八啦叭啦等等等等等等。  </p><p>大家都知道</p><blockquote><p>技術的學習曲線，永遠不是線性的，而我們的時間是有限的。</p></blockquote><p>91表示這幾棵樹(?)都要花時間去投資技能點數，技能等級越高的就越得花更多的技能點數(時間)去投資他，才會有更大的進步。<br>找到自己對他有愛的技術，去研究它，鑽研它。會比樣樣都通但樣樣不精還要來得值得投資。<br>詳細可以參考91的這兩篇文章:<br><a href="https://dotblogs.com.tw/hatelove/2017/02/06/investing-your-time-to-produce-synergies">全端工程師才有價值？</a><br><a href="https://dotblogs.com.tw/hatelove/2016/05/24/181324">[隨筆] Developer 自我養成之路</a></p>]]></content>
       
       
       
