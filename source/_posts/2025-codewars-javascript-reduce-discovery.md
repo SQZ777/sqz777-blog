@@ -96,6 +96,8 @@ reduce 就是這樣！它把一個陣列（很多數字）變成一個結果（�
 ## 總結
 
 原來 `reduce` 在程式設計中的「減少」，指的是把多個元素「縮減」成一個結果！不是數量上的減少，而是複雜度的簡化
+這邊提到的範例都是加法，但可以用上減法、乘法或是其他更細緻的應用喔！
+
 我甚至不太相信 AI 給我的答案，請他給我國外社群討論時是否有提到如何理解 reduce，這邊提供幾個連結：
 
 - [Reddit - 為什麼叫 reduce？1](https://www.reddit.com/r/learnprogramming/comments/15ywksn/comment/jxfb89s/)  
