@@ -95,7 +95,11 @@ reduce 就是這樣！它把一個陣列（很多數字）變成一個結果（�
 
 ## 總結
 
-原來 `reduce` 在程式設計中的「減少」，指的是把多個元素「縮減」成一個結果！不是數量上的減少，而是複雜度的簡化。
+原來 `reduce` 在程式設計中的「減少」，指的是把多個元素「縮減」成一個結果！不是數量上的減少，而是複雜度的簡化
+我甚至不太相信 AI 給我的答案，請他給我國外社群討論時是否有提到如何理解 reduce，這邊提供幾個連結：
+
+- [Reddit - 為什麼叫 reduce？1](https://www.reddit.com/r/learnprogramming/comments/15ywksn/comment/jxfb89s/)  
+- [Reddit - 為什麼叫 reduce？2](https://www.reddit.com/r/learnjavascript/comments/s1e4g1/comment/hs8j32z/)
 
 這次的學習讓我想起程式設計中很多名詞的含義，往往跟我們日常理解的意思有些微妙的差異
 繼續暖手，Keep Learning!
