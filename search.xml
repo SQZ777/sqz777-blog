@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>好爽喔，原來可以在瀏覽器 Console 操作 Pinia 狀態</title>
+      <link href="/2025/10/08/2025-how-to-control-pinia-in-browser-console/"/>
+      <url>/2025/10/08/2025-how-to-control-pinia-in-browser-console/</url>
+      
+        <content type="html"><![CDATA[<p><img src="/../img/2025-how-to-control-pinia-in-browser-console/image.png" alt="alt text"></p><p>今天在測試 Vue 專案時，我臨時需要切換某個使用者狀態，這招從 AI 偷學來的😜<br>結果發現透過瀏覽器的 console 就能直接操作 Pinia 的 state，像這樣</p><pre><code class="js">const pinia = document.querySelector(&#39;#app&#39;).__vue_app__.config.globalProperties.$piniapinia.state.value.user.isWarningMessageDismissed = false</code></pre><p>執行後畫面立刻更新，完全不需要重新登入或透過後端修改資料，太爽辣~<br>但爽歸爽還是得注意一下相關的風險</p><p>這篇就來簡單介紹一下 Pinia，並說明為什麼這種做法 <strong>不建議</strong> 用在較複雜的測試或正式驗證流程中<br>以及該如何用更穩健的方式處理</p><h2 id="🧩-什麼是-Pinia？"><a href="#🧩-什麼是-Pinia？" class="headerlink" title="🧩 什麼是 Pinia？"></a>🧩 什麼是 Pinia？</h2><p>Pinia 是 <strong>Vue.js</strong> 官方推薦的狀態管理工具，用來集中管理應用的共用資料<br>它的概念類似 React 的 Redux 或 Zustand<br>…<br>蝦？什麼？你說講人話？<br>好，簡單來說<br>可以把它想成整個網站的「中央資料中心」<br>不論是哪一個頁面或按鈕，只要要用到同樣的資料<br>都能從這個中心取得或更新，讓資料保持一致</p><p>舉例來說，一個簡單的 <code>user</code> store：</p><pre><code>import &#123; defineStore &#125; from &#39;pinia&#39;export const useUserStore = defineStore(&#39;user&#39;, &#123;  state: () =&gt; (&#123;    isWarningMessageDismissed: true  &#125;),  actions: &#123;    toggleConsent() &#123;      this.isWarningMessageDismissed = !this.isWarningMessageDismissed    &#125;  &#125;&#125;)</code></pre><p>在任何元件裡都可以用：</p><pre><code>import &#123; useUserStore &#125; from &#39;@/stores/user&#39;const user = useUserStore()console.log(user.isWarningMessageDismissed)</code></pre><h2 id="⚡測試時的快速修改：直接改-Pinia-state"><a href="#⚡測試時的快速修改：直接改-Pinia-state" class="headerlink" title="⚡測試時的快速修改：直接改 Pinia state"></a>⚡測試時的快速修改：直接改 Pinia state</h2><p>當你在瀏覽器中開啟 Vue 應用（假設掛在 #app 上）時，<br>Vue 會把整個應用程式的實例存在 DOM 元素中，因此你可以這樣取得：</p><pre><code>document.querySelector(&#39;#app&#39;).__vue_app__</code></pre><p>這個物件底下有一個 config.globalProperties.$pinia，<br>就是整個應用的 Pinia 實例</p><p>於是我們可以：</p><pre><code>const pinia = document.querySelector(&#39;#app&#39;).__vue_app__.config.globalProperties.$piniapinia.state.value.user.isWarningMessageDismissed = false</code></pre><p>這樣就能直接修改狀態，而不必打開 DevTools 或修改程式碼<br>在開發或 debug 階段確實非常方便 😜</p><h2 id="⚠️但這個方法比較適合簡單的測試情境"><a href="#⚠️但這個方法比較適合簡單的測試情境" class="headerlink" title="⚠️但這個方法比較適合簡單的測試情境"></a>⚠️但這個方法比較適合簡單的測試情境</h2><p>雖然這個技巧很炫炮，但它其實有幾個問題</p><ol><li><p>繞過應用邏輯<br>你直接修改 state，沒有經過 actions 或 getters，可能導致邏輯流程與實際應用不一致</p></li><li><p>缺乏狀態追蹤<br>直接改值的操作不會出現在 Pinia DevTools 的 mutation log 中，測試結果難以重現，也不容易讓其他人理解狀態是怎麼變的</p></li><li><p>在多 store 或非同步行為中容易出錯<br>當應用內有多個 store、或 state 與 API 綁定時，直接操作可能讓某些資料失去同步，導致測試結果不穩定</p></li></ol><h2 id="✅-較佳的解法"><a href="#✅-較佳的解法" class="headerlink" title="✅ 較佳的解法"></a>✅ 較佳的解法</h2><p>如果只是為了方便測試，可以採用以下幾種更好的方式</p><h3 id="1️⃣-在-store-中建立「測試模式」的-action"><a href="#1️⃣-在-store-中建立「測試模式」的-action" class="headerlink" title="1️⃣ 在 store 中建立「測試模式」的 action"></a>1️⃣ 在 store 中建立「測試模式」的 action</h3><pre><code>export const useUserStore = defineStore(&#39;user&#39;, &#123;  state: () =&gt; (&#123;    isWarningMessageDismissed: true  &#125;),  actions: &#123;    setConsentForTest(value) &#123;      if (import.meta.env.MODE === &#39;development&#39;) &#123;        this.isWarningMessageDismissed = value      &#125;    &#125;  &#125;&#125;)</code></pre><p>然後在 console 中：</p><pre><code>const user = useUserStore()user.setConsentForTest(false)</code></pre><p>好處是：</p><blockquote><p>狀態變化仍透過 action 流程，可被追蹤、受控，且不會污染正式驗證邏輯</p></blockquote><h3 id="2️⃣-使用-Vue-js-DevTools"><a href="#2️⃣-使用-Vue-js-DevTools" class="headerlink" title="2️⃣ 使用 Vue.js DevTools"></a>2️⃣ 使用 Vue.js DevTools</h3><p>在 Vue DevTools 開啟 Pinia 模組，可直接修改 state、呼叫 action<br>有視覺化界面，也能記錄 mutation log</p><h2 id="🧠-結語"><a href="#🧠-結語" class="headerlink" title="🧠 結語"></a>🧠 結語</h2><p>在開發階段用 Console 快速改 Pinia 狀態沒啥大問題<br>但在需要模擬多層邏輯、非同步請求或狀態流的測試中<br>這種方式就不夠穩定、也不容易重現結果<br>如果要走比較正規一點的方式個人會比較偏好使用 Vue.js DevTools，但就需要請 RD 把那個開關打開<br>重新佈署到 dev 或其他測試環境上</p><p>最後，因為照片不知道用什麼，所以…<br>就隨便用散步路上隨手拍的好了😜</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Vue.js </tag>
+            
+            <tag> Pinia </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>CodeWars 刷題系列，英文不好的我，也能理解 JavaScript 的 reduce 方法原來不是「減少」的意思！</title>
       <link href="/2025/09/01/2025-codewars-javascript-reduce-discovery/"/>
       <url>/2025/09/01/2025-codewars-javascript-reduce-discovery/</url>
@@ -490,6 +511,25 @@
     
     
     <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/03/2020-220256/"/>
+      <url>/2020/09/03/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/03/2020-222746/"/>
       <url>/2020/09/03/2020-222746/</url>
@@ -505,25 +545,6 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/03/2020-220256/"/>
-      <url>/2020/09/03/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
             
         </tags>
       
