@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>一個測試者的獨白</title>
+      <link href="/2026/01/04/2026-testing-paradigm-confusion/"/>
+      <url>/2026/01/04/2026-testing-paradigm-confusion/</url>
+      
+        <content type="html"><![CDATA[<p>促使我開始寫這篇文章的契機，應該是源自 2021 年 11 月 17 日（好久以前），好朋友 Terry Wang 寫的<a href="https://wangterryonagile.blogspot.com/2021/11/scrum-master.html">《一個 Scrum Master 的獨白》</a>帶給我的啟發，<a href="https://www.youtube.com/watch?v=igRixuQpxns">影片版點我</a></p><p>這篇文章記錄了我身為一個偏 Developer 的人，在敏捷文化正於台灣崛起的浪潮裡選擇擔任 Tester，走過那些迷惘的敏捷&#x2F;測試旅程</p><p>近年我一直嘗試著把自己在測試職涯的「自我定位」寫下來，但最後都只停在幾段零碎的草稿<br>寫來寫去才發現我應該寫的是自己的迷惘，但始終無法解決自己在職涯上的迷惘，直到 2025 年 11 月，那本書的出現…</p><h2 id="2017-年"><a href="#2017-年" class="headerlink" title="2017 年"></a>2017 年</h2><p>2017 年，intern 時期跟另外 3 名 intern 一起維運著公司的人才庫系統，認識了 91（<a href="https://tdd.best/about/">Joey Chen</a>，不是 91APP），受到了很多的啟發，也是我決定了解敏捷文化的契機</p><p>現在回想起來那半年的實習，真的是我經歷過最教科書級的 Scrum，我猜是因為大家都沒有正職經驗，反而更願意照著 Scrum Guide 和 Scrum Master 的指示把節奏跑完整，Refinement, Planning, Daily, Review, Retro，一個迭代接一個迭代，單純、清楚、有效</p><blockquote><p><em>P.S. 現在 Scrum Guide 裡面沒有 Refinement Meeting，至少 2020 (latest) 的版本似乎沒有提到 😆</em> </p></blockquote><p>在這裡感謝當時的 tech lead Tim, Cash，讓我學到了很多技術和敏捷相關的事情，也感謝 Tamama team members，以及 Tamama team 的 scrum master Amy, Elton, Eason</p><p><img src="/../img/2026-testing-paradigm-confusion/image.png" alt="Tamama 的來由：在一部叫做《Keroro 軍曹》的動畫，裡面有一個見習的二等兵角色叫做 Tamama照片中的模型是從 intern 畢業時收到的禮物"></p><blockquote><p><em>Tamama 的來由：在一部叫做《Keroro 軍曹》的動畫，裡面有一個見習的二等兵角色叫做 Tamama<br>照片中的模型是從 intern 畢業時收到的禮物</em></p></blockquote><p>回想 2017 年真的是敏捷盛行的年代，各種 meetup 和討論都在那一年不斷的發生</p><p>實習結束之後，到了一間做開店平台服務的公司擔任 QA 一職，當年決定加入的原因有 2 個</p><ol><li>公司正在導入敏捷，我很想親眼看看「導入敏捷」在真實世界裡到底會發生什麼事，這在當時的氛圍下對我超有吸引力</li><li>我那時對 QA 的想像就是「測試」，而測試需要的能力面向很廣，剛好很符合我的個性。</li></ol><p>加入公司之前，我去參加了至少 2 場 Agile meetup，去問了各個業界的前輩關於如何當一個好的 QA&#x2F;QE，得到了許多的 feedback，感謝當時的自己寫下了一些筆記，或許可以找個時間來寫一個現在我對於測試工作的一些看法（挖坑）</p><p>第一份工作開始沒多久，我就成了公司裡蠻受關注的新人。原因很簡單，我跟當時公司裡其他測試人員不太一樣，我會一直用自己擁有的開發者技能，去做一些能輔助測試、也能幫到團隊的工具。那時候的我像海綿一樣，瘋狂閱讀、吸收測試相關知識，也很常在團隊裡主動嘗試新做法，例如舉辦 Bug Bash、Coding Dojo…等。這裡也要特別感謝當時的 Test Team Lead Matt, Ruddy 老師，願意鼓勵我去做這些事</p><p>在這份工作裡，我最難忘的，果然還是第一次加入的「導流 Team」。我們從 0 開始把系統建起來，測試工作真的不一定要追著開發進度跑</p><p>RD 願意也有能力把需求切碎、分批交付<br>PM 願意和我高頻率溝通<br>而我的自動化節奏也因此跟得上</p><p>每次調整或新增功能，我們都先用 E2E 自動化把各個路徑跑過一輪，幾分鐘內就能對版本建立信心，上線後也確實沒有遇到什麼嚴重問題（但我也不確定是不是記憶美化了，至少我印象中沒有遇過需要 rollback 的狀況）</p><p>真的很感謝當時導流 Team 的每一位，你們都很棒，這段經歷對我來說非常珍貴</p><p>另外，這份工作還有一件事對我後來職涯影響很深，在這裡開始接觸「測試環境」的建置<br>印象中當時是 Ken 和 Jason 一起把測試環境 build 起來<br>我那時其實貢獻不多，更多只是協助確認環境起來後需要的 init data 與可運作狀態<br>但這段經驗，卻奠定了我後來對測試環境建置與使用的一些想法。會開始重視「環境」這件事，也跟 Rick 有關，畢竟我算是看著 Rick 的部落格長大的（？），其中<a href="https://rickhw.github.io/2015/10/11/SQA/How-To-Be-An-SQA/">那篇文章</a>讓我更清楚建立環境的重要性</p><p>後來我也陸續加入其他 team，遇到很多有趣的事。只是那時候我還不夠成熟，在溝通與協作的細節上，現在回頭看其實有不少可以做得更好 🚬</p><p>在做這一份工作的後半段，或許是為了回應新團隊的期待，也或許是當時認為這樣才能展現我的價值，又或許是其他事情，我測試的工作也全然地改成「實作自動化」，而不再是以「手動測試」為主了(基本上已經不能叫做測試工作了)</p><p>現在回過頭來看，這個時間點是我職涯迷惘的開始（好早）</p><h2 id="迷惘是一陣一陣地"><a href="#迷惘是一陣一陣地" class="headerlink" title="迷惘是一陣一陣地"></a>迷惘是一陣一陣地</h2><p>迷惘來的時候很像潮汐，不會天天發生，但每次一來，腦袋就會自動跳出幾個困惑：</p><ul><li>把所有想到的案例都做成自動化，因為「測試」就是把案例走完了就好，所以這是測試者唯一能展現的價值？</li><li>敏捷團隊的願景是希望每一位開發者都進行測試，「每一個人」都為產出品質負責，「只」做測試不開發的我，是什麼？</li><li>Sprint 迭代的過程很快，能測試的時間很短，做完 Happy Test 以及簡單的邊界案例之後，把時間都拿去做自動化，感覺怪怪的？但看起來大家都覺得這是對的方向，Why？</li><li>…還有好多好多</li></ul><p>我一方面認為測試者真正能展現的價值，是在當下需求的 context 裡提出洞見、驗證風險<br>另一方面是實作自動化、把產出流程的品質顧好，也確實能替團隊帶來長期效益<br>再一方面是只要整個團隊都在意測試，那就不需要測試人員…嗎?</p><p>但不論在團隊內部或就業市場，「自動化」都被反覆強調。當時我一邊想把這些疑惑搞清楚，一邊也考量職涯的發展與收入，所以離開第一間公司，轉去做防毒軟體&#x2F;金流&#x2F;行銷的公司<br>只是到了新團隊，我依然主要在做自動化導入與架構設計<br>這些工作用不同方式落地時，我仍然感覺自己在創造價值，卻也更常思考所謂「有效率的測試」，究竟應該怎麼被執行、又該如何被記錄下來？</p><p>這個問號大多只停在我腦袋裡。我的工作與職涯重心仍然放在寫程式把自動化做得更完整、開發測試所需的輔助 Tools、建立自動化執行的 Pipeline 與測試環境……但我始終覺得，理解產品、揭露風險才是測試工作的本質<br>也因此，我一直覺得哪裡怪怪der，便持續翻閱各種測試文章想找答案<br>偏偏文章之間在細節上常互相衝突，而那些衝突，也正是讓我的迷惘反覆出現的原因</p><h2 id="走出迷惘"><a href="#走出迷惘" class="headerlink" title="走出迷惘"></a>走出迷惘</h2><p><img src="/../img/2026-testing-paradigm-confusion/takingTestingSeriously.jpg"></p><p>直到 2025 年 11 月，James Bach 以及 Michael Bolton 的著作 <a href="https://www.tenlong.com.tw/products/9781394253197"><em>《Taking Testing Seriously》</em></a>發表了出來，看完了第一章之後才理解原來我的疑惑正是關於測試的「思想學派」之間的衝突，下面是我將書中內容丟給 AI 做的翻譯（有些小地方我有調整一點用詞）</p><hr><p>1999 年，Cem Kaner、James Bach，以及另外幾位朋友，宣告我們是一個獨特的測試思想「學派（school）」，並把它命名為 Context-Driven。</p><p>成立一個學派，是為了把我們和其他學派區隔開來——至少就我們的理解是如此。雖然外界從來沒有形成廣泛共識，說這些學派應該如何辨識、如何命名，但目前我們（Michael 與 James）把它們大致分成以下幾類：</p><ul><li><strong>Factory School（工廠學派）</strong>：認為測試應該以產物與演算法為核心，而不是以測試者為核心——像大型工廠一樣，理論上工人可以被機器人取代。這個學派在產業界最主流，尤其是政府部門與受高度監管的情境。</li><li><strong>Quality School（品質學派）</strong>：認為「打造品質」才是核心，測試只是相對次要、甚至有點討人厭的活動；比起測試，更重要的是品質倡議。這個學派常反對設置專職測試者，因為他們主張「整個團隊都擁有品質」。</li><li><strong>Agile&#x2F;DevOps School（敏捷&#x2F;DevOps 學派）</strong>：類似品質學派，但更被產品交付的命令式要求與機制主導。認為測試應由開發者做，並在持續交付管線中自動化；主張不該有全職測試者，除非只是暫時的權宜之計。</li><li><strong>Analytical School（分析學派）</strong>：幾乎只存在於學界。把測試視為電腦科學的一部分，當作演算法流程；追求在受控條件下，用數學模型化與最佳化測試的理論與方法。</li><li><strong>Context-Driven School（情境驅動學派）</strong>：認為不存在「最佳實務」，專業測試者應培養能力，去設計並論證適合自己專案的測試做法。此學派認為測試是社會性的、心理性的、啟發式（heuristic）的過程。<strong>Rapid Software Testing (RST)</strong> 是一種情境驅動的方法論。</li></ul><p>每一個思想學派都是一種<strong>典範（paradigm）</strong>——也就是一個包山包海的世界觀。科學中「典範」這個概念，最早是由 Thomas Kuhn 在其經典著作 <em>The Structure of Scientific Revolutions《科學革命的結構》</em>中提出的。<br>我們之所以說上述這些學派是典範，是因為當我們遇到其他學派的思想者時，常常根本不覺得他們在談「測試」。差異就是大到這種程度。典範之間的對話向來很難，不只因為同樣的詞會被用出不同意思，更因為對其中一方而言很重要的問題，對另一方可能根本不存在。舉例來說，<strong>Factory School</strong> 的測試實作者很在意「測試案例有沒有寫對」；但 <strong>Context-Driven</strong> 的測試者可能整個專案跑完，都沒想過「測試案例」這件事。當一個 Factory School 的人漏掉 bug，他會想：「我漏掉是因為我沒有某個測試案例，解法就是把那個案例加上去。」而當我們在 <strong>RST（Rapid Software Testing）</strong> 裡漏掉 bug，我們會想：「我能從這件事學到什麼？只有先學到，我才知道接下來該怎麼做。」從 Factory 的角度看，RST 像是自我膨脹的哲學空談；從 RST 的角度看，Factory 像是在做一套討好主管的儀式。<br>Ludwig Wittgenstein 用「<strong>form of life（生活形式）</strong>」這個詞，來描述構成人類社會生活的整體：各種實作、行為、規則、模式等等。他有個著名主張：所有語言都扎根於某種生活形式，離開孕育它的活動就無法理解。你若沒有沉浸在那些詞所屬的文化裡，就不可能真正理解那些詞的意思。</p><p>那我們為什麼要寫這麼多哲學？是為了<strong>讓你先做好準備</strong>。本書描述的測試文化，很可能跟你在一般軟體專案裡觀察到的、或在網路上看測試 demo 所吸收到的很不一樣。Context-Driven 的方式不只是一種方法：它同時也是一種典範、一種文化、一種生活形式。</p><p>看看書名吧。準備好<strong>認真看待測試 (Preparing to taking testing seriously)</strong><br>如果你想把自己培養成軟體測試的專家，我們希望幫你在「測試思想的市場」裡，成為一個有鑑別力的顧客。</p><p>但如果典範是包山包海的世界觀，那人怎麼可能改變典範？又為什麼有人想從不同典範裡挑挑選選？畢竟每個典範都涵蓋世界的一切。Thomas Kuhn 的回答是：典範彼此競爭，取決於它們留下哪些「無法解的謎題」。當你被那些謎題折磨得夠久，你就會對其他存在與工作的方式敞開心胸——而這正是科學革命之所以發生的原因。</p><p>其他測試典範在追求一套完美的「最佳實務」。而所有難題中的那個無解難題，歸根究柢就是這件事。本書作者相信他們永遠不會成功。</p><p>工廠學派自 1960 年代以來主導這個領域，他們拿得出來的成果是：<strong>V-model</strong>、把 <strong>ISTQB</strong> 證照發給任何能死背制式答案的人，以及一個在本文寫作當下反而比 40 年前更不被尊重的測試產業。<strong>Agile&#x2F;DevOps</strong> 陣營如今聲勢正旺，結果是沒人想當 tester。（他們希望你只是「team member」，而不是把重心放在測試上。）以 <strong>AI</strong> 為基礎的測試工具，有些確實耐人尋味，有些則爛得讓人訝異，卻把管理者搞糊塗了，以為按個按鈕就能測試。整個產業一路從趨勢晃到趨勢（trend to trend）、從工具換到工具（tool to tool），但仍然有太多軟體產品不可靠、用起來不令人滿意；使用者甚至被騙得以為，期待產品如承諾般正常運作，是要求太多。</p><p>我們在情境驅動典範裡相信：<strong>人、啟發式、技能、倫理</strong>才是核心，因為這能找出更多 bug、也找出更重要的 bug；能吸引更有天份的人投入測試；也能讓社會更好。對我們而言最難的謎題是：如何訓練與管理測試者，讓他們能在一個主要只在乎快速賺錢、並希望測試是一套固定演算法而不是開放式調查的世界裡運作。</p><hr><p>以上是書中第一章的一部分翻譯</p><p>讀到這段之後，我才發現多年來的迷惘，是我內心中的「典範」一直在互相衝撞，而且不是兩個，是三個</p><p>第一個，是 Context-Driven 的世界觀，與邰曉梅老師的著作<em>《海盜派測試》</em>，是相同的世界觀。這個世界觀在意的是 Context (上下文)，你必須自行識別風險並彈性的調整目標抱持著好奇心不斷地進行測試，在每一次測試後都要不斷地問問自己「你真的了解產品了嗎？」、「你真的知道此刻最重要的風險了嗎？」、「你能描述這整個測試的脈絡，並清楚知道為甚麼這樣測嗎？」</p><p>第二個，來自敏捷團隊常見的說法「品質是『整個團隊』的責任、測試應該由開發者在 pipeline 裡完成、專職 tester 只是暫時的過渡角色。」這讓我卡在一個很自我衝突的位置，如果每個人都應該做測試，那我的責任是不是讓團隊不需要倚賴測試人員？</p><p>第三個，是把測試當成可被流程化的工廠，把需求拆成測試案例、把案例跑完、把案例自動化，最後用「覆蓋率」與「通過率」交差。於是我腦中常浮現一種焦慮：「是不是只要我把想到的案例全部變成自動化，測試者的價值就算交付了？好像測試等於把 checklist 打勾，越多越好？」</p><p>Sprint 迭代很快、可測時間很短，我做完 Happy Path 與幾個邊界就差不多要交付了，接下來把時間全部砸去做自動化，心裡卻一直覺得怪。我知道這對交付流程有幫助，但它看起來更像在追求「可量化的產出」，而不是在追問「產品此刻最大的風險是什麼」<br>偏偏團隊與就業市場又一致強調「自動化」的重要性，彷彿不自動化就不專業、不進步</p><p>我一直同時相信兩件事：</p><ul><li>測試者真正的價值，是在特定需求與情境（context）下，提出洞見、test ideas 、揭露風險</li><li>自動化、工具與流程品質也很有價值，能讓團隊交付更穩、更快、更可重複</li></ul><p>問題在於當大家把「自動化」當成測試本體時，測試的本質就被擠到暗黑的角落，而我自己也隨波逐流，遺忘了測試的本質（真虧我自己以前還分享過測試本質的演講…haha）</p><p>看到這本書之前，我一邊寫程式把自動化做得更完整，一邊又不斷翻測試文章想找答案<br>但越看越矛盾，有些文章把 test cases 與 best practices 說得像唯一正解，有些又強調測試應該回到人、技能、判斷與探索。這些細節上的互相衝突，一直在我內心不斷的碰撞著</p><p>直到我讀到這本書把「不同測試文化&#x2F;典範」列出來，我才終於明白，我的內心一直在這幾個世界觀之間打架<br>當我用其中一個世界觀去衡量另一個世界觀時，當然會覺得哪裡都怪怪 Der</p><p>感謝這本書的出現，讓我在得知這些學派之後，能夠好好地思考想要精進的方向</p><h2 id="接下來呢"><a href="#接下來呢" class="headerlink" title="接下來呢?"></a>接下來呢?</h2><p>正如<a href="https://www.youtube.com/watch?v=m9tNBHBKMpU&t=1s">邱威傑在 TED Talk</a> 所說：「人生沒有一條路是白走的」，我相信接下來的職涯，會讓我更清楚自己真正想走的路會長成什麼樣子</p><p>當我終於釐清了這些困惑與內心衝突，接下來要面對的，就不再是「感覺怎樣都怪怪的」，而是如何重新調整我在工作上的投入比例，以及我想交付的工作內容，哪些要用工程手段把地基打穩、哪些要把心力放回理解產品與揭露風險</p><p>一路上前輩們的指點都是有用的，一路上我做過的那些技術實作，像是測試環境的建置自動化、Automation 架構設計、CI&#x2F;CD Pipeline 規劃與落地也都不是繞遠路。它們讓我更懂得如何讓團隊跑得更穩、更快，也讓我有能力把「測試」從一次次手動執行，推進到可重複、可擴張、能長期維護的系統</p><p>首先感謝自己在 2025 年 10 月 17 日決定斷絕所有社群平台，歷經長達 11 周的無社群平台生活，讓我多了很多時間可以閱讀、寫作、關心自己應該關心的事情🏃‍♂️<br>感謝 Esther 和 Jersey 在 6 年前的留言鼓勵，雖然每年的 blog post 產量仍然遠不及 2017, 2018 的自己，但我會持續的努力<br><img src="/../img/2026-testing-paradigm-confusion/image%201.png" alt="image.png"><br>也很感謝 Ruddy 老師在我離開第一份工作的那一天，對我說的那句話：「勇於嘗試。」<br>這句話不斷地在提醒我別怕走一段不確定的路，因為每一步都會在未來串成答案</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 軟體測試 </tag>
+            
+            <tag> 測試職涯 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>好爽喔，原來可以在瀏覽器 Console 操作 Pinia 狀態</title>
       <link href="/2025/10/08/2025-how-to-control-pinia-in-browser-console/"/>
       <url>/2025/10/08/2025-how-to-control-pinia-in-browser-console/</url>
@@ -394,29 +415,6 @@
     
     
     <entry>
-      <title>筆記 - Node.js 環境變數套件 dotenv</title>
-      <link href="/2020/11/21/2020-231542/"/>
-      <url>/2020/11/21/2020-231542/</url>
-      
-        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Node.js </tag>
-            
-            <tag> config </tag>
-            
-            <tag> dotenv </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
       <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
       <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
@@ -434,6 +432,29 @@
             <tag> discord </tag>
             
             <tag> discord.js </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - Node.js 環境變數套件 dotenv</title>
+      <link href="/2020/11/21/2020-231542/"/>
+      <url>/2020/11/21/2020-231542/</url>
+      
+        <content type="html"><![CDATA[<p>開發時一定會用到環境變數，確保 config 可以快速被切換、程式碼不要包含機敏資料等等目的，所以就會透過 config 檔的方式來讀取各種機密資料</p><p>而 Node.js 可以透過 dotenv 來達成這件事</p><p>開始前你需要先安裝套件 dotenv</p><pre><code>npm install dotenv</code></pre><p> 在程式碼中引入這個套件</p><pre><code>require(&#39;dotenv&#39;).config()</code></pre><p>在使用前你需要建立一個檔案叫做 <strong>.env</strong><br>這個套件會去讀取這個檔案，讓這個檔案成為可以被 process.env 讀取的變數，格是為 &#x2F;{&#x2F;{變數名稱&#x2F;}&#x2F;}&#x3D;&#x2F;{&#x2F;{變數資料&#x2F;}&#x2F;}</p><pre><code>BLOG_NAME=SQZ777der技術小本本SECRET_TOKEN=secret tokenDB_CONNECTION=db connection</code></pre><p>透過 dotenv 讀取變數的程式碼如下</p><pre><code>require(&#39;dotenv&#39;).config()console.log(process.env.BLOG_NAME)console.log(process.env.SECRET_TOKEN)console.log(process.env.DB_CONNECTION)</code></pre><p>執行結果如下</p><p><img src="/img/2020-231542/1605971407.png"></p><p>以上是 dotenv 的簡單筆記<br>這邊是上面那些寫的程式碼 repo<br><a href="https://github.com/SQZ777/nodejs_dotenv_for_blog">https://github.com/SQZ777/nodejs_dotenv_for_blog</a></p><p>在一般專案開發時，請勿將 .env 這個檔案 commit 上去，此 repo 只是為了筆記而 commit .env 這個檔案。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Node.js </tag>
+            
+            <tag> config </tag>
+            
+            <tag> dotenv </tag>
             
         </tags>
       
