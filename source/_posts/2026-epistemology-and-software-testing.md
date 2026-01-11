@@ -7,6 +7,8 @@ tags:
   - 軟體測試
 ---
 
+![](../img/2026-epistemology-and-software-testing/image.png)
+
 當代知識論學者雷勒 (Keith Lehrer) 觀察到的研究進路 (approach) 有三個
 
 1. 形上
