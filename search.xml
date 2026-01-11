@@ -5,10 +5,10 @@
     
     <entry>
       <title>形上、懷疑、批判：知識論視角的軟體測試</title>
-      <link href="/2026/01/11/2026-epistemology-and-software-testing.md/"/>
-      <url>/2026/01/11/2026-epistemology-and-software-testing.md/</url>
+      <link href="/2026/01/11/2026-epistemology-and-software-testing/"/>
+      <url>/2026/01/11/2026-epistemology-and-software-testing/</url>
       
-        <content type="html"><![CDATA[<p>當代知識論學者雷勒 (Keith Lehrer) 觀察到的研究進路 (approach) 有三個</p><ol><li>形上</li><li>懷疑</li><li>批判</li></ol><p>形上知識論的代表哲學家可追溯至柏拉圖 (Plato)、亞里斯多德 (Aristotle)<br>形上學本身關心的是事物的根本性問題<br>因此形上知識論主要在探討「知識的本質是什麼」<br>也就是知識由哪些要素構成、它以什麼方式存在</p><p>懷疑知識論的代表哲學家是笛卡兒 (Descartes) (我思故我在)<br>懷疑知識論與形上知識論的最大差別在於<br>它並不先假定知識存在，而是採取方法論上的懷疑<br>暫時對一切知識主張保持不承認的態度<br>藉此回答「在懷疑一切的情況下，仍然無法被否定的基礎是什麼」</p><p>批判知識論看起來並沒有單一的代表哲學家<br>而是一種由多位哲學家共同發展出的研究進路<br>它關注的不是先給出知識的形而上結構<br>也不同於懷疑論對一切知識主張的全面否定<br>而是反思我們實際如何主張、辯護與修正知識本身</p><hr><p>如果用上面三個知識研究進路來思考軟體測試的話</p><p>得到的對應會是</p><h2 id="形上"><a href="#形上" class="headerlink" title="形上"></a>形上</h2><blockquote><p>假定系統的品質、行為、缺陷是「客觀存在的東西」</p></blockquote><ul><li>測試的本質是什麼?</li><li>bug 是什麼? (哪些條件構成一個 bug?)<ul><li>少了哪個條件，就不能算是缺陷?</li></ul></li><li>…</li></ul><h2 id="懷疑"><a href="#懷疑" class="headerlink" title="懷疑"></a>懷疑</h2><blockquote><p>任何「系統是安全的／可用的」說法都值得被懷疑</p></blockquote><ul><li>我們真的「知道」它沒問題嗎?</li><li>我們憑什麼相信這個測試結果?</li><li>我們如何排除「自己被誤導」的可能?</li><li>…</li></ul><h2 id="批判"><a href="#批判" class="headerlink" title="批判"></a>批判</h2><blockquote><p>測試是在不確定中，為「現在是否足夠可信」負責的判斷活動</p></blockquote><ul><li>在目前資訊下，我們是否「有理由」相信系統可用?</li><li>哪些風險是我們已知但選擇承擔的?</li><li>有沒有合理的反駁會推翻我現在的信心?</li></ul><hr><p>之前看到 James Bach 的書籍中或者訪談中都提到去理解知識論、價值論、形上學等哲學都可以幫助到測試</p><p>原本以為他想表達的是幫助到「執行測試的過程」，但稍微去了解知識論看到了這三種知識論的研究進路之後，才知道原來幫助的是「整個測試」，讓自己能夠透過哲學思考的工具來回答一些沒有好好思考會難以回答的問題</p><p>雖然這些問題在職涯上沒有少想過，但用哲學的角度來思考有一種…不一樣的感受?🤔</p><hr><p>在 2020 年寫過一篇 <a href="https://blogs.sqz777.com/2020/04/23/2020-224619/">從哲學解釋測試</a><br>文末列了不少偏批判會關心的測試問題</p><p>有趣的是最後一個問題<br>「這座橋怎麼樣才算是完成?」－決定這座橋的驗收方式，讓其他蓋這座橋的人也知道 DOD （definition of done）<br>用知識論的三種研究進路來看，會發現它其實同時涵蓋了三個層次</p><p>形上: 什麼條件構成一座完成的橋?<br>懷疑: 你怎麼知道這些驗收條件真的足夠?<br>批判: 我們在什麼條件下，合理主張這座橋完成了?</p><p>也就是說定義 DOD 會同時需要面對三個問題<br>拆解之後就知道定義 DOD 為甚麼是困難且重要的</p>]]></content>
+        <content type="html"><![CDATA[<p><img src="/../img/2026-epistemology-and-software-testing/image.png"></p><p>當代知識論學者雷勒 (Keith Lehrer) 觀察到的研究進路 (approach) 有三個</p><ol><li>形上</li><li>懷疑</li><li>批判</li></ol><p>形上知識論的代表哲學家可追溯至柏拉圖 (Plato)、亞里斯多德 (Aristotle)<br>形上學本身關心的是事物的根本性問題<br>因此形上知識論主要在探討「知識的本質是什麼」<br>也就是知識由哪些要素構成、它以什麼方式存在</p><p>懷疑知識論的代表哲學家是笛卡兒 (Descartes) (我思故我在)<br>懷疑知識論與形上知識論的最大差別在於<br>它並不先假定知識存在，而是採取方法論上的懷疑<br>暫時對一切知識主張保持不承認的態度<br>藉此回答「在懷疑一切的情況下，仍然無法被否定的基礎是什麼」</p><p>批判知識論看起來並沒有單一的代表哲學家<br>而是一種由多位哲學家共同發展出的研究進路<br>它關注的不是先給出知識的形而上結構<br>也不同於懷疑論對一切知識主張的全面否定<br>而是反思我們實際如何主張、辯護與修正知識本身</p><hr><p>如果用上面三個知識研究進路來思考軟體測試的話</p><p>得到的對應會是</p><h2 id="形上"><a href="#形上" class="headerlink" title="形上"></a>形上</h2><blockquote><p>假定系統的品質、行為、缺陷是「客觀存在的東西」</p></blockquote><ul><li>測試的本質是什麼?</li><li>bug 是什麼? (哪些條件構成一個 bug?)<ul><li>少了哪個條件，就不能算是缺陷?</li></ul></li><li>…</li></ul><h2 id="懷疑"><a href="#懷疑" class="headerlink" title="懷疑"></a>懷疑</h2><blockquote><p>任何「系統是安全的／可用的」說法都值得被懷疑</p></blockquote><ul><li>我們真的「知道」它沒問題嗎?</li><li>我們憑什麼相信這個測試結果?</li><li>我們如何排除「自己被誤導」的可能?</li><li>…</li></ul><h2 id="批判"><a href="#批判" class="headerlink" title="批判"></a>批判</h2><blockquote><p>測試是在不確定中，為「現在是否足夠可信」負責的判斷活動</p></blockquote><ul><li>在目前資訊下，我們是否「有理由」相信系統可用?</li><li>哪些風險是我們已知但選擇承擔的?</li><li>有沒有合理的反駁會推翻我現在的信心?</li></ul><hr><p>之前看到 James Bach 的書籍中或者訪談中都提到去理解知識論、價值論、形上學等哲學都可以幫助到測試</p><p>原本以為他想表達的是幫助到「執行測試的過程」，但稍微去了解知識論看到了這三種知識論的研究進路之後，才知道原來幫助的是「整個測試」，讓自己能夠透過哲學思考的工具來回答一些沒有好好思考會難以回答的問題</p><p>雖然這些問題在職涯上沒有少想過，但用哲學的角度來思考有一種…不一樣的感受?🤔</p><hr><p>在 2020 年寫過一篇 <a href="https://blogs.sqz777.com/2020/04/23/2020-224619/">從哲學解釋測試</a><br>文末列了不少偏批判會關心的測試問題</p><p>有趣的是最後一個問題<br>「這座橋怎麼樣才算是完成?」－決定這座橋的驗收方式，讓其他蓋這座橋的人也知道 DOD （definition of done）<br>用知識論的三種研究進路來看，會發現它其實同時涵蓋了三個層次</p><p>形上: 什麼條件構成一座完成的橋?<br>懷疑: 你怎麼知道這些驗收條件真的足夠?<br>批判: 我們在什麼條件下，合理主張這座橋完成了?</p><p>也就是說定義 DOD 會同時需要面對三個問題<br>拆解之後就知道定義 DOD 為甚麼是困難且重要的</p>]]></content>
       
       
       
@@ -358,9 +358,9 @@
             
             <tag> 筆記 </tag>
             
-            <tag> DI </tag>
-            
             <tag> CodeSmell </tag>
+            
+            <tag> DI </tag>
             
         </tags>
       
@@ -381,9 +381,9 @@
             
             <tag> .NetCore </tag>
             
-            <tag> Constructor </tag>
-            
             <tag> DI </tag>
+            
+            <tag> Constructor </tag>
             
         </tags>
       
@@ -486,6 +486,25 @@
     
     
     <entry>
+      <title>PowerShell - 如何重新 load 環境變數</title>
+      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
+      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
+      
+        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Windows </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - 使用 PowerShell 安裝 aws cli</title>
       <link href="/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/"/>
       <url>/2020/09/24/2020-InstallAwsCliV2ViaPowerShell/</url>
@@ -505,25 +524,6 @@
             <tag> powershell </tag>
             
             <tag> 安裝 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>PowerShell - 如何重新 load 環境變數</title>
-      <link href="/2020/09/24/2020-ReloadThePathInPowerShell/"/>
-      <url>/2020/09/24/2020-ReloadThePathInPowerShell/</url>
-      
-        <content type="html"><![CDATA[<p>最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況</p><p>今天就紀錄一下在不關閉 powershell 的情況下，用指令重新 load 環境變數的方式</p><p>首先要知道如何看到得到目前的 環境變數，在 powershell 裡面用這個指令就可以得到環境變數</p><pre><code>$env:Path</code></pre><p>這次用 powershell 安裝 python 為示範</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957666.jpg"></p><p>可以看到安裝完 python 之後，使用 python –version 沒辦法找到 python，因為需要 reload 環境變數</p><p>這時候就需要用到以下指令</p><pre><code>$env:Path = [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;Machine&quot;)+ &quot;;&quot; + [System.Environment]::GetEnvironmentVariable(&quot;Path&quot;, &quot;User&quot;)</code></pre><p>下完指令就可以成功使用 python 的指令了</p><p><img src="/img/2020-ReloadThePathInPowerShell/1600957696.jpg"></p><p>source: <a href="https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512">https://stackoverflow.com/questions/17794507/reload-the-path-in-powershell/31845512</a></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> Windows </tag>
             
         </tags>
       
@@ -555,6 +555,25 @@
     
     
     <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/03/2020-220256/"/>
+      <url>/2020/09/03/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/03/2020-222746/"/>
       <url>/2020/09/03/2020-222746/</url>
@@ -570,25 +589,6 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/03/2020-220256/"/>
-      <url>/2020/09/03/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
             
         </tags>
       
