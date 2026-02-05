@@ -6,18 +6,28 @@ tags:
   - 軟體測試
 ---
 
-先簡單說一下什麼是 Rate Limit
+這篇來記錄我在做 Rate Limit 的思考過程，也有稍微提一下我測試時使用的工具是什麼
 
-> Rate Limit 是一種限制網路流量的策略。它限制了某人在特定時間範圍內重複一個動作的頻率
+首先簡單講 Rate Limit 就是「限速」或「限流」，是一種保護系統不被流量衝爆的機制
+它會限制某個使用者（或 IP、店家、API Key 之類的 key）在一段時間內能發出多少次請求
+舉幾個生活中常見的例子
+
+- 你用某個 API 每分鐘最多只能 call 100 次，超過就回 429 Too Many Requests
+- 購物網站的結帳頁面，每秒最多讓 5 個人同時結帳，防機器人搶單或 DDoS
+- 社群平台發文或按讚，每小時上限 300 次，防止刷讚或垃圾重複留言
 
 實務上常見的 Rate Limit 演算法大致有三種，差異主要在於流量邊界的平滑程度與實作複雜度
 
-- Fixed Window (本次的受測對象)
-  - 在固定時間區間內累積請求數量，超過上限就拒絕，但在時間窗切換瞬間可能出現流量突波。
-- Sliding Window
-  - 以當下往前推的一段時間來計算請求數，相較 Fixed Window 邊界行為更平滑，但實作與計算成本較高
 - Token Bucket
   - 系統以固定速率補充 Token，每次請求消耗一個 Token，因此可以容許短時間超量，同時維持長期流量受控
+- Sliding Window
+  - 以當下往前推的一段時間來計算請求數，相較 Fixed Window 邊界行為更平滑，但實作與計算成本較高
+- Fixed Window (本次的受測對象)
+  - 在固定時間區間內累積請求數量，超過上限就拒絕，但在時間窗切換瞬間可能出現流量突波
+
+![Distributed Rate Limiting Strategies](https://substackcdn.com/image/fetch/$s_!IQuP!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc0428c79-052f-4902-9165-d704c9756ac5_1600x1000.png)
+圖片 resource: https://systemdr.substack.com/p/distributed-rate-limiting-strategies
+
 
 跟壓力測試的差異在於壓力測試主要都是為了量測系統是否能夠在 RPS/RPM(Request Per Second/Request Per Minute) 下正常運作(可能也會考慮到 data 量，看量測的是什麼)
 也會確保把機器打爆之後，將 RPS/RPM 歸零或設為小流量，確認機器是否能夠恢復正常
