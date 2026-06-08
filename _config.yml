@@ -5,11 +5,19 @@
 # Site
 title: SQZ777's blog
 subtitle: ''
-description: ''
+description: 專注於軟體測試、品質工程、自動化測試、CI/CD、測試環境與測試思維的技術部落格。
 keywords:
+  - 軟體測試
+  - 品質工程
+  - 自動化測試
+  - 測試策略
+  - CI/CD
+  - 測試環境
+  - QA
+  - QE
 author: SQZ777
 language: zh-TW
-timezone: ''
+timezone: Asia/Taipei
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -30,6 +38,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - 2026/01/11/2026-epistemology-and-software-testing.md/index.html
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -107,6 +116,24 @@ theme: hexo-theme-Claudia
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+feed:
+  type:
+    - atom
+    - rss2
+  path:
+    - atom.xml
+    - rss2.xml
+  limit: 20
+  content: false
+  content_limit: 180
+  order_by: -date
+  autodiscovery: true
+
+default_og_image: /img/sqz777-logo.png
+
+seo:
+  google_site_verification: lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE
 
 user:
   name: 

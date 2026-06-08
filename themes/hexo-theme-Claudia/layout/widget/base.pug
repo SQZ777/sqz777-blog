@@ -1,45 +1,183 @@
 include methods
 
-- if (is_archive()) pageTitle = 'Archives'
-- if (is_tag()) pageTitle = 'Tag: ' + page.tag
-- if (is_category()) pageTitle = 'Category: ' + page.category
-- if (is_month()) pageTitle += ': ' + page.month + '/' + page.year
-- if (is_year()) pageTitle += ': ' + page.year
-- var pageTitle = (pageTitle || page.title || 'Home') + " - " + theme.user.name + "'s blog"
-- var appearance = theme.appearance ? theme.appearance : 'auto'
-- var canonicalUrl = page.permalink
-- var thumbnail = page.thumbnail || (page.cover && full_url_for(page.cover)) || (getPostCoverImg(page) && full_url_for(getPostCoverImg(page))) || (page.photos?.[0] && full_url_for(page.photos[0])) 
-- var description = page.description || page.excerpt || config.description || page.content || pageTitle
-- description = truncate( strip_html(description), {length: 150, omission: '..'} )
-- var language = page.lang || page.language || config.language || 'zh-TW'
-- var authorName = page.author || config.author
-- if (typeof authorName === 'object' && typeof authorName.name === 'string') authorName =  authorName.name
-- if (typeof authorName === 'object' && typeof authorName.nick === 'string') authorName =  authorName.nick
-- if (typeof authorName === 'object' && typeof authorName.nickname === 'string') authorName =  authorName.nickname
-- if (is_home()) { description='隨筆紀錄，想到就寫'; thumbnail=full_url_for('/images/cover.png'); }
+-
+  function compactText(value) {
+    return strip_html(value || '').replace(/\s+/g, ' ').trim()
+  }
+
+  function absoluteUrl(value) {
+    const rawValue = String(value || '').trim()
+    if (!rawValue) return ''
+    if (/^https?:\/\//i.test(rawValue)) return rawValue
+    if (rawValue.startsWith('//')) return `https:${rawValue}`
+
+    const normalizedValue = rawValue
+      .replace(/^(\.\.\/)+/, '/')
+      .replace(/^\.\//, '/')
+
+    return full_url_for(normalizedValue)
+  }
+
+  function canonicalizeUrl(value) {
+    return String(value || '').replace(/\/index\.html$/, '/')
+  }
+
+  function dateToIso(value) {
+    if (!value) return ''
+    if (typeof value.toISOString === 'function') return value.toISOString()
+    if (typeof value.toJSON === 'function') return value.toJSON()
+    return ''
+  }
+
+  function toArray(value) {
+    if (!value) return []
+    if (Array.isArray(value)) return value
+    if (typeof value.toArray === 'function') return value.toArray()
+    return String(value).split(',')
+  }
+
+  function uniqueStrings(values) {
+    return values
+      .map(value => String(value || '').trim())
+      .filter(Boolean)
+      .filter((value, index, self) => self.indexOf(value) === index)
+  }
+
+  const siteTitle = config.title || `${theme.user.name}'s blog`
+  const siteDescription = compactText(config.description || theme.user.description || '')
+  const siteBaseUrl = absoluteUrl('/').replace(/\/$/, '')
+  const language = page.lang || page.language || config.language || 'zh-TW'
+  const ogLocale = language.replace('-', '_')
+  const appearance = theme.appearance ? theme.appearance : 'auto'
+  const canonicalUrl = canonicalizeUrl(page.permalink || full_url_for(page.path || '/'))
+  let pageContextTitle = ''
+
+  if (is_archive()) pageContextTitle = 'Archives'
+  if (is_tag()) pageContextTitle = `Tag: ${page.tag}`
+  if (is_category()) pageContextTitle = `Category: ${page.category}`
+  if (is_month()) pageContextTitle += `: ${page.month}/${page.year}`
+  if (is_year()) pageContextTitle += `: ${page.year}`
+
+  const basePageTitle = pageContextTitle || page.title || (is_home() ? siteTitle : 'Home')
+  const pageTitle = is_home() ? siteTitle : `${basePageTitle} | ${siteTitle}`
+  let descriptionSource = page.description || page.excerpt || page.content || siteDescription || pageTitle
+  if (is_home()) descriptionSource = siteDescription || pageTitle
+  const description = truncate(compactText(descriptionSource), { length: 160, omission: '..' })
+
+  let authorName = page.author || config.author || theme.user.name || siteTitle
+  if (typeof authorName === 'object' && typeof authorName.name === 'string') authorName = authorName.name
+  if (typeof authorName === 'object' && typeof authorName.nick === 'string') authorName = authorName.nick
+  if (typeof authorName === 'object' && typeof authorName.nickname === 'string') authorName = authorName.nickname
+
+  const tagNames = page.tags && typeof page.tags.toArray === 'function'
+    ? page.tags.toArray().map(tag => tag.name)
+    : []
+  const keywordList = uniqueStrings(toArray(page.keywords).concat(tagNames).concat(toArray(config.keywords)))
+  const keywordContent = keywordList.join(', ')
+  const thumbnailSource = page.thumbnail || page.cover || getPostCoverImg(page) || (page.photos && page.photos[0]) || config.default_og_image || theme.user.avatar
+  const thumbnail = absoluteUrl(thumbnailSource)
+  const publishedDate = dateToIso(page.date)
+  const modifiedDate = dateToIso(page.updated) || publishedDate
+  const authorUrl = absoluteUrl('/about/')
+  const social = Object.assign({}, config.social || {}, theme.social || {})
+  const sameAs = []
+
+  if (social.github) sameAs.push(`https://github.com/${social.github}`)
+  if (social.twitter) sameAs.push(`https://twitter.com/${social.twitter}`)
+  if (social.linkedin) sameAs.push(`https://www.linkedin.com/in/${social.linkedin}`)
+  if (social.facebook) sameAs.push(`https://www.facebook.com/${social.facebook}`)
+  if (social.instagram) sameAs.push(`https://www.instagram.com/${social.instagram}`)
+
+  const identity = {
+    '@type': 'Person',
+    '@id': `${siteBaseUrl}/#person`,
+    name: authorName,
+    url: authorUrl
+  }
+  if (sameAs.length > 0) identity.sameAs = sameAs
+
+  let structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      identity,
+      {
+        '@type': ['WebSite', 'Blog'],
+        '@id': `${siteBaseUrl}/#website`,
+        url: `${siteBaseUrl}/`,
+        name: siteTitle,
+        description: siteDescription,
+        inLanguage: language,
+        publisher: { '@id': identity['@id'] }
+      }
+    ]
+  }
+
+  if (is_post()) {
+    structuredData = {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      '@id': `${canonicalUrl}#blogposting`,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': canonicalUrl
+      },
+      headline: basePageTitle,
+      description,
+      image: thumbnail ? [thumbnail] : undefined,
+      datePublished: publishedDate || undefined,
+      dateModified: modifiedDate || undefined,
+      author: identity,
+      publisher: identity,
+      keywords: keywordContent || undefined,
+      inLanguage: language
+    }
+  }
+
+  const structuredDataJson = JSON.stringify(structuredData).replace(/</g, '\\u003c')
 doctype html
 html(lang=language class= `appearance-${ appearance }`)
   head
     meta(charset='UTF-8')
     title= pageTitle
+    if config.meta_generator
+      != meta_generator()
     meta(name="description" content=description)
-    meta(name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, initial-scale=1")
-    meta(name='image' content=thumbnail)
-    meta(name='original-source' content=canonicalUrl)
+    if keywordContent
+      meta(name='keywords' content=keywordContent)
+    meta(name='author' content=authorName)
+    meta(name='robots' content='index,follow,max-image-preview:large')
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    if thumbnail
+      meta(name='image' content=thumbnail)
+    if canonicalUrl
+      meta(name='original-source' content=canonicalUrl)
     link(rel='canonical' href=canonicalUrl)
-    meta(property='og:locale' content=language)
-    meta(property='og:type' content='article')
+    link(rel='alternate' hreflang=language href=canonicalUrl)
+    != feed_tag()
+    meta(property='og:locale' content=ogLocale)
+    meta(property='og:type' content=is_post() ? 'article' : 'website')
     meta(property='og:title' content=pageTitle)
     meta(property='og:description' content=description)
     meta(property='og:url' content=canonicalUrl)
     meta(property='og:site_name' content=config.title)
-    meta(property='og:image' content=thumbnail)
-    meta(property='fb:app_id' content='000000000000000')
+    if thumbnail
+      meta(property='og:image' content=thumbnail)
+    if is_post()
+      if publishedDate
+        meta(property='article:published_time' content=publishedDate)
+      if modifiedDate
+        meta(property='article:modified_time' content=modifiedDate)
+      meta(property='article:author' content=authorName)
+      each tagName in tagNames
+        meta(property='article:tag' content=tagName)
     meta(name='twitter:title' content=pageTitle)
-    meta(name='twitter:image' content=thumbnail)
+    if thumbnail
+      meta(name='twitter:image' content=thumbnail)
     meta(name='twitter:description' content=description)
     meta(name='twitter:card' content='summary_large_image')
-    meta(name="google-site-verification" content="lTAMT4U8v-CtkYRIo8AmGaACB3EikdUYpiTHAylwGPE")
+    if config.seo && config.seo.google_site_verification
+      meta(name="google-site-verification" content=config.seo.google_site_verification)
+    script(type='application/ld+json')!= structuredDataJson
 
     <!-- Google Analytics -->
     script(async src="https://www.googletagmanager.com/gtag/js?id=G-4N118JY08V")
