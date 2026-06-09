@@ -19,6 +19,7 @@ next: '下一页'
 
 all: '全部'
 home: '首页'
+testing_index: '索引'
 title: '标题'
 about: '关于'
 recent: '最近'
@@ -27,4 +28,3 @@ user_name: '名字'
 friends: '友链'
 click_back_to_the_top: '点击返回顶部'
 search_input_placeholder: '搜索内容..'
-

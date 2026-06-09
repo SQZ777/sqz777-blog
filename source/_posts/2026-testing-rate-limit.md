@@ -1,9 +1,23 @@
 ---
-title: 簡單聊 Rate Limit 測試
+title: Rate Limit 測試思考路徑：從規則、邊界到 k6 驗證
 date: 2026-02-05 23:27:00
+description: 以實務案例整理 Rate Limit 測試的思考方式，說明 RPS/RPM、固定時間窗、Redis 設定、429 回應與 k6 Constant Arrival Rate 的驗證重點。
+categories:
+  - 軟體測試
+  - 測試實務
 tags:
   - Rate Limit 測試
   - 軟體測試
+  - k6
+  - API 測試
+  - 壓力測試
+keywords:
+  - Rate Limit 測試
+  - 軟體測試
+  - API 測試
+  - k6 測試
+  - 壓力測試
+  - 測試設計
 ---
 
 這篇來記錄我在做 Rate Limit 的思考過程，也有稍微提一下我測試時使用的工具是什麼

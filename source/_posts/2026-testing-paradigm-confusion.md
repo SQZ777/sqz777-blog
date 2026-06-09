@@ -1,9 +1,24 @@
 ---
-title: 一個測試者的獨白
+title: 一個測試者的獨白：我如何理解軟體測試、QA 與自動化
 date: 2026-01-04 23:53:00
+description: 從台灣敏捷團隊、QA 職涯與自動化經驗出發，整理我如何重新理解軟體測試、測試者價值、測試思想學派與品質工程。
+categories:
+  - 軟體測試
+  - 測試思維
 tags:
   - 軟體測試
   - 測試職涯
+  - QA
+  - 測試自動化
+  - 測試思維
+keywords:
+  - 軟體測試部落格
+  - 台灣軟體測試
+  - QA 職涯
+  - 測試自動化
+  - 測試思想
+  - James Bach
+  - Michael Bolton
 ---
 
 促使我開始寫這篇文章的契機，應該是源自 2021 年 11 月 17 日（好久以前），好朋友 Terry Wang 寫的[《一個 Scrum Master 的獨白》](https://wangterryonagile.blogspot.com/2021/11/scrum-master.html)帶給我的啟發，[影片版點我](https://www.youtube.com/watch?v=igRixuQpxns)

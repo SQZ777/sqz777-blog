@@ -1,10 +1,23 @@
 ---
 title: 形上、懷疑、批判：知識論視角的軟體測試
 date: 2026-01-11 14:21:42
+description: 從知識論的形上、懷疑與批判三種進路，思考軟體測試如何建立可信判斷、揭露風險，並回應 James Bach 對測試哲學的提醒。
+categories:
+  - 軟體測試
+  - 測試思維
 tags: 
   - 軟體測試與哲學
   - 哲學
   - 軟體測試
+  - 測試思維
+  - James Bach
+keywords:
+  - 軟體測試
+  - 測試哲學
+  - 知識論
+  - 測試思維
+  - James Bach
+  - 軟體測試部落格
 ---
 
 ![](../img/2026-epistemology-and-software-testing/image.png)

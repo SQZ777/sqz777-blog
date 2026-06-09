@@ -1,9 +1,21 @@
 ---
-title: Playwright 攔截 request 簡易筆記和範例
+title: Playwright 攔截 request：Web SDK 測試自動化筆記與範例
 date: 2024-09-08 16:18:00
+description: 用 Playwright route 攔截 request，示範如何驗證 Web SDK 發送的事件資料，適合 Web 前端與 SDK 測試自動化情境。
+categories:
+  - 軟體測試
+  - 測試自動化
 tags:
   - Playwright
   - "攔截Request"
+  - Web SDK 測試
+  - 測試自動化
+keywords:
+  - Playwright
+  - Playwright 攔截 request
+  - Web SDK 測試
+  - 測試自動化
+  - 軟體測試
 ---
 
 工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象

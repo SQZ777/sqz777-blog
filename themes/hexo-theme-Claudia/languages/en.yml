@@ -19,6 +19,7 @@ next: 'Next'
 
 all: 'All'
 home: 'Home'
+testing_index: 'Index'
 title: 'Title'
 about: 'About'
 recent: 'Recent'
@@ -28,4 +29,3 @@ user_name: 'User name'
 click_back_to_the_top: 'Click back to the top'
 
 search_input_placeholder: 'Search everything..'
-

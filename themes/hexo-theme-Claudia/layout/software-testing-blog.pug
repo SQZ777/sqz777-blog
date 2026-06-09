@@ -1,0 +1,13 @@
+extends widget/base
+
+block append head
+  link(rel='stylesheet', href= url_for('/style/software-testing-blog.css'))
+
+block content
+  main.container.is-max-widescreen.section.testing-index-page.px-4
+    header.testing-index-hero
+      p.testing-index-kicker SQZ777 Software Testing Notes
+      h1= page.title
+      if page.description
+        p.testing-index-description= page.description
+    article.testing-index-content!= page.content
