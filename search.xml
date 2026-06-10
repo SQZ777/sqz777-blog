@@ -4,19 +4,33 @@
   
     
     <entry>
-      <title>簡單聊 Rate Limit 測試</title>
+      <title>Rate Limit 測試思考路徑：從規則、邊界到 k6 驗證</title>
       <link href="/2026/02/05/2026-testing-rate-limit/"/>
       <url>/2026/02/05/2026-testing-rate-limit/</url>
       
         <content type="html"><![CDATA[<p>這篇來記錄我在做 Rate Limit 的思考過程，也有稍微提一下我測試時使用的工具是什麼</p><p>首先簡單講 Rate Limit 就是「限速」或「限流」，是一種保護系統不被流量衝爆的機制<br>它會限制某個使用者（或 IP、店家、API Key 之類的 key）在一段時間內能發出多少次請求<br>舉幾個生活中常見的例子</p><ul><li>你用某個 API 每分鐘最多只能 call 100 次，超過就回 429 Too Many Requests</li><li>購物網站的結帳頁面，每秒最多讓 5 個人同時結帳，防機器人搶單或 DDoS</li><li>社群平台發文或按讚，每小時上限 300 次，防止刷讚或垃圾重複留言</li></ul><p>實務上常見的 Rate Limit 演算法大致有三種，差異主要在於流量邊界的平滑程度與實作複雜度</p><ul><li>Token Bucket<ul><li>系統以固定速率補充 Token，每次請求消耗一個 Token，因此可以容許短時間超量，同時維持長期流量受控</li></ul></li><li>Sliding Window<ul><li>以當下往前推的一段時間來計算請求數，相較 Fixed Window 邊界行為更平滑，但實作與計算成本較高</li></ul></li><li>Fixed Window (本次的受測對象)<ul><li>在固定時間區間內累積請求數量，超過上限就拒絕，但在時間窗切換瞬間可能出現流量突波</li></ul></li></ul><p><img src="https://substackcdn.com/image/fetch/$s_!IQuP!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc0428c79-052f-4902-9165-d704c9756ac5_1600x1000.png" alt="Distributed Rate Limiting Strategies"><br>圖片 resource: <a href="https://systemdr.substack.com/p/distributed-rate-limiting-strategies">https://systemdr.substack.com/p/distributed-rate-limiting-strategies</a></p><p>跟壓力測試的差異在於壓力測試主要都是為了量測系統是否能夠在 RPS&#x2F;RPM(Request Per Second&#x2F;Request Per Minute) 下正常運作(可能也會考慮到 data 量，看量測的是什麼)<br>也會確保把機器打爆之後，將 RPS&#x2F;RPM 歸零或設為小流量，確認機器是否能夠恢復正常</p><p>但是 Rate Limit 的測試就有一些的不同，測試的重點在於規則落實的精準度<br>主要是驗證當流量精準踩在邊界時</p><ul><li>攔截是否發生得毫秒不差</li><li>當配置在 Redis 更新後，新規則是否即時生效</li><li>以及當一定的時間(1秒&#x2F;60秒)過去後，系統是否能如期恢復</li></ul><p>所以本質上針對業務邏輯的功能測試，只是會需要用到壓力測試的工具來模擬高頻率的動作</p><p>有些人的想法或許會單純的認為<br>「啊就把 RPS&#x2F;RPM 直接壓爛，看有沒有回 429 就好啦~」</p><p><img src="/img/2026-testing-rate-limit/%E7%8E%8B%E4%B8%96%E5%A0%85-%E5%B0%B1%E6%98%AF%E9%80%99%E9%BA%BC%E7%B0%A1%E5%96%AE.png" alt="王世堅-就是這麼簡單"></p><p>但實際上還是有蠻多的測試點可以做思考</p><p>來簡單介紹這一次的 Rate Limit 功能</p><ol><li>未設定 RPS&#x2F;RPM 的店家，都會走全域的 RPS&#x2F;RPM，全域 Config 是以店家為 key 各自計數 (意思就是 A 的 counter 不會吃到 B)</li><li>可以針對店家設定屬於該店家的 RPS&#x2F;RPM</li><li>設定的地方在 Redis，所以預期改動設定會立即套用</li><li>當觸發 RPS&#x2F;RPM 時，會開始回應 429</li></ol><p>另外，這次文章中不會提到實際我使用壓測工具的實作內容，但我可以說一下我當時使用的工具跟一些簡單的細節</p><p>我那時候是選擇使用 k6，特別是它的 Constant Arrival Rate，簡單的操作跟設定，而且，潮!<br>雖然它底層依然需要配置 VU (Virtual Users) 作為執行資源，但它的邏輯優點在於你不需要再去算幾個 VU 能跑出多少 RPS，而是直接宣告你想要的目標頻率<br>這對 Rate Limit 測試是很重要的，因為你必須確保流量發送頻率完全不受受測對象的回應延遲干擾，才能精準地觸及你設定的邊界值</p><h2 id="針對功能進行測試的發想"><a href="#針對功能進行測試的發想" class="headerlink" title="針對功能進行測試的發想"></a>針對功能進行測試的發想</h2><h3 id="測試前提"><a href="#測試前提" class="headerlink" title="測試前提"></a>測試前提</h3><p>在發想前，為了避免過於發散，所以會先設一下 outline</p><ol><li>全域設定是必然存在的</li><li>不需要「順便」測試系統負載，以 Rate Limit 的驗證為優先</li><li>假設 Redis 連線正常，不測試 Redis 故障情況，聚焦在 Rate Limit 觸發邏輯本身</li></ol><p>不過實務上還是會針對範圍以外的內容進行風險確認，畢竟 Redis 壞掉或者 Config 遺失的風險也還是可能存在的<br>所以仍然需要確認這種狀態底下，是否會發生哪些問題</p><p>接著理解一下整個 Rate Limit 在系統運作的流程，畫出來是這樣</p><p><img src="/img/2026-testing-rate-limit/flow.png" alt="Rate Limit Flow"></p><h3 id="開始發想"><a href="#開始發想" class="headerlink" title="開始發想"></a>開始發想</h3><p>先簡單暴力的確認全域的 RPS&#x2F;RPM 可不可以正常運作，這樣做會引發一個思考</p><blockquote><p>如何確保被觸發的是 RPS 或 RPM?</p></blockquote><p>自我解答：就是把其中一個數字設定得很大(控制變相)，實際模擬 RPS&#x2F;RPM 時，確保不會觸發到即可<br>但又冒出了一個問題</p><blockquote><p>如何在「還不確定 Config 是否正常運作」的情況下，驗證 RPS&#x2F;RPM 設定確實有效？</p></blockquote><p>再次自我解答：那就是先把兩個數字都設得很大，確保小流量不會回應 429，至少我能確認小流量的情況下系統正常運作了<br>確保 RPS&#x2F;RPM 皆正常運作之後，再把其中一個數字設定為 1，這樣我手動就能觸發 429 確保 Rate Limit 機制正常運作了</p><p>以上思考與自我解答的時間差大約為 0.01 秒：<br><img src="/img/2026-testing-rate-limit/%E6%9D%B1%E5%A0%82%E8%BF%B4%E9%81%BF%E8%8A%B1%E5%BE%A1%E7%9A%84%E5%92%92%E5%8A%9B%E7%A8%AE%E5%AD%90%E6%80%9D%E8%80%83%E6%99%82%E9%96%93.png" alt="咒術迴戰 S1-20 集，東堂迴避花御的咒力種子思考時間"></p><p>經過上面的思考之後，我們可以得到以下測試想法</p><pre><code>A. 全域設定驗證  1. 全域 RPS 限制是否觸發限制  2. 全域 RPS 限制是否未觸發限制  3. 全域 RPM 限制是否觸發限制  4. 全域 RPM 限制是否未觸發限制B. 店家設定驗證  1. 店家專屬 RPS 限制是否觸發限制  2. 店家專屬 RPS 限制是否未觸發限制  3. 店家專屬 RPM 限制是否觸發限制  4. 店家專屬 RPM 限制是否未觸發限制C. 設定優先權驗證  1. 當店家有專屬設定時，是否優先使用店家設定而非全域設定  2. 當店家無專屬設定時，是否正確 fallback 到全域設定D. 即時更新驗證  1. 修改 Redis 設定後，是否立即生效（不需重啟服務）  2. 當實際 call 的 RPS 降低後，系統是否能夠恢復正常E. 其他  1. 確保店家專屬設定不會套用在其他店家  2. 確保全域設定在不同店家是獨立的</code></pre><h3 id="建立測試矩陣"><a href="#建立測試矩陣" class="headerlink" title="建立測試矩陣"></a>建立測試矩陣</h3><p>根據上列的測試想法，就可以開始建立測試矩陣了，驗證重點的代碼對應上方清單</p><table><thead><tr><th align="left">序號</th><th align="left">全域設定 (RPS&#x2F;RPM)</th><th align="left">店家 A 設定 (RPS&#x2F;RPM)</th><th align="left">測試流量 (對 A)</th><th align="left">測試流量 (對 B)</th><th align="left">預期結果</th><th align="left">驗證重點</th></tr></thead><tbody><tr><td align="left"><strong>01</strong></td><td align="left">20 &#x2F; 3600</td><td align="left">無</td><td align="left">19 RPS</td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">A2, A4</td></tr><tr><td align="left"><strong>02</strong></td><td align="left">20 &#x2F; 3600</td><td align="left">無</td><td align="left">21 RPS</td><td align="left">0</td><td align="left"><strong>429 Refuse</strong></td><td align="left">A1</td></tr><tr><td align="left"><strong>03</strong></td><td align="left"><strong>25</strong> &#x2F; 3600</td><td align="left">無</td><td align="left">21 RPS</td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">D1, A2, A4</td></tr><tr><td align="left"><strong>04</strong></td><td align="left">25 &#x2F; <strong>1250</strong></td><td align="left">無</td><td align="left">21 RPS</td><td align="left">0</td><td align="left"><strong>429 Refuse</strong></td><td align="left">A3, D1 (21*60&#x3D;1260 RPM)</td></tr><tr><td align="left"><strong>05</strong></td><td align="left">25 &#x2F; <strong>3600</strong></td><td align="left"><strong>22 &#x2F; 1500</strong></td><td align="left">21 RPS</td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">B2, B4, A2, A4, D1</td></tr><tr><td align="left"><strong>06</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">22 &#x2F; 1500</td><td align="left"><strong>23 RPS</strong></td><td align="left">0</td><td align="left"><strong>429 Refuse</strong></td><td align="left">C1, B1, B4</td></tr><tr><td align="left"><strong>07</strong></td><td align="left">25 &#x2F; 3600</td><td align="left"><strong>25</strong> &#x2F; 1500</td><td align="left">23 RPS</td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">B4, B2, D1</td></tr><tr><td align="left"><strong>08</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">25 &#x2F; <strong>1080</strong></td><td align="left">23 RPS</td><td align="left">0</td><td align="left"><strong>429 Refuse</strong></td><td align="left">B3, D1</td></tr><tr><td align="left"><strong>09</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">22 &#x2F; 1080</td><td align="left"><strong>15 RPS</strong></td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">D2, A2, A4, B2, B4</td></tr><tr><td align="left"><strong>10</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">22 &#x2F; 1080</td><td align="left"><strong>0</strong></td><td align="left"><strong>23 RPS</strong></td><td align="left"><strong>200 OK</strong></td><td align="left">E1, A2, A4</td></tr><tr><td align="left"><strong>11</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">22 &#x2F; 1080</td><td align="left"><strong>15 RPS</strong></td><td align="left">23 RPS</td><td align="left"><strong>200 OK</strong></td><td align="left">E2, A2, A4, B2, B4</td></tr><tr><td align="left"><strong>12</strong></td><td align="left">25 &#x2F; 3600</td><td align="left"><strong>無</strong></td><td align="left"><strong>26 RPS</strong></td><td align="left">0</td><td align="left"><strong>429 Refuse</strong></td><td align="left">C2, A1</td></tr><tr><td align="left"><strong>13</strong></td><td align="left">25 &#x2F; 3600</td><td align="left">無</td><td align="left"><strong>23 RPS</strong></td><td align="left">0</td><td align="left"><strong>200 OK</strong></td><td align="left">C2, A2</td></tr><tr><td align="left">…</td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td><td align="left"></td></tr></tbody></table><p>列到這裡大致上的「測試想法」都涵蓋到了<br>在列這個測試矩陣的時候很容易腦子裡的邏輯會打架，在列舉的同時會衍伸很多想法，例如</p><ol><li>如果觸發了限制，是觸發 <code>global config</code> 還是 <code>店家專屬 config</code>，如何控制 Config 達成測試目的</li><li>每一個 <code>測試想法</code> 是否有 <code>組合性</code>，例如 C2 是明顯有組合性的，因為 fallback 回去也要確認 A1, A2 是否運作正常</li><li>原本 A1~A4 和 B1~B4 只想寫 <code>RPS/RPM 是否觸發</code>，但在閱讀上會很難判斷究竟驗證了什麼樣的東西，所以才拆成現狀</li><li>要控制的變因很有多元性，你可以控制你 call 的頻率、全域 Config、店家 Config、call 哪個店家，這很容易讓腦子混亂</li><li>…</li></ol><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>這一個 Rate Limit 測試紀錄其實還有很多沒寫上來的，但其實也「可以是」測試者的防守範圍</p><p>例如，測試時我會去問為什麼選擇 Fixed Window？是否能接受它在窗口切換瞬間可能造成的流量突波？因為這些選擇，實際上是在決定系統在流量邊界下的穩定性表現</p><p>在這次的測試發想過程中，最難的不只是要理解系統的內部機制，還包含要區分那些看起來重疊，但在執行語意上其實不同的測試 Case（有時候確實會用等價分析來限縮）<br>另外，如果不理解 Config 是存放在 Redis、不理解系統如何從全域 Fallback 到店家專屬設定，我們就無法列出像 Case 12,  13 這種變因重疊的測試場景</p><p>另外，還有一些在這裡沒有特別展開的，是關於隱性邊界的測試，例如在分散式環境下，計數器同步是否可能因為 Race Condition 導致攔截不準<br>這題就很吃測試者對於受測環境的掌控度</p><p>所以測試 Rate limit 的本質就是在驗證系統在流量超過設計上限時，是否能用可預期、可控制的方式拒絕請求，同時維持整體服務穩定與公平性的一個「功能測試」<br>也就是說，一個好的 Rate Limit 測試，就不會只看他有沒有回 429<br>因為回 429 只能證明限制存在，但不能證明限制是正確的</p><p>Rate Limit 測試要達成的是觸發到的邊界是否準確、規則切換是否即時、多節點下結果是否一致，且整個過程能被觀測與重現<br>這些都成立，才代表你的限流是可靠的</p><h2 id="碎念"><a href="#碎念" class="headerlink" title="碎念"></a>碎念</h2><p>其實這個 Rate Limit 的測試已經是快要兩年多前做的了<br>拖到現在才寫是因為要描述測試這件事情的過程是很費工的事情<br>對我來說，如何妥善地把測試的思考步驟描述出來並且將原本的 Rate Limit 功能簡化成可以把它寫下來的版本，是這一篇最難的地方</p><p>原本想寫的架構可能是直接實做一個有限流器的 backend API，用 AI 很快就能做出來，只是覺得就算做出來也不是我想表達的重點<br>因為我想表達的是「人類在測試的過程中思考是如何運作的」，也可以讓一些可能會測試到 Rate Limit 的人有一些參考</p><p>雖然現在 AI 的世界中，多少會把自己對於需求的理解寫下來<br>搭配 AI 一起生成待測試項目，懶惰一點的可能就直接把 spec 丟給 AI 就產生了</p><p>但不管是勤勞還是懶惰<br>你最終都得拿著那份「不是你產生的待測項目」執行一次<br>而你永遠都可以在這份待測項目產生新的測試想法<br>而這種新產生的測試想法也很常是非常具有價值的<br>因為它很常出現在規格描述的範圍之外，他可能是某個功能跟這個待測項目產生的隱形邊界，或者根本沒被描述在規格之中的情境<br>這個額外產生的新想法就是測試者本身的隱性知識所帶來的，也是測試者在測試工作上所能產生的最大價值且難以被取代的能力之一</p><p>總之，上面這些就是這次簡單聊我是怎麼測試 Rate Limit 的內容<br>如果你也測試過 Rate Limit，歡迎分享你踩過什麼雷~</p>]]></content>
       
       
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試實務 </category>
+          
+      </categories>
+      
       
         <tags>
+            
+            <tag> 壓力測試 </tag>
+            
+            <tag> API 測試 </tag>
             
             <tag> 軟體測試 </tag>
             
             <tag> Rate Limit 測試 </tag>
+            
+            <tag> k6 </tag>
             
         </tags>
       
@@ -32,6 +46,14 @@
         <content type="html"><![CDATA[<p><img src="/img/2026-epistemology-and-software-testing/image.png"></p><p>當代知識論學者雷勒 (Keith Lehrer) 觀察到的研究進路 (approach) 有三個</p><ol><li>形上</li><li>懷疑</li><li>批判</li></ol><p>形上知識論的代表哲學家可追溯至柏拉圖 (Plato)、亞里斯多德 (Aristotle)<br>形上學本身關心的是事物的根本性問題<br>因此形上知識論主要在探討「知識的本質是什麼」<br>也就是知識由哪些要素構成、它以什麼方式存在</p><p>懷疑知識論的代表哲學家是笛卡兒 (Descartes) (我思故我在)<br>懷疑知識論與形上知識論的最大差別在於<br>它並不先假定知識存在，而是採取方法論上的懷疑<br>暫時對一切知識主張保持不承認的態度<br>藉此回答「在懷疑一切的情況下，仍然無法被否定的基礎是什麼」</p><p>批判知識論看起來並沒有單一的代表哲學家<br>而是一種由多位哲學家共同發展出的研究進路<br>它關注的不是先給出知識的形而上結構<br>也不同於懷疑論對一切知識主張的全面否定<br>而是反思我們實際如何主張、辯護與修正知識本身</p><hr><p>如果用上面三個知識研究進路來思考軟體測試的話</p><p>得到的對應會是</p><h2 id="形上"><a href="#形上" class="headerlink" title="形上"></a>形上</h2><blockquote><p>假定系統的品質、行為、缺陷是「客觀存在的東西」</p></blockquote><ul><li>測試的本質是什麼?</li><li>bug 是什麼? (哪些條件構成一個 bug?)<ul><li>少了哪個條件，就不能算是缺陷?</li></ul></li><li>…</li></ul><h2 id="懷疑"><a href="#懷疑" class="headerlink" title="懷疑"></a>懷疑</h2><blockquote><p>任何「系統是安全的／可用的」說法都值得被懷疑</p></blockquote><ul><li>我們真的「知道」它沒問題嗎?</li><li>我們憑什麼相信這個測試結果?</li><li>我們如何排除「自己被誤導」的可能?</li><li>…</li></ul><h2 id="批判"><a href="#批判" class="headerlink" title="批判"></a>批判</h2><blockquote><p>測試是在不確定中，為「現在是否足夠可信」負責的判斷活動</p></blockquote><ul><li>在目前資訊下，我們是否「有理由」相信系統可用?</li><li>哪些風險是我們已知但選擇承擔的?</li><li>有沒有合理的反駁會推翻我現在的信心?</li></ul><hr><p>之前看到 James Bach 的書籍中或者訪談中都提到去理解知識論、價值論、形上學等哲學都可以幫助到測試</p><p>原本以為他想表達的是幫助到「執行測試的過程」，但稍微去了解知識論看到了這三種知識論的研究進路之後，才知道原來幫助的是「整個測試」，讓自己能夠透過哲學思考的工具來回答一些沒有好好思考會難以回答的問題</p><p>雖然這些問題在職涯上沒有少想過，但用哲學的角度來思考有一種…不一樣的感受?🤔</p><hr><p>在 2020 年寫過一篇 <a href="https://blogs.sqz777.com/2020/04/23/2020-224619/">從哲學解釋測試</a><br>文末列了不少偏批判會關心的測試問題</p><p>有趣的是最後一個問題<br>「這座橋怎麼樣才算是完成?」－決定這座橋的驗收方式，讓其他蓋這座橋的人也知道 DOD （definition of done）<br>用知識論的三種研究進路來看，會發現它其實同時涵蓋了三個層次</p><p>形上: 什麼條件構成一座完成的橋?<br>懷疑: 你怎麼知道這些驗收條件真的足夠?<br>批判: 我們在什麼條件下，合理主張這座橋完成了?</p><p>也就是說定義 DOD 會同時需要面對三個問題<br>拆解之後就知道定義 DOD 為甚麼是困難且重要的</p>]]></content>
       
       
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試思維 </category>
+          
+      </categories>
+      
       
         <tags>
             
@@ -41,6 +63,10 @@
             
             <tag> 軟體測試 </tag>
             
+            <tag> 測試思維 </tag>
+            
+            <tag> James Bach </tag>
+            
         </tags>
       
     </entry>
@@ -48,17 +74,31 @@
     
     
     <entry>
-      <title>一個測試者的獨白</title>
+      <title>一個測試者的獨白：我如何理解軟體測試、QA 與自動化</title>
       <link href="/2026/01/04/2026-testing-paradigm-confusion/"/>
       <url>/2026/01/04/2026-testing-paradigm-confusion/</url>
       
         <content type="html"><![CDATA[<p>促使我開始寫這篇文章的契機，應該是源自 2021 年 11 月 17 日（好久以前），好朋友 Terry Wang 寫的<a href="https://wangterryonagile.blogspot.com/2021/11/scrum-master.html">《一個 Scrum Master 的獨白》</a>帶給我的啟發，<a href="https://www.youtube.com/watch?v=igRixuQpxns">影片版點我</a></p><p>這篇文章記錄了我身為一個偏 Developer 的人，在敏捷文化正於台灣崛起的浪潮裡選擇擔任 Tester，走過那些迷惘的敏捷&#x2F;測試旅程</p><p>近年我一直嘗試著把自己在測試職涯的「自我定位」寫下來，但最後都只停在幾段零碎的草稿<br>寫來寫去才發現我應該寫的是自己的迷惘，但始終無法解決自己在職涯上的迷惘，直到 2025 年 11 月，那本書的出現…</p><h2 id="2017-年"><a href="#2017-年" class="headerlink" title="2017 年"></a>2017 年</h2><p>2017 年，intern 時期跟另外 3 名 intern 一起維運著公司的人才庫系統，認識了 91（<a href="https://tdd.best/about/">Joey Chen</a>，不是 91APP），受到了很多的啟發，也是我決定了解敏捷文化的契機</p><p>現在回想起來那半年的實習，真的是我經歷過最教科書級的 Scrum，我猜是因為大家都沒有正職經驗，反而更願意照著 Scrum Guide 和 Scrum Master 的指示把節奏跑完整，Refinement, Planning, Daily, Review, Retro，一個迭代接一個迭代，單純、清楚、有效</p><blockquote><p><em>P.S. 現在 Scrum Guide 裡面沒有 Refinement Meeting，至少 2020 (latest) 的版本似乎沒有提到 😆</em> </p></blockquote><p>在這裡感謝當時的 tech lead Tim, Cash，讓我學到了很多技術和敏捷相關的事情，也感謝 Tamama team members，以及 Tamama team 的 scrum master Amy, Elton, Eason</p><p><img src="/img/2026-testing-paradigm-confusion/image.png" alt="Tamama 的來由：在一部叫做《Keroro 軍曹》的動畫，裡面有一個見習的二等兵角色叫做 Tamama照片中的模型是從 intern 畢業時收到的禮物"></p><blockquote><p><em>Tamama 的來由：在一部叫做《Keroro 軍曹》的動畫，裡面有一個見習的二等兵角色叫做 Tamama<br>照片中的模型是從 intern 畢業時收到的禮物</em></p></blockquote><p>回想 2017 年真的是敏捷盛行的年代，各種 meetup 和討論都在那一年不斷的發生</p><p>實習結束之後，到了一間做開店平台服務的公司擔任 QA 一職，當年決定加入的原因有 2 個</p><ol><li>公司正在導入敏捷，我很想親眼看看「導入敏捷」在真實世界裡到底會發生什麼事，這在當時的氛圍下對我超有吸引力</li><li>我那時對 QA 的想像就是「測試」，而測試需要的能力面向很廣，剛好很符合我的個性。</li></ol><p>加入公司之前，我去參加了至少 2 場 Agile meetup，去問了各個業界的前輩關於如何當一個好的 QA&#x2F;QE，得到了許多的 feedback，感謝當時的自己寫下了一些筆記，或許可以找個時間來寫一個現在我對於測試工作的一些看法（挖坑）</p><p>第一份工作開始沒多久，我就成了公司裡蠻受關注的新人。原因很簡單，我跟當時公司裡其他測試人員不太一樣，我會一直用自己擁有的開發者技能，去做一些能輔助測試、也能幫到團隊的工具。那時候的我像海綿一樣，瘋狂閱讀、吸收測試相關知識，也很常在團隊裡主動嘗試新做法，例如舉辦 Bug Bash、Coding Dojo…等。這裡也要特別感謝當時的 Test Team Lead Matt, Ruddy 老師，願意鼓勵我去做這些事</p><p>在這份工作裡，我最難忘的，果然還是第一次加入的「導流 Team」。我們從 0 開始把系統建起來，測試工作真的不一定要追著開發進度跑</p><p>RD 願意也有能力把需求切碎、分批交付<br>PM 願意和我高頻率溝通<br>而我的自動化節奏也因此跟得上</p><p>每次調整或新增功能，我們都先用 E2E 自動化把各個路徑跑過一輪，幾分鐘內就能對版本建立信心，上線後也確實沒有遇到什麼嚴重問題（但我也不確定是不是記憶美化了，至少我印象中沒有遇過需要 rollback 的狀況）</p><p>真的很感謝當時導流 Team 的每一位，你們都很棒，這段經歷對我來說非常珍貴</p><p>另外，這份工作還有一件事對我後來職涯影響很深，在這裡開始接觸「測試環境」的建置<br>印象中當時是 Ken 和 Jason 一起把測試環境 build 起來<br>我那時其實貢獻不多，更多只是協助確認環境起來後需要的 init data 與可運作狀態<br>但這段經驗，卻奠定了我後來對測試環境建置與使用的一些想法。會開始重視「環境」這件事，也跟 Rick 有關，畢竟我算是看著 Rick 的部落格長大的（？），其中<a href="https://rickhw.github.io/2015/10/11/SQA/How-To-Be-An-SQA/">那篇文章</a>讓我更清楚建立環境的重要性</p><p>後來我也陸續加入其他 team，遇到很多有趣的事。只是那時候我還不夠成熟，在溝通與協作的細節上，現在回頭看其實有不少可以做得更好 🚬</p><p>在做這一份工作的後半段，或許是為了回應新團隊的期待，也或許是當時認為這樣才能展現我的價值，又或許是其他事情，我測試的工作也全然地改成「實作自動化」，而不再是以「手動測試」為主了(基本上已經不能叫做測試工作了)</p><p>現在回過頭來看，這個時間點是我職涯迷惘的開始（好早）</p><h2 id="迷惘是一陣一陣地"><a href="#迷惘是一陣一陣地" class="headerlink" title="迷惘是一陣一陣地"></a>迷惘是一陣一陣地</h2><p>迷惘來的時候很像潮汐，不會天天發生，但每次一來，腦袋就會自動跳出幾個困惑：</p><ul><li>把所有想到的案例都做成自動化，因為「測試」就是把案例走完了就好，所以這是測試者唯一能展現的價值？</li><li>敏捷團隊的願景是希望每一位開發者都進行測試，「每一個人」都為產出品質負責，「只」做測試不開發的我，是什麼？</li><li>Sprint 迭代的過程很快，能測試的時間很短，做完 Happy Test 以及簡單的邊界案例之後，把時間都拿去做自動化，感覺怪怪的？但看起來大家都覺得這是對的方向，Why？</li><li>…還有好多好多</li></ul><p>我一方面認為測試者真正能展現的價值，是在當下需求的 context 裡提出洞見、驗證風險<br>另一方面是實作自動化、把產出流程的品質顧好，也確實能替團隊帶來長期效益<br>再一方面是只要整個團隊都在意測試，那就不需要測試人員…嗎?</p><p>但不論在團隊內部或就業市場，「自動化」都被反覆強調。當時我一邊想把這些疑惑搞清楚，一邊也考量職涯的發展與收入，所以離開第一間公司，轉去做防毒軟體&#x2F;金流&#x2F;行銷的公司<br>只是到了新團隊，我依然主要在做自動化導入與架構設計<br>這些工作用不同方式落地時，我仍然感覺自己在創造價值，卻也更常思考所謂「有效率的測試」，究竟應該怎麼被執行、又該如何被記錄下來？</p><p>這個問號大多只停在我腦袋裡。我的工作與職涯重心仍然放在寫程式把自動化做得更完整、開發測試所需的輔助 Tools、建立自動化執行的 Pipeline 與測試環境……但我始終覺得，理解產品、揭露風險才是測試工作的本質<br>也因此，我一直覺得哪裡怪怪der，便持續翻閱各種測試文章想找答案<br>偏偏文章之間在細節上常互相衝突，而那些衝突，也正是讓我的迷惘反覆出現的原因</p><h2 id="走出迷惘"><a href="#走出迷惘" class="headerlink" title="走出迷惘"></a>走出迷惘</h2><p><img src="/img/2026-testing-paradigm-confusion/takingTestingSeriously.jpg"></p><p>直到 2025 年 11 月，James Bach 以及 Michael Bolton 的著作 <a href="https://www.tenlong.com.tw/products/9781394253197"><em>《Taking Testing Seriously》</em></a>發表了出來，看完了第一章之後才理解原來我的疑惑正是關於測試的「思想學派」之間的衝突，下面是我將書中內容丟給 AI 做的翻譯（有些小地方我有調整一點用詞）</p><hr><p>1999 年，Cem Kaner、James Bach，以及另外幾位朋友，宣告我們是一個獨特的測試思想「學派（school）」，並把它命名為 Context-Driven。</p><p>成立一個學派，是為了把我們和其他學派區隔開來——至少就我們的理解是如此。雖然外界從來沒有形成廣泛共識，說這些學派應該如何辨識、如何命名，但目前我們（Michael 與 James）把它們大致分成以下幾類：</p><ul><li><strong>Factory School（工廠學派）</strong>：認為測試應該以產物與演算法為核心，而不是以測試者為核心——像大型工廠一樣，理論上工人可以被機器人取代。這個學派在產業界最主流，尤其是政府部門與受高度監管的情境。</li><li><strong>Quality School（品質學派）</strong>：認為「打造品質」才是核心，測試只是相對次要、甚至有點討人厭的活動；比起測試，更重要的是品質倡議。這個學派常反對設置專職測試者，因為他們主張「整個團隊都擁有品質」。</li><li><strong>Agile&#x2F;DevOps School（敏捷&#x2F;DevOps 學派）</strong>：類似品質學派，但更被產品交付的命令式要求與機制主導。認為測試應由開發者做，並在持續交付管線中自動化；主張不該有全職測試者，除非只是暫時的權宜之計。</li><li><strong>Analytical School（分析學派）</strong>：幾乎只存在於學界。把測試視為電腦科學的一部分，當作演算法流程；追求在受控條件下，用數學模型化與最佳化測試的理論與方法。</li><li><strong>Context-Driven School（情境驅動學派）</strong>：認為不存在「最佳實務」，專業測試者應培養能力，去設計並論證適合自己專案的測試做法。此學派認為測試是社會性的、心理性的、啟發式（heuristic）的過程。<strong>Rapid Software Testing (RST)</strong> 是一種情境驅動的方法論。</li></ul><p>每一個思想學派都是一種<strong>典範（paradigm）</strong>——也就是一個包山包海的世界觀。科學中「典範」這個概念，最早是由 Thomas Kuhn 在其經典著作 <em>The Structure of Scientific Revolutions《科學革命的結構》</em>中提出的。<br>我們之所以說上述這些學派是典範，是因為當我們遇到其他學派的思想者時，常常根本不覺得他們在談「測試」。差異就是大到這種程度。典範之間的對話向來很難，不只因為同樣的詞會被用出不同意思，更因為對其中一方而言很重要的問題，對另一方可能根本不存在。舉例來說，<strong>Factory School</strong> 的測試實作者很在意「測試案例有沒有寫對」；但 <strong>Context-Driven</strong> 的測試者可能整個專案跑完，都沒想過「測試案例」這件事。當一個 Factory School 的人漏掉 bug，他會想：「我漏掉是因為我沒有某個測試案例，解法就是把那個案例加上去。」而當我們在 <strong>RST（Rapid Software Testing）</strong> 裡漏掉 bug，我們會想：「我能從這件事學到什麼？只有先學到，我才知道接下來該怎麼做。」從 Factory 的角度看，RST 像是自我膨脹的哲學空談；從 RST 的角度看，Factory 像是在做一套討好主管的儀式。<br>Ludwig Wittgenstein 用「<strong>form of life（生活形式）</strong>」這個詞，來描述構成人類社會生活的整體：各種實作、行為、規則、模式等等。他有個著名主張：所有語言都扎根於某種生活形式，離開孕育它的活動就無法理解。你若沒有沉浸在那些詞所屬的文化裡，就不可能真正理解那些詞的意思。</p><p>那我們為什麼要寫這麼多哲學？是為了<strong>讓你先做好準備</strong>。本書描述的測試文化，很可能跟你在一般軟體專案裡觀察到的、或在網路上看測試 demo 所吸收到的很不一樣。Context-Driven 的方式不只是一種方法：它同時也是一種典範、一種文化、一種生活形式。</p><p>看看書名吧。準備好<strong>認真看待測試 (Preparing to taking testing seriously)</strong><br>如果你想把自己培養成軟體測試的專家，我們希望幫你在「測試思想的市場」裡，成為一個有鑑別力的顧客。</p><p>但如果典範是包山包海的世界觀，那人怎麼可能改變典範？又為什麼有人想從不同典範裡挑挑選選？畢竟每個典範都涵蓋世界的一切。Thomas Kuhn 的回答是：典範彼此競爭，取決於它們留下哪些「無法解的謎題」。當你被那些謎題折磨得夠久，你就會對其他存在與工作的方式敞開心胸——而這正是科學革命之所以發生的原因。</p><p>其他測試典範在追求一套完美的「最佳實務」。而所有難題中的那個無解難題，歸根究柢就是這件事。本書作者相信他們永遠不會成功。</p><p>工廠學派自 1960 年代以來主導這個領域，他們拿得出來的成果是：<strong>V-model</strong>、把 <strong>ISTQB</strong> 證照發給任何能死背制式答案的人，以及一個在本文寫作當下反而比 40 年前更不被尊重的測試產業。<strong>Agile&#x2F;DevOps</strong> 陣營如今聲勢正旺，結果是沒人想當 tester。（他們希望你只是「team member」，而不是把重心放在測試上。）以 <strong>AI</strong> 為基礎的測試工具，有些確實耐人尋味，有些則爛得讓人訝異，卻把管理者搞糊塗了，以為按個按鈕就能測試。整個產業一路從趨勢晃到趨勢（trend to trend）、從工具換到工具（tool to tool），但仍然有太多軟體產品不可靠、用起來不令人滿意；使用者甚至被騙得以為，期待產品如承諾般正常運作，是要求太多。</p><p>我們在情境驅動典範裡相信：<strong>人、啟發式、技能、倫理</strong>才是核心，因為這能找出更多 bug、也找出更重要的 bug；能吸引更有天份的人投入測試；也能讓社會更好。對我們而言最難的謎題是：如何訓練與管理測試者，讓他們能在一個主要只在乎快速賺錢、並希望測試是一套固定演算法而不是開放式調查的世界裡運作。</p><hr><p>以上是書中第一章的一部分翻譯</p><p>讀到這段之後，我才發現多年來的迷惘，是我內心中的「典範」一直在互相衝撞，而且不是兩個，是三個</p><p>第一個，是 Context-Driven 的世界觀，與邰曉梅老師的著作<em>《海盜派測試》</em>，是相同的世界觀。這個世界觀在意的是 Context (上下文)，你必須自行識別風險並彈性的調整目標抱持著好奇心不斷地進行測試，在每一次測試後都要不斷地問問自己「你真的了解產品了嗎？」、「你真的知道此刻最重要的風險了嗎？」、「你能描述這整個測試的脈絡，並清楚知道為甚麼這樣測嗎？」</p><p>第二個，來自敏捷團隊常見的說法「品質是『整個團隊』的責任、測試應該由開發者在 pipeline 裡完成、專職 tester 只是暫時的過渡角色。」這讓我卡在一個很自我衝突的位置，如果每個人都應該做測試，那我的責任是不是讓團隊不需要倚賴測試人員？</p><p>第三個，是把測試當成可被流程化的工廠，把需求拆成測試案例、把案例跑完、把案例自動化，最後用「覆蓋率」與「通過率」交差。於是我腦中常浮現一種焦慮：「是不是只要我把想到的案例全部變成自動化，測試者的價值就算交付了？好像測試等於把 checklist 打勾，越多越好？」</p><p>Sprint 迭代很快、可測時間很短，我做完 Happy Path 與幾個邊界就差不多要交付了，接下來把時間全部砸去做自動化，心裡卻一直覺得怪。我知道這對交付流程有幫助，但它看起來更像在追求「可量化的產出」，而不是在追問「產品此刻最大的風險是什麼」<br>偏偏團隊與就業市場又一致強調「自動化」的重要性，彷彿不自動化就不專業、不進步</p><p>我一直同時相信兩件事：</p><ul><li>測試者真正的價值，是在特定需求與情境（context）下，提出洞見、test ideas 、揭露風險</li><li>自動化、工具與流程品質也很有價值，能讓團隊交付更穩、更快、更可重複</li></ul><p>問題在於當大家把「自動化」當成測試本體時，測試的本質就被擠到暗黑的角落，而我自己也隨波逐流，遺忘了測試的本質（真虧我自己以前還分享過測試本質的演講…haha）</p><p>看到這本書之前，我一邊寫程式把自動化做得更完整，一邊又不斷翻測試文章想找答案<br>但越看越矛盾，有些文章把 test cases 與 best practices 說得像唯一正解，有些又強調測試應該回到人、技能、判斷與探索。這些細節上的互相衝突，一直在我內心不斷的碰撞著</p><p>直到我讀到這本書把「不同測試文化&#x2F;典範」列出來，我才終於明白，我的內心一直在這幾個世界觀之間打架<br>當我用其中一個世界觀去衡量另一個世界觀時，當然會覺得哪裡都怪怪 Der</p><p>感謝這本書的出現，讓我在得知這些學派之後，能夠好好地思考想要精進的方向</p><h2 id="接下來呢"><a href="#接下來呢" class="headerlink" title="接下來呢?"></a>接下來呢?</h2><p>正如<a href="https://www.youtube.com/watch?v=m9tNBHBKMpU&t=1s">邱威傑在 TED Talk</a> 所說：「人生沒有一條路是白走的」，我相信接下來的職涯，會讓我更清楚自己真正想走的路會長成什麼樣子</p><p>當我終於釐清了這些困惑與內心衝突，接下來要面對的，就不再是「感覺怎樣都怪怪的」，而是如何重新調整我在工作上的投入比例，以及我想交付的工作內容，哪些要用工程手段把地基打穩、哪些要把心力放回理解產品與揭露風險</p><p>一路上前輩們的指點都是有用的，一路上我做過的那些技術實作，像是測試環境的建置自動化、Automation 架構設計、CI&#x2F;CD Pipeline 規劃與落地也都不是繞遠路。它們讓我更懂得如何讓團隊跑得更穩、更快，也讓我有能力把「測試」從一次次手動執行，推進到可重複、可擴張、能長期維護的系統</p><p>首先感謝自己在 2025 年 10 月 17 日決定斷絕所有社群平台，歷經長達 11 周的無社群平台生活，讓我多了很多時間可以閱讀、寫作、關心自己應該關心的事情🏃‍♂️<br>感謝 Esther 和 Jersey 在 6 年前的留言鼓勵，雖然每年的 blog post 產量仍然遠不及 2017, 2018 的自己，但我會持續的努力<br><img src="/img/2026-testing-paradigm-confusion/image%201.png" alt="image.png"><br>也很感謝 Ruddy 老師在我離開第一份工作的那一天，對我說的那句話：「勇於嘗試。」<br>這句話不斷地在提醒我別怕走一段不確定的路，因為每一步都會在未來串成答案</p>]]></content>
       
       
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試思維 </category>
+          
+      </categories>
+      
       
         <tags>
             
+            <tag> 測試自動化 </tag>
+            
+            <tag> QA </tag>
+            
             <tag> 軟體測試 </tag>
+            
+            <tag> 測試思維 </tag>
             
             <tag> 測試職涯 </tag>
             
@@ -132,19 +172,31 @@
     
     
     <entry>
-      <title>Playwright 攔截 request 簡易筆記和範例</title>
+      <title>Playwright 攔截 request：Web SDK 測試自動化筆記與範例</title>
       <link href="/2024/09/08/2024-easy-playwright-intercept-note/"/>
       <url>/2024/09/08/2024-easy-playwright-intercept-note/</url>
       
         <content type="html"><![CDATA[<p>工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象<br>Web SDK 會根據當下使用者的事件觸發順序而產生不同的 request 內容<br>今天準備了一個可以觸發 request 的 HTML、接收 request 的簡單 Node.js Backend API Server<br>還有筆記用的 Playwright 攔截 request 範例程式碼</p><p>所有程式碼都放在這: <a href="https://github.com/SQZ777/playwright-intercept-example">範例程式碼</a></p><p>這張圖應該能表達到今天文章範例中的攔截器概念(?)</p><p><img src="/img/2024-easy-playwright-intercept-note/1.png" alt="interceptor_meme"></p><p>自動化的執行流程:</p><ol><li>啟動 server.js，讓 html 可以透過本地伺服器瀏覽</li><li>使用瀏覽器瀏覽 localhost:3000</li><li>點擊按鈕觸發 request 發送的動作</li><li>攔截 request 驗證 request 被發送的正確性</li></ol><h2 id="程式碼"><a href="#程式碼" class="headerlink" title="程式碼"></a>程式碼</h2><p><del>可能不算程式碼…? 沒有人:可是它裡面有 js</del></p><p>此 HTML 會在按下按鈕後擷取當下瀏覽器中的 timezone，將 timezone 夾帶進去 request 發送到 Backend Server</p><pre><code class="HTML">&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;    &lt;title&gt;Playwright Example&lt;/title&gt;&lt;/head&gt;&lt;body&gt;    &lt;h1&gt;Playwright Intercept Request Example&lt;/h1&gt;    &lt;button id=&quot;sendRequest&quot;&gt;Send Request&lt;/button&gt;    &lt;script&gt;        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;        document.getElementById(&#39;sendRequest&#39;).addEventListener(&#39;click&#39;, () =&gt; &#123;            fetch(&#39;/api/data&#39;, &#123;                method: &#39;POST&#39;,                headers: &#123;                    &#39;Content-Type&#39;: &#39;application/json&#39;                &#125;,                body: JSON.stringify(&#123; location: timezone &#125;)            &#125;)                .then(response =&gt; response.json())                .then(data =&gt; console.log(&#39;Response from server:&#39;, data))                .catch(error =&gt; console.error(&#39;Error:&#39;, error));        &#125;);    &lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</code></pre><p>接收 request 以及讓 HTML 可以被瀏覽</p><p>Node.js Server</p><pre><code>const express = require(&#39;express&#39;);const path = require(&#39;path&#39;);const app = express();const port = 3000;app.use(express.json());// 提供 public 資料夾中的靜態檔案app.use(express.static(path.join(__dirname, &#39;public&#39;)));app.post(&#39;/api/data&#39;, (req, res) =&gt; &#123;    console.log(&#39;Received data:&#39;, req.body);    res.json(&#123; message: &#39;Data received successfully&#39;, receivedData: req.body &#125;);&#125;);// 服務 index.htmlapp.get(&#39;/&#39;, (req, res) =&gt; &#123;    res.sendFile(path.join(__dirname, &#39;index.html&#39;));&#125;);app.listen(port, () =&gt; &#123;    console.log(`Server is running on http://localhost:$&#123;port&#125;`);&#125;);</code></pre><h2 id="Playwright-攔截範例"><a href="#Playwright-攔截範例" class="headerlink" title="Playwright 攔截範例"></a>Playwright 攔截範例</h2><p>先寫一個不改變瀏覽器 timezone 的案例，瀏覽器會依照使用者當前的機器設定來設定 timezone<br>我目前待在台灣，所以 timezone id 會是 <code>Asia/Taipei</code></p><pre><code class="javascript">const &#123; test, expect &#125; = require(&#39;@playwright/test&#39;);test.describe(&#39;test with local and no change&#39;, () =&gt; &#123;    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Asia/Taipei&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>再寫一個改變瀏覽器 timezone 的案例，這個案例會先將 timezone 改為 <code>Europe/Paris</code>，再執行瀏覽 HTML 的動作</p><pre><code class="javascript">test.describe(&#39;test with franch&#39;, () =&gt; &#123;    test.use(&#123; timezoneId: &#39;Europe/Paris&#39; &#125;);    test(&#39;test intercept request for no change&#39;, async (&#123; page &#125;) =&gt; &#123;        await page.route(&#39;**/api/data&#39;, (route, request) =&gt; &#123;            console.log(&#39;Intercepted request:&#39;, request.postData());            const postData = JSON.parse(request.postData());            expect(postData.location).toBe(&#39;Europe/Paris&#39;);            route.continue();        &#125;);            await page.goto(&#39;http://localhost:3000&#39;);        await page.click(&#39;#sendRequest&#39;);            // 讓時間留給網頁處理請求        await page.waitForTimeout(1000);    &#125;);&#125;);</code></pre><p>兩個案例執行完之後在 console 中可以見到以下結果</p><p><img src="/img/2024-easy-playwright-intercept-note/2.png" alt="playwright_result"></p><h2 id="額外筆記"><a href="#額外筆記" class="headerlink" title="額外筆記"></a>額外筆記</h2><p>因為這一種會持續監聽瀏覽器事件的 Web SDK，是不會有 request 停止的一刻，所以選擇使用的是 <code>page.waitForTimeout(1000)</code><br>而非 <code>page.waitForLoadState(&#39;networkidle&#39;)</code></p>]]></content>
       
       
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試自動化 </category>
+          
+      </categories>
+      
       
         <tags>
+            
+            <tag> 測試自動化 </tag>
             
             <tag> Playwright </tag>
             
             <tag> 攔截Request </tag>
+            
+            <tag> Web SDK 測試 </tag>
             
         </tags>
       
@@ -237,12 +289,20 @@
     
     
     <entry>
-      <title>API 自動化的技術選擇與 Modules 的分層思考</title>
+      <title>API 測試自動化的技術選擇與 Modules 分層思考</title>
       <link href="/2022/10/05/2022-223559/"/>
       <url>/2022/10/05/2022-223559/</url>
       
         <content type="html"><![CDATA[<p>今年是 2022 年，我加入了一間提供 API 服務為主的公司，有很多基礎建設都還沒有存在，這也意味著有很多東西是需要溝通與建構的，其中就包含了將 API 測試案例自動化的基本建置，於是就產生了這篇紀錄，如果不想看心路歷程只想看 code 的話可以直接到 Github 上參考。</p><p><a href="https://github.com/SQZ777/jest-for-api-automation-template.git">https://github.com/SQZ777/jest-for-api-automation-template.git</a></p><p>各個 subtitle 如下</p><ul><li>為何不使用 Postman 來做 API Automation</li><li>語言選擇</li><li>測試框架選擇</li><li>Modules 的分層</li><li>各個 Modules 的介紹與實作</li><li>結語和本篇沒提到的事</li></ul><p>首先在使用程式碼撰寫 API 自動化的測試案例時，一定會先遇到這個問題</p><h2 id="為何不使用-Postman-來做-API-Automation？"><a href="#為何不使用-Postman-來做-API-Automation？" class="headerlink" title="為何不使用 Postman 來做 API Automation？"></a>為何不使用 Postman 來做 API Automation？</h2><p><img src="/img/2022-223559/1665066616.png.png"></p><p>所以就先來列一下 Postman 的優&#x2F;缺點吧</p><p>優點如下</p><ul><li>UI 介面容易使用，門檻極低</li><li>可以透過 JavaScript 來實作檢查 response 的 script</li><li>各個平台（Mac, Windows）都可以使用</li><li>可以透過 newman（CLI）來建置 CI 的流程</li></ul><p>接著列一下使用 Postman 執行管理自動化案例會遇到的問題</p><ul><li>大量自動化案例會產生極大的維護成本<ul><li>無法重用的 test script</li><li>受測 API 如果新增 required fields，會需要手動更新大量既有的 script</li></ul></li><li>執行 collection runner 再透過 csv 檔案來匯入測試資料的過程過於繁瑣</li></ul><p>Postman 在實作小型的 API 驗證時，是一個非常好用的工具，但需要實作大量 API 測試案例時，在 Postman 上管理這些案例會產生很大的維護成本，不信的話你可以試試，所以我們需要透過撰寫程式的方式來管理這些即將被實作的 API 測試案例。</p><h2 id="語言選擇"><a href="#語言選擇" class="headerlink" title="語言選擇"></a>語言選擇</h2><p>首先要選擇的是語言，依照公司內部現有的技術而選，策略是以不增加公司同事之間跨越職能障礙為主要目標，其次是這個語言的資源，再其次是學習的門檻，因為有尚未開發過自動化的 QA ，所以選擇語言起手的難易度也需要列為考量。</p><p><img src="/img/2022-223559/1665066630.png.png"></p><p>抱歉了 Java XD</p><p>公司內部的 backend 是 Java，而 front-end 則是 Vue.js，所以就剩下 JavaScript 及 Java 的選項能夠選擇，考量到學習的難易度與學習資源取得的容易度，就選了 JavaScript 了，其中考量到 JavaScript 的原因還有就是公司是有需要驗證 Web 上面顯示資料正確性的需求，所以如果學會了 JavaScript ，就可以 JavaScript 實作一些工具直接在 console 上執行來協助測試。</p><h2 id="測試框架選擇"><a href="#測試框架選擇" class="headerlink" title="測試框架選擇"></a>測試框架選擇</h2><p>接下來就可以找 JavaScript 在 2021 的統計，可以參考<a href="https://2021.stateofjs.com/en-US/">這個網站</a>，可以從圖表看到使用率最高的是 Jest。</p><p><img src="/img/2022-223559/1665066647.png.png"></p><p>使用率最高不代表他就是一個值得讓人使用的框架，所以再次參考了「時間推移體驗」這個數據，也可以觀察到 Jest 是一個會讓人願意再次使用的框架。</p><p><img src="/img/2022-223559/1665066655.png.png"></p><p>所以依照上面的數據，問了幾個身邊的朋友，得到的回饋也是好的，所以就選擇了 Jest 作為這次實作自動化的框架。</p><h2 id="Modules-的分層"><a href="#Modules-的分層" class="headerlink" title="Modules 的分層"></a>Modules 的分層</h2><p>為了解決 Postman 所遇到的痛點，所以我們需要</p><ul><li>tests 層<ul><li>使用其他 modules 來組成 test case 的地方</li></ul></li><li>request API 的部分要抽成 apis 的 module</li><li>request payloads 的部分要抽成 requestPayloads 的 module</li><li>有一些需要共用的 lib 抽成 common 的 module</li></ul><p>相依的關係可以畫成這個樣子</p><p><img src="/img/2022-223559/1665066676.png.png"></p><p>資料夾結構如下</p><pre><code>├─apis│      apis1.js│      apis2.js│      api/&#123;.../&#125;.js│      index.js│      requestHelper.js├─common│      jestExtend.js│          ├─requestPayloads│      apis1Request.js│      apis2Request.js│      apis/&#123;.../&#125;Request.js│      index.js│      └─tests    │   singleApi1.test.js    │   singleApi2.test.js    │   singleApi/&#123;.../&#125;.test.js    │          └─stories           stories.test.js</code></pre><h2 id="各個-Modules-的介紹與實作"><a href="#各個-Modules-的介紹與實作" class="headerlink" title="各個 Modules 的介紹與實作"></a>各個 Modules 的介紹與實作</h2><h3 id="requestPayloads-資料夾"><a href="#requestPayloads-資料夾" class="headerlink" title="requestPayloads 資料夾"></a>requestPayloads 資料夾</h3><p>requestPayloads 資料夾中的 indejx.js 是用來統整各個 API 的預設 request payloads</p><pre><code>const apis1= require(&#39;./apis1Request&#39;);const apis2= require(&#39;./apis2Request&#39;);module.exports = /&#123;  apis1,  apis2,/&#125;;</code></pre><p>預設 request payloads 的定義為：Server 不會回應「lack of fields response」的 payload</p><p>以路徑 &#x2F;apis1&#x2F;products 為例子，會取 apis1 這個詞當作 file name，然後 products 當作 function name，apis1Request.js 內容就會如下：</p><pre><code>const products = /&#123;  product_id: 1,  product_info: /&#123;    product_name: &#39;Car Engine&#39;,  /&#125;,/&#125;;module.exports = /&#123;  products,/&#125;;</code></pre><p>假設 api 路徑為 &#x2F;apis1&#x2F;products，預期在 tests 中使用時則是這個樣子（第 4 行）</p><pre><code>const apis = require(&#39;../apis&#39;);const requestPayloads = require(&#39;../requestPayloads&#39;);const apis1ProductsRequest = requestPayloads.apis1.products;const result = await apis.apis1.products(apis1ProductsRequest );expect(result.productName).toBe(&#39;something that expected product name&#39;);</code></pre><h3 id="apis-資料夾"><a href="#apis-資料夾" class="headerlink" title="apis 資料夾"></a>apis 資料夾</h3><p>apis 資料夾中的 index.js 是用來統整 apis1, apis2…等 api 的地方</p><pre><code>const apis1 = require(&#39;./apis1&#39;);const apis2 = require(&#39;./apis2&#39;);module.exports = /&#123;  apis1,  apis2,/&#125;;</code></pre><p>apis 資料夾中的 requestHelper.js 是用來管理 request API 的 HTTP method 的一層，如 get, post 等 在這一層會與 report 那一層作結合，多讓 jest 的 report 多帶一些在打 api request 的相關結果 程式碼單純以 post 為例子</p><pre><code>const axios = require(&#39;axios&#39;);/** * @param /&#123;string/&#125; baseURL for base URL * @param /&#123;object/&#125; headers for request headers * @param /&#123;object/&#125; data for request payload */async function postRequest(baseURL, headers, data) /&#123;  const result = await axios(/&#123;    method: &#39;post&#39;,    url: baseURL,    headers: headers,    data: data,  /&#125;)      .then((result) =&gt; /&#123;        return result;      /&#125;)      .catch((err) =&gt; /&#123;        console.log(err);      /&#125;);  return result;/&#125;module.exports = /&#123;  postRequest,/&#125;;</code></pre><p>以路徑 &#x2F;apis1&#x2F;products 為例子，會取 apis1 這個詞當作 file name，然後 products 當作 function name，apis.js 中則會引用到 requestHelper.js 來 request API，apis.js code 如下</p><pre><code>const /&#123;postRequest/&#125; = require(&#39;./requestHelper&#39;);require(&#39;dotenv&#39;).config();/** * @param /&#123;object/&#125; request payload * @return /&#123;object/&#125; response */**async function products(data) /&#123;  const result = await postRequest(      `$/&#123;configs.BASE_URL/&#125;/apis1/products`,      /&#123;        &#39;x-api-key&#39;: process.env.API_KEY,        &#39;content-type&#39;: &#39;application/json&#39;,      /&#125;,      data,  );  return result;/&#125;**</code></pre><p>假設 api 路徑為 &#x2F;apis1&#x2F;products，預期在 tests 中使用時則是這個樣子（第 5 行）</p><pre><code>const apis = require(&#39;../apis&#39;);const requestPayloads = require(&#39;../requestPayloads&#39;);const apis1ProductsRequest = requestPayloads.apis1.products;const result = await apis.apis1.products(apis1ProductsRequest );expect(result.productName).toBe(&#39;something that expected product name&#39;);</code></pre><h3 id="common-資料夾"><a href="#common-資料夾" class="headerlink" title="common 資料夾"></a>common 資料夾</h3><p>這一層主要是放一些官方沒有提供的 library 實作，或是共用的 function，以 jest 沒有提供的 object contain 為例，就會新增 jestExtend.js，其 code 如下，在 scenario API test 中將會用到。</p><pre><code>expect.extend(/&#123;  toContainObject(received, argument) /&#123;    const pass = this.equals(        received,        expect.arrayContaining([expect.objectContaining(argument)]),    );    if (pass) /&#123;      return /&#123;        message: () =&gt;          `expected $/&#123;this.utils.printReceived(              received,          )/&#125; not to contain object $/&#123;this.utils.printExpected(argument)/&#125;`,        pass: true,      /&#125;;    /&#125; else /&#123;      return /&#123;        message: () =&gt;          `expected $/&#123;this.utils.printReceived(              received,          )/&#125; to contain object $/&#123;this.utils.printExpected(argument)/&#125;`,        pass: false,      /&#125;;    /&#125;  /&#125;,/&#125;);</code></pre><h3 id="tests-資料夾"><a href="#tests-資料夾" class="headerlink" title="tests 資料夾"></a>tests 資料夾</h3><p>這一層就是 Jest 的使用層了，會在這一層中使用各個 modules 來組成 test case。</p><p>API 測試種類大致上可以分成兩種</p><ul><li>單一 API 測試 (Single API test)</li><li>API 情境測試 (Scenario API test)</li></ul><p>單一 API 測試是指純粹只有這隻 API 是受測項目，完成測試的條件與其他 API 無關，是一個只需要使用單一一個 API 的測試項目，舉例來說 &#x2F;products API，帶給他 payload，其中會 lack fields，或是沒有帶 header，就稱之為 single API test。</p><p>API 情境測試是指要完成一個測試情境而需要用到多個 API，這裡就會需要引用到多個不同的 API 來達成某種目的，舉例來說 call &#x2F;prodcuts&#x2F;update 更新一個 product 然後再透過 &#x2F;products API 來取得預期被更新的 API，這邊就會引用到兩隻 API，這時候就稱之為 API 的情境測試。</p><p>Single API test，以 &#x2F;products API 為例子，其 code 如下</p><pre><code>const apis = require(&#39;../apis&#39;);test(&#39;Get products, should return 200&#39;, async () =&gt; /&#123;  const result = await apis.products.get();  expect(result.status).toBe(200);/&#125;);</code></pre><p>Scenario API test，以 &#x2F;products, &#x2F;products&#x2F;create 為例子，其 code 如下</p><pre><code>require(&#39;../../common/jestExtend&#39;);const apis = require(&#39;../../apis&#39;);const requestPayloads = require(&#39;../../requestPayloads&#39;);test(&#39;Create product, should get the product at /products&#39;, async () =&gt; /&#123;  const createResult = await apis.products.create(      requestPayloads.products.create,  );  expect(createResult.status).toBe(200);  const result = await apis.products.get();  expect(result.data).toContainObject(requestPayloads.products.create);/&#125;);</code></pre><h2 id="結語和本篇沒提到的事"><a href="#結語和本篇沒提到的事" class="headerlink" title="結語和本篇沒提到的事"></a>結語和本篇沒提到的事</h2><p>在這一篇中沒提到的有以下幾個事情</p><ul><li>json schema 的 validate</li><li>config</li></ul><p>依照目前的架構要擴充這兩件事情都可以很輕鬆，所以就沒有額外再寫出來記錄了</p><p>以上就是這一次整個 API automation 的思考與選擇的筆記<br>感謝各位大大看到這裡，如果有任何建議都可以跟我說，感謝 &lt;(_ _)&gt;</p><p>再次附上 repo: <a href="https://github.com/SQZ777/jest-for-api-automation-template">SQZ777&#x2F;jest-for-api-automation-template (github.com)</a></p>]]></content>
       
+      
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試自動化 </category>
+          
+      </categories>
       
       
         <tags>
@@ -250,6 +310,12 @@
             <tag> Automation </tag>
             
             <tag> API </tag>
+            
+            <tag> 測試自動化 </tag>
+            
+            <tag> Jest </tag>
+            
+            <tag> API 測試 </tag>
             
         </tags>
       
@@ -325,40 +391,29 @@
     
     
     <entry>
-      <title>Robot Framework - 介紹一下</title>
+      <title>Robot Framework 介紹：給 QA 的測試自動化入門</title>
       <link href="/2021/10/16/2021-191743/"/>
       <url>/2021/10/16/2021-191743/</url>
       
         <content type="html"><![CDATA[<p>最近要介紹新人 Robot Framework 的時候發現自己居然沒寫過這個已經用很久的工具，所以決定來介紹一下 Robot Framework 🤩</p><p>這篇目的是讓一般人能夠看懂 Robot Framework 的文件並了解其中各個部分的目的</p><p><img src="/img/2021-191743/1634469178.png"></p><h2 id="介紹與使用場景"><a href="#介紹與使用場景" class="headerlink" title="介紹與使用場景"></a>介紹與使用場景</h2><p>Robot Framework 是一個基於 python 的 自動化框架，基本上可以用 python 達成的事情，Robot Framework 都可以做到，其應用的場景是 ATDD (Acceptance Test Driven Development)、BDD (Behavior Driven Development) 以及可以被機器化的流程。</p><p><img src="/img/2021-191743/1634469201.png"></p><h2 id="為何使用-Robot-Framework"><a href="#為何使用-Robot-Framework" class="headerlink" title="為何使用 Robot Framework?"></a>為何使用 Robot Framework?</h2><ul><li>學習資源易於取得</li><li>易於理解與學習的介面</li><li>已有豐富的 Keyword 可以使用</li></ul><p>Robot Framework 對於沒有程式基礎的人來說是「相對」易於理解的，因為他有最接近人類自然語言的介面讓人閱讀，在政治條件（？）上比較能夠說服他人使用這個工具。</p><p>你通常不太需要再自行開發 Keyword 就可以完成你需要執行的自動化流程，如果需要，你也能夠透過實作 Python 來完成你需要做的事。</p><h2 id="看懂-Robot-Framework"><a href="#看懂-Robot-Framework" class="headerlink" title="看懂 Robot Framework"></a>看懂 Robot Framework</h2><p>先來張圖，這張圖是 Robot Framework 的文件，紅框的部分：</p><p><img src="/img/2021-191743/1634469224.png"></p><h2 id="Settings"><a href="#Settings" class="headerlink" title="*** Settings ***"></a>*** Settings ***</h2><p>這裡是引入 library 以及初始化的地方</p><p><img src="/img/2021-191743/1634469248.png"></p><ul><li>如果你在別的 .robot 中定義好了需要被引入的 library 或是 Keywords 可以透過 Resource 來達成引入的動作</li><li>Suite Setup 則是在測試跑起來時會做的初始化動作</li></ul><p>這邊幫自己挖個坑，會再發一篇 Suite Setup 跟 Test Setup 的差別。<br>此坑已補上： <a href="https://dotblogs.com.tw/Im_sqz777/2021/11/16/224604">Robot Framework - Suite Setup V.S Test Setup | sqz777 der 技術小本本 - 點部落 (dotblogs.com.tw)</a>  </p><p><img src="/img/2021-191743/1634469266.png"></p><p>看一下 settings.robot</p><p><img src="/img/2021-191743/1634469282.png"></p><p>會使用 settings.robot 來統一引入 library 的原因是為了避免 .robot 的檔案多了，每一個檔案都要重新引入那些 library 實在是麻煩，所以乾脆由一個 file 來控制需要被引入的 library，這樣簡單得多。<br>Variables 讓你可以直接透過檔案的形式讓你引入環境變數<br>Library 則是讓你可以引入 python 或是 Robot Framework 的 library<br>RequestsLibrary 是別人開發好的 Robot Framework 的 Library，需要使用以下指令安裝後才能使用，這個 library 可以讓我們省掉開發 Requests Keyword 的時間。</p><pre><code>python -m pip install robotframework-requests</code></pre><p><a href="https://marketsquare.github.io/robotframework-requests/doc/RequestsLibrary.html">RequestsLibrary Keyword 使用方法的文件點我</a></p><h2 id="Variables"><a href="#Variables" class="headerlink" title="*** Variables ***"></a>*** Variables ***</h2><p>這裡是定義這個檔案中會用到的常數</p><p><img src="/img/2021-191743/1634469327.png"></p><p>通常這裡的變數不會直接寫死在這裡，而是會在另一個檔案中定義 config.ini 之類的然後在透過變數來做取用</p><p>所以我這邊也是再挖一個坑，會再發一篇如何定義 config.ini 然後在 robot 裡面中引用那個環境變數<br>此坑已補上：<a href="https://dotblogs.com.tw/Im_sqz777/2021/11/08/204911">Robot Framework - 使用 config.ini 管理環境變數 | sqz777 der 技術小本本 - 點部落 (dotblogs.com.tw)</a></p><p><img src="/img/2021-191743/1634469353.png"></p><h2 id="Keywords"><a href="#Keywords" class="headerlink" title="*** Keywords ***"></a>*** Keywords ***</h2><p>這裡是自定義關鍵字的地方，可以在這裡定義好關鍵字後，在 Test Case 中使用</p><p><img src="/img/2021-191743/1634469372.png"></p><p>Get Character With Beginning Of The Name，這個是 Keyword 的名稱</p><p>[Arguments] 讓 Keyword 被定義成是可以被傳入參數的，而這個參數名稱是 character_name，定義完成後即可在 Test Case 中使用</p><p>而 Keyword 再往下一層則是 python 的程式碼，以圖中行號 13 的 Get Md5 Hash 為例，這個 Get Md5 Hash 是我自行實作在 <a href="http://common.py/">common.py</a> 的一段 python code</p><p>P.S. <a href="http://common.py/">common.py</a> 已在 settings.robot 中引入。</p><pre><code>import hashlibdef get_md5_hash(data):    hasher = hashlib.md5()    hasher.update(data.encode(&quot;utf-8&quot;))    return hasher.hexdigest()</code></pre><p>以此為例，你可以使用 Get Md5 Hash 或是 get_md5_hash 都可以，只要文件內有統一的格式即可。</p><p>其他的 Keyword 對應官方文件有</p><ul><li><a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Get%20Time">Get Time</a><br>可以指定格式取得 Datetime</li><li><a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Create%20Dictionary">Create Dictionary</a><br>建立 Dictionary</li><li><a href="https://marketsquare.github.io/robotframework-requests/doc/RequestsLibrary.html#GET%20On%20Session">Get On Session</a><br>建立於 Session 上來 request 其方法為 Get</li><li><a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Return%20From%20Keyword">Return From Keyword</a><br>Get Character With Beginning Of The Name 這一個 Keyword 即將返回的值</li><li><a href="https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Should%20Be%20Equal%20As%20Strings">Should Be Equal As Strings</a><br>斷言（Assert）兩個值的型態為 string 時會是相同的。</li></ul><h2 id="Test-Cases"><a href="#Test-Cases" class="headerlink" title="*** Test Cases ***"></a><strong>*** Test Cases ***</strong></h2><p>這裡是定義 Test Case 的地方，會透過使用 Keyword 來組合成需要被自動化的流程</p><p><img src="/img/2021-191743/1634469384.png"></p><h2 id="開發準備"><a href="#開發準備" class="headerlink" title="開發準備"></a><strong>開發準備</strong></h2><p>開發前要準備的就是環境啦</p><ul><li><p>python</p></li><li><p>python package: robotframework</p></li><li><p>python package: robotframework-requests</p><p>python -m pip install robotframework robotframework-requests</p></li></ul><h2 id="應用場景"><a href="#應用場景" class="headerlink" title="應用場景"></a><strong>應用場景</strong></h2><p>package 安裝完成後，就可以開始寫一些需要自動化的項目了，開始寫之前先決定要做的自動化項目是什麼</p><ul><li>準備 request 過去 Marvel API 的 token 資訊，Marvel API 的 token 申請，可以參考 repo 中的 readme </li><li>透過 Marvel 的 API 取得角色名稱開頭為 “Tony” 的角色資訊</li><li>唯一一個角色開頭為 “Tony” 的人就是 Tony Stark 所以必須要能取得 Tony Stark 這個名字</li></ul><p>robot 的 Test Suite 如下</p><pre><code>*** Settings ***Resource    settings.robotSuite Setup    Create Session    MARVEL_API    $/&#123;$/&#123;ENV/&#125;.MARVEL_URL/&#125;*** Variables ***$/&#123;api_private_key/&#125;=    $/&#123;$/&#123;ENV/&#125;.MARVEL_PRIVATE_KEY/&#125;$/&#123;api_public_key/&#125;=    $/&#123;$/&#123;ENV/&#125;.MARVEL_PUBLIC_KEY/&#125;*** Keywords ***Get Character With Beginning Of The Name    [Arguments]    $/&#123;character_name/&#125;    $/&#123;timestamp/&#125;=    Get Time    epoch    $/&#123;hash/&#125;=    Get Md5 Hash    $/&#123;timestamp/&#125;$/&#123;api_private_key/&#125;$/&#123;api_public_key/&#125;    $/&#123;params/&#125;=    Create Dictionary    ts=$/&#123;timestamp/&#125;    apikey=$/&#123;api_public_key/&#125;    hash=$/&#123;hash/&#125;    nameStartsWith=$/&#123;character_name/&#125;    $/&#123;response/&#125;=    Get On Session    alias=MARVEL_API    url=/v1/public/characters    params=$/&#123;params/&#125;    expected_status=200    Return From Keyword    $/&#123;response/&#125;*** Test Cases ***Get Beginning With Tony&#39;s Character Name Info    $/&#123;result/&#125;=    Get Character With Beginning Of The Name    Tony    Should Be Equal As Strings    $/&#123;result.json()[&quot;data&quot;][&quot;results&quot;][0][&quot;name&quot;]/&#125;    Tony Stark</code></pre><h2 id="Repo-點我"><a href="#Repo-點我" class="headerlink" title="Repo 點我"></a><a href="https://github.com/SQZ777/robotframework-marvel">Repo 點我</a></h2><h2 id="執行"><a href="#執行" class="headerlink" title="執行"></a>執行</h2><p>若要執行指令如下</p><pre><code>python -m robot --variable ENV:BLOG_ENV marvel.robot</code></pre><h2 id="執行中"><a href="#執行中" class="headerlink" title="執行中"></a>執行中</h2><p><img src="/img/2021-191743/1637074430.png"></p><h2 id="執行後"><a href="#執行後" class="headerlink" title="執行後"></a>執行後</h2><p>在執行後可以看到 Robot Framework 產出的 report</p><p><img src="/img/2021-191743/1637074439.png"></p><p>在 report 中可以看到執行的時間與成功數量等，除此之外，你也能夠透過 report 看見執行的細節，例如 API 的 response json、該步驟的執行時間等</p><p><img src="/img/2021-191743/1637074452.png"></p><h2 id="後記"><a href="#後記" class="headerlink" title="後記"></a>後記</h2><p>這一篇介紹了為何要使用 Robot Framework，再到如何看懂 Robot Framework 的文件，希望大家可以因為這篇而看得懂 Robot Framework &lt;(_ _)&gt;</p><p>已補坑：</p><ul><li><a href="https://dotblogs.com.tw/Im_sqz777/2021/11/16/224604">Suite Setup V.S. Test Setup</a></li><li><a href="https://dotblogs.com.tw/Im_sqz777/2021/11/08/204911">在 Robot Framework 中，使用 config.ini 的檔案定義環境變數</a></li></ul><p>2021&#x2F;11&#x2F;16：補充執行所需的環境準備以及實際的題目應用。</p>]]></content>
       
       
-      
-        <tags>
-            
-            <tag> RobotFramework </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
-      <link href="/2021/04/17/2021-what-is-temporal-coupling/"/>
-      <url>/2021/04/17/2021-what-is-temporal-coupling/</url>
-      
-        <content type="html"><![CDATA[<p>最近在看 <a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式</a><br>其中第四章提到了時序耦合（Temporal Coupling）<br>覺得是一個值得寫下來筆記的東西，所以就產出了這篇。</p><p>第一次看到時序耦合這個詞的時候還以為是…Dio?</p><p><img src="/img/2021-what-is-temporal-coupling/1618680807.png"></p><p>結果並不是，讓我太失望了（並沒有失望）</p><h2 id="正文開始"><a href="#正文開始" class="headerlink" title="正文開始"></a>正文開始</h2><p><strong>耦合是指程式中模組及模組之間資訊或參數依賴的程度。</strong><br><strong>其相對的一個概念的詞叫做聚合性，也就是說低耦合性代表高內聚性。</strong></p><p>時序耦合是多種耦合分類中的其中一種　<a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>時序耦合指的是這個 Class 中含有的 Functions 有隱性的「先後順序」的耦合性，這是一個「Design Smell」<br>舉參考資料的程式碼為例</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public void Initialize(string fileName)  /&#123;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>使用這個程式碼，會是這樣</p><pre><code>var fileName = &quot;C:\test.txt&quot;;var fileLogger = new FileLogger();fileLogger.Initialize(fileName);fileLogger.Write(&quot;Log message.&quot;);</code></pre><p>假設這個 fileLogger 沒有在呼叫 Write 這個 Function 之前先呼叫 Initialize 就會造成 fileLogger 在 Write 訊息的時候造成無法找到檔案名稱的錯誤<br>而這樣子的程式碼所造成的結果就稱之為時序耦合。</p><h2 id="如何避免時序耦合"><a href="#如何避免時序耦合" class="headerlink" title="如何避免時序耦合?"></a>如何避免時序耦合?</h2><h3 id="透過-Constructor-Injection-的方式"><a href="#透過-Constructor-Injection-的方式" class="headerlink" title="透過 Constructor Injection 的方式"></a>透過 Constructor Injection 的方式</h3><p>在這個案例中，可以透過 Constructor Injection 的方式進行注入 fileName 即可<br>範例程式碼</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public FileLoger(string fileName)  /&#123;    if(string.IsNullOrEmpty(fileName))    /&#123;      throw new ArgumentNullException(&quot;fileName&quot;);    /&#125;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>這樣的方式除了可以避免時序耦合之外，也能夠減少外部呼叫的次數（不需要再呼叫 Initialize）。<br>另外也能夠透過建構子的方式觀察到這個 FileLogger 本身所依賴的事情有哪些。</p><p>參考資料：<br><a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br><a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式 (Dependency Injection: Principles, Practices, Patterns, 2&#x2F;e)</a><br><a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>備註：<a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br>這篇當中有提到另一個避免時序耦合的方式（抽象工廠 <strong>abstract factory</strong>），但如果沒有特殊限制的話，我會比較偏好使用本篇所記錄的 constructor injection 的方式來避免時序耦合。</p>]]></content>
-      
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試自動化 </category>
+          
+      </categories>
       
       
         <tags>
             
-            <tag> 筆記 </tag>
+            <tag> Robot Framework </tag>
             
-            <tag> DI </tag>
+            <tag> 測試自動化 </tag>
             
-            <tag> CodeSmell </tag>
+            <tag> QA </tag>
             
         </tags>
       
@@ -382,6 +437,29 @@
             <tag> 筆記 </tag>
             
             <tag> 商業與技術 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
+      <link href="/2021/04/17/2021-what-is-temporal-coupling/"/>
+      <url>/2021/04/17/2021-what-is-temporal-coupling/</url>
+      
+        <content type="html"><![CDATA[<p>最近在看 <a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式</a><br>其中第四章提到了時序耦合（Temporal Coupling）<br>覺得是一個值得寫下來筆記的東西，所以就產出了這篇。</p><p>第一次看到時序耦合這個詞的時候還以為是…Dio?</p><p><img src="/img/2021-what-is-temporal-coupling/1618680807.png"></p><p>結果並不是，讓我太失望了（並沒有失望）</p><h2 id="正文開始"><a href="#正文開始" class="headerlink" title="正文開始"></a>正文開始</h2><p><strong>耦合是指程式中模組及模組之間資訊或參數依賴的程度。</strong><br><strong>其相對的一個概念的詞叫做聚合性，也就是說低耦合性代表高內聚性。</strong></p><p>時序耦合是多種耦合分類中的其中一種　<a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>時序耦合指的是這個 Class 中含有的 Functions 有隱性的「先後順序」的耦合性，這是一個「Design Smell」<br>舉參考資料的程式碼為例</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public void Initialize(string fileName)  /&#123;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>使用這個程式碼，會是這樣</p><pre><code>var fileName = &quot;C:\test.txt&quot;;var fileLogger = new FileLogger();fileLogger.Initialize(fileName);fileLogger.Write(&quot;Log message.&quot;);</code></pre><p>假設這個 fileLogger 沒有在呼叫 Write 這個 Function 之前先呼叫 Initialize 就會造成 fileLogger 在 Write 訊息的時候造成無法找到檔案名稱的錯誤<br>而這樣子的程式碼所造成的結果就稱之為時序耦合。</p><h2 id="如何避免時序耦合"><a href="#如何避免時序耦合" class="headerlink" title="如何避免時序耦合?"></a>如何避免時序耦合?</h2><h3 id="透過-Constructor-Injection-的方式"><a href="#透過-Constructor-Injection-的方式" class="headerlink" title="透過 Constructor Injection 的方式"></a>透過 Constructor Injection 的方式</h3><p>在這個案例中，可以透過 Constructor Injection 的方式進行注入 fileName 即可<br>範例程式碼</p><pre><code>public class FileLogger/&#123;  private readonly string _fileName;  public FileLoger(string fileName)  /&#123;    if(string.IsNullOrEmpty(fileName))    /&#123;      throw new ArgumentNullException(&quot;fileName&quot;);    /&#125;    _fileName = fileName;  /&#125;  public void Write(string message)  /&#123;    // dependency with _fileName code  /&#125; /&#125;</code></pre><p>這樣的方式除了可以避免時序耦合之外，也能夠減少外部呼叫的次數（不需要再呼叫 Initialize）。<br>另外也能夠透過建構子的方式觀察到這個 FileLogger 本身所依賴的事情有哪些。</p><p>參考資料：<br><a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br><a href="https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw">依賴注入：原理、實作與設計模式 (Dependency Injection: Principles, Practices, Patterns, 2&#x2F;e)</a><br><a href="https://zh.wikipedia.org/wiki/%E8%80%A6%E5%90%88%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%B8)">耦合性 (電腦科學) - 維基百科，自由的百科全書 (wikipedia.org)</a></p><p>備註：<a href="https://www.infoworld.com/article/3239347/how-to-avoid-temporal-coupling-in-c-sharp.html">How to avoid temporal coupling in C# | InfoWorld</a><br>這篇當中有提到另一個避免時序耦合的方式（抽象工廠 <strong>abstract factory</strong>），但如果沒有特殊限制的話，我會比較偏好使用本篇所記錄的 constructor injection 的方式來避免時序耦合。</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 筆記 </tag>
+            
+            <tag> DI </tag>
+            
+            <tag> CodeSmell </tag>
             
         </tags>
       
@@ -576,6 +654,25 @@
     
     
     <entry>
+      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
+      <link href="/2020/09/02/2020-220256/"/>
+      <url>/2020/09/02/2020-220256/</url>
+      
+        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> .NetCore </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>筆記 - ASP.NET Core 使用 LibMan CLI</title>
       <link href="/2020/09/02/2020-222746/"/>
       <url>/2020/09/02/2020-222746/</url>
@@ -591,25 +688,6 @@
             <tag> libman </tag>
             
             <tag> 工具 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>筆記 - 您預計要執行 .Net Core 程式，但 dotnet-ef 並不存在。</title>
-      <link href="/2020/09/02/2020-220256/"/>
-      <url>/2020/09/02/2020-220256/</url>
-      
-        <content type="html"><![CDATA[<p>有點久沒寫 dotnet core</p><p>今天重新把環境都裝回來，然後趁機更新到最新版本的 dotnet core</p><p>於是在開發的第一步要執行 dotnet ef 就發生了錯誤</p><p>如圖</p><p><img src="/img/2020-220256/1599141736.png"></p><p>原來是因為在 dotnet core 3.0 之後 .NET SDK 就不再包含 dotnet ef，所以如果要在 dotnet 裡面用 dotnet ef 的指令，必須要先進行安裝</p><pre><code>dotnet tool install --global dotnet-ef</code></pre><p>執行安裝後就可以看到安裝完成的畫面啦</p><p><img src="/img/2020-220256/1599141755.png"></p><p>歡迎回來 dotnet-ef!</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> .NetCore </tag>
             
         </tags>
       
@@ -1037,12 +1115,20 @@
     
     
     <entry>
-      <title>閱讀周記 - 測試技術之測試技術分類系統</title>
+      <title>測試技術分類系統：從 Cem Kaner 的觀點理解軟體測試</title>
       <link href="/2018/04/06/2018-180727/"/>
       <url>/2018/04/06/2018-180727/</url>
       
         <content type="html"><![CDATA[<p>測試技術好多種RRR</p><p>根本就像用了魔法卡繁殖的小精靈</p><p><img src="/img/2018-180727/20080306124457.jpg" alt="f:id:immortalnova:20080306124457j:plain">來源:<a href="http://immortalnova.hatenablog.com/entry/2016/06/17/181726">http://immortalnova.hatenablog.com/entry/2016/06/17/181726</a></p><p>我覺得單一個測試技術就像一個小精靈</p><p>一個小精靈一點都沒有威脅性，但是當他搭配了魔法卡「繁殖」之後多了好多個小精靈，根本厲害啊，打也打不完</p><p>這也代表著多個測試技術組合起來的測試方法會更能夠掌握目前產品的風險</p><p>這一篇的心得來自於 <em>微軟測試之鑰 微軟一線測試專家技術精華</em>  這一本書的第5章第1節，以下簡稱為此書</p><blockquote><p><em>如果說測試是為了發現錯誤而執行程式的過程，那麼測試技術就是執行程式並判斷其對錯的具體方法</em></p><hr><p>節錄自此書第 5-2 頁</p></blockquote><p>我覺得，測試就好像在開車，而測試技術就像停車技巧、打檔、踩油門、轉方向盤等等的各種具體開車行為。</p><p>在此書的這一個章節中引用了 Cem Kaner 教授建立的測試技術分類系統來撰寫</p><p><a href="https://en.wikipedia.org/wiki/Cem_Kaner">Cem Karner教授的相關資料 https://en.wikipedia.org/wiki/Cem_Kaner</a></p><p>測試技術會從 7 個方面對測試過程進行指導</p><ul><li><h3 id="範圍-被測對象"><a href="#範圍-被測對象" class="headerlink" title="範圍 &#x3D;&gt; 被測對象"></a>範圍 &#x3D;&gt; 被測對象</h3></li><li><h3 id="覆蓋-測試深度與廣度"><a href="#覆蓋-測試深度與廣度" class="headerlink" title="覆蓋 &#x3D;&gt; 測試深度與廣度"></a>覆蓋 &#x3D;&gt; 測試深度與廣度</h3></li><li><h3 id="測試者-測試者"><a href="#測試者-測試者" class="headerlink" title="測試者 &#x3D;&gt; 測試者"></a>測試者 &#x3D;&gt; 測試者</h3></li><li><h3 id="風險-需要被發現的潛在問題"><a href="#風險-需要被發現的潛在問題" class="headerlink" title="風險 &#x3D;&gt; 需要被發現的潛在問題"></a>風險 &#x3D;&gt; 需要被發現的潛在問題</h3></li><li><h3 id="活動-如何執行測試"><a href="#活動-如何執行測試" class="headerlink" title="活動 &#x3D;&gt; 如何執行測試"></a>活動 &#x3D;&gt; 如何執行測試</h3></li><li><h3 id="評估和測試先知-對測試結果進行評估"><a href="#評估和測試先知-對測試結果進行評估" class="headerlink" title="評估和測試先知 &#x3D;&gt; 對測試結果進行評估"></a>評估和測試先知 &#x3D;&gt; 對測試結果進行評估</h3></li><li><h3 id="結果導向-測試的目標"><a href="#結果導向-測試的目標" class="headerlink" title="結果導向 &#x3D;&gt; 測試的目標"></a>結果導向 &#x3D;&gt; 測試的目標</h3></li></ul><p>Cem Karner 建立了六要素測試分類系統，以下是測試分類系統的六大分之</p><ul><li><h3 id="基於涵蓋的測試技術，關注測試的範圍和涵蓋"><a href="#基於涵蓋的測試技術，關注測試的範圍和涵蓋" class="headerlink" title="基於涵蓋的測試技術，關注測試的範圍和涵蓋"></a>基於涵蓋的測試技術，關注測試的範圍和涵蓋</h3></li><li><h3 id="基於測試者的測試技術，關注誰來執行測試"><a href="#基於測試者的測試技術，關注誰來執行測試" class="headerlink" title="基於測試者的測試技術，關注誰來執行測試"></a>基於測試者的測試技術，關注誰來執行測試</h3></li><li><h3 id="基於風險的測試技術，關注潛在問題"><a href="#基於風險的測試技術，關注潛在問題" class="headerlink" title="基於風險的測試技術，關注潛在問題"></a>基於風險的測試技術，關注潛在問題</h3></li><li><h3 id="基於活動的測試技術，關注如何執行測試"><a href="#基於活動的測試技術，關注如何執行測試" class="headerlink" title="基於活動的測試技術，關注如何執行測試"></a>基於活動的測試技術，關注如何執行測試</h3></li><li><h3 id="基於評估的測試技術，關注如何判斷測試通過"><a href="#基於評估的測試技術，關注如何判斷測試通過" class="headerlink" title="基於評估的測試技術，關注如何判斷測試通過"></a>基於評估的測試技術，關注如何判斷測試通過</h3></li><li><h3 id="結果導向的測試技術，關注於特定目標或檔案"><a href="#結果導向的測試技術，關注於特定目標或檔案" class="headerlink" title="結果導向的測試技術，關注於特定目標或檔案"></a>結果導向的測試技術，關注於特定目標或檔案</h3></li></ul><p>關於這六大分之作者也有對其中相關的測試技術進行列舉</p><h2 id="1-基於涵蓋的測試技術，關注測試的範圍和涵蓋"><a href="#1-基於涵蓋的測試技術，關注測試的範圍和涵蓋" class="headerlink" title="1. 基於涵蓋的測試技術，關注測試的範圍和涵蓋"></a>1. 基於涵蓋的測試技術，關注測試的範圍和涵蓋</h2><p>這個是典型的測試技術，其包含了</p><ul><li>功能測試</li><li>功能或特性的整合測試</li><li>邊界測試</li><li>最佳代表測試</li></ul><p>作者提出了不只這 4 個名詞其主要要表達的是基於涵蓋的測試技術所關注的都是被測對象的功能和功能之間的互動性是否符合預期</p><p>這邊特別可以說的是最佳代表測試</p><blockquote><p><em>最佳代表測試 : 要求從眾多測試範例中選擇最有代表性的測試範例，常見的例子包含使用者最可能使用的資料、給產品最大挑戰的資料、最能暴露風險的資料等</em> </p><hr><p>節錄自此書第 5-3 頁</p></blockquote><p>我想，最佳代表測試，就是拿來自動化測試跑的一種測試範例吧，畢竟他風險最大、最容易暴露風險。<br>當然，並不是只有最佳代表測試才能被自動化執行。</p><h2 id="2-基於測試者的測試技術，關注誰來執行測試"><a href="#2-基於測試者的測試技術，關注誰來執行測試" class="headerlink" title="2. 基於測試者的測試技術，關注誰來執行測試"></a>2. 基於測試者的測試技術，關注誰來執行測試</h2><p>其實這一個基於測試者的測試技術十分常見，在遊戲業界中就會常常聽到要封測，就算是一種用戶的 Beta Test</p><p>這一種測試技術其實也很常見，以下是作者列舉的測試技術的其中幾種</p><ul><li>缺陷大掃除 (Bug Bash)</li><li>結對測試 (Pair Testing) </li><li>內部試用</li></ul><p>缺陷大掃除可以參考我之前在自己團隊所執行的結果與經驗(趁機打廣告XD</p><p><strong><a href="https://dotblogs.com.tw/im_sqz777/2018/02/28/195303">Test - 我舉辦了一場 Bug Bash－大家都進來測試吧!!</a></strong></p><p>結對測試就跟結對編程很像</p><p>由另一個人來觀察、指導與紀錄測試過程，在這一個執行的過程之中就可以獲得對於產品不同角度的Feedback</p><p>內部試用這點可以參考這一篇 wiki</p><p><a href="https://zh.wikipedia.org/wiki/Eating_your_own_dog_food">Eating your own dog food</a></p><p>主要的目的就是讓自己可以在日常中使用自己的產品，讓自己對於產品更有自信心，也可以在日常的開發週期中發現一些實際使用者會遇到的問題。</p><h2 id="3-基於風險的測試技術，關注潛在問題"><a href="#3-基於風險的測試技術，關注潛在問題" class="headerlink" title="3. 基於風險的測試技術，關注潛在問題"></a>3. 基於風險的測試技術，關注潛在問題</h2><p>以風險作為角度的測試，就是用來避免非常態的使用情境來發現問題，以下是作者列出的其中幾種測試技術</p><ul><li>邊界測試</li><li>壓力測試</li><li>負載測試</li><li>可用性測試</li><li>基於歷史的測試</li></ul><p>這幾點可以看得出來都是以非常態的使用狀態來進行測試，這些基於風險的測試，通常都會使用工具來輔助測試人員來進行測試。</p><p>常見的壓力測試及負載測試的工具用google就可以找到很多了~ EX: jmeter、apache bench等等之類的</p><p>甚至有些已經發展成一種服務囉~</p><h2 id="4-基於活動的測試技術，關注如何執行測試"><a href="#4-基於活動的測試技術，關注如何執行測試" class="headerlink" title="4. 基於活動的測試技術，關注如何執行測試"></a>4. 基於活動的測試技術，關注如何執行測試</h2><p>以下是作者列出的其中幾種測試技術</p><ul><li>隨機測試</li><li>猴子測試</li><li>情境測試</li><li>回歸測試</li></ul><p>其實猴子測試也可以算是基於風險的測試技術，但作者將其歸類於基於活動的測試技術。<br>不過我覺得不管測試技術被分類於哪一種分類底下，只要他能夠達成想要達成的測試目的，就可以了。</p><p>這邊可以特別說的是回歸測試，回歸測試的目的就是為了避免產品的程式碼在進行變更之後而產生問題的一種測試技術，但他有一個很大的成本</p><h3 id="其成本就是時間"><a href="#其成本就是時間" class="headerlink" title="其成本就是時間"></a>其成本就是時間</h3><p>時間越長的回歸測試，能涵蓋及避免的問題就越廣，即時間越短的回歸測試，能涵蓋及避免的問題就越狹隘。</p><h2 id="5-基於評估的測試技術，關注如何判斷測試通過。"><a href="#5-基於評估的測試技術，關注如何判斷測試通過。" class="headerlink" title="5. 基於評估的測試技術，關注如何判斷測試通過。"></a>5. 基於評估的測試技術，關注如何判斷測試通過。</h2><p>我認為，基於評估的測試技術，主要是根據用戶的需求，或是訂製出來的規範而進行的一種測試技術。</p><p>不過有趣的是，訂定出來的規範以及用戶需求，都不是測試人員自己所決定的，常常是需要第三方的人、事、物來一同決定其測試是否通過。</p><p>所謂人，就是團隊或客戶</p><p>所謂事、物，就是「討論」、「執行」之後所產出的「文件」</p><p>以下是作者提到諸多的基於評估測試技術的其中兩種測試技術</p><ul><li>比較規格說明或其他權威檔案</li><li>基於診斷的測試</li></ul><p>第 1 個就是依據文件來執行的測試技術，比對文件內容與軟體執行結果是否符合來評估目前測試是否通過</p><p>第 2 個就是依據工具來執行的測試技術，使用工具來進行對於產品的測試，其結果通常會有報告，然後再依據報告結果進行評估目前測試是否通過。</p><h2 id="6-結果導向的測試技術，關注於特定目標或檔案"><a href="#6-結果導向的測試技術，關注於特定目標或檔案" class="headerlink" title="6. 結果導向的測試技術，關注於特定目標或檔案"></a>6. 結果導向的測試技術，關注於特定目標或檔案</h2><p>結果導向的測試技術，就是所謂的「以終為始」，以最終最能夠解決客戶需求的功能，來進行測試，這樣的測試通常是最簡單但很重要的測試。</p><p>有些軟體也會要求須要符合某些認證標準才能夠Release。</p><p>以下測試技術是作者列出的其中 2 種測試技術</p><ul><li>用戶接受測試</li><li>認證測試</li></ul><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><blockquote><p><em>在學習測試技術時，測試人員可以快速定位它在分類系統中的位置。</em></p><p><em>在選擇測試技術時，他可以同時運用來自不同分支的測試技術，以實施多樣化的測試。</em></p><hr><p>節錄自此書第 5-8 頁</p></blockquote><p>在最後此書也有提到由 Lisa Chrispin 和 Janet Gregory 提出的測試象限的概念，如下圖，該圖拍攝於此書的 5-9 頁</p><p><img src="/img/2018-180727/1523095025_11786.jpg"></p><p>在此圖可以清楚看到它的架構分類四大象限，相較於 Cem Kaner所提出的六大分支來得易於理解許多。</p><p>不過這邊特別要說的是作者不同意 Lisa Chrispin 和 Janet Gregory將探索式測試置於第三象限，原因是因為</p><blockquote><p><em>探索式測試是一種並行地實施測試學習、測試設計、測試執行呵結果評估的測試風格，作為一種測試思維方法，它可以指導測試象限的任何一種測試技術的使用</em></p><hr><p>節錄自此書第 5-9 頁</p></blockquote><p>我覺得…</p><h3 id="探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法"><a href="#探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法" class="headerlink" title="探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法"></a>探索式測試其實就是一種Interface，而其他執行測試的過程與技術，就是實作這個探索式測試的各種方法</h3><p>以上是跟大家分享 <em>微軟測試之鑰 微軟一線測試專家技術精華</em> 5-1 的內容</p><p>最後想問大家一個問題</p><h3 id="不知道大家對於探索式測試的看法及作法是甚麼"><a href="#不知道大家對於探索式測試的看法及作法是甚麼" class="headerlink" title="不知道大家對於探索式測試的看法及作法是甚麼?"></a>不知道大家對於探索式測試的看法及作法是甚麼?</h3><p>感謝各位大大觀看 &lt;(_ _)&gt;</p><p>周記碎碎念</p><p>連續好幾周沒有寫了..要轉動齒輪真的需要比較大的力氣，希望自己可以再持續下去，我想一定是動力還不構，看來要弄個連續寫三周就吃大餐的 Bonus (誤</p>]]></content>
       
+      
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試技術 </category>
+          
+      </categories>
       
       
         <tags>
@@ -1053,6 +1139,12 @@
             
             <tag> 心得 </tag>
             
+            <tag> 測試技術 </tag>
+            
+            <tag> Cem Kaner </tag>
+            
+            <tag> 測試策略 </tag>
+            
         </tags>
       
     </entry>
@@ -1060,12 +1152,20 @@
     
     
     <entry>
-      <title>Test - 變異(Mutation)測試之你的測試到底是寫爽的，還是有效的?</title>
+      <title>變異測試 Mutation Testing：你的測試到底有效嗎？</title>
       <link href="/2018/03/14/2018-004634/"/>
       <url>/2018/03/14/2018-004634/</url>
       
         <content type="html"><![CDATA[<p>今天參加了 Agile Community 的變異測試的一個meet up</p><p>覺得很有趣 這算是一個寫Unit Test的後續(吧?</p><p><img src="/img/2018-004634/1521041744_7069.png"><br>變異測試 - 一種改進測試和代碼的 “新” 方法</p><p>講師Joseph表示 其實這不是一種新的方式了，這在1970年就有人提出來了 (我都還沒出生呢….) </p><p>變異測試，所謂的變異，就是從英文的 Mutation 翻譯而來的，意義上就是 病變、突異的意思</p><p>可以想像我們的程式碼就是身體，如果我們的身體出現了突變、病變的話，就代表我們的身體出了問題了，從程式碼的角度來看就是我們的程式碼有變更了</p><p>我們時常寫了許多的測試，但還是很容易出現 Bug 或是有所謂的 「漏網之魚」，或許就可以透過 Mutation Test來找出測試程式碼的漏洞</p><p>我自己稍微寫了一點跟講師一樣的程式碼，但是是C#版本的程式碼與測試程式來講解這樣的情況</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        if (a &gt; 0 &amp;&amp; b &gt; 0)          c = b;        return c;    /&#125;/&#125;</code></pre><p>而我的測試程式碼長這個樣子</p><pre><code>[TestClass]public class TestFoo/&#123;    [TestMethod]    public void input_a_is_1_b_is_1_Should_1()    /&#123;        var someThing = new SomeThing();        Assert.AreEqual(1, someThing.Foo(1, 1));    /&#125;    [TestMethod]    public void input_a_is_1_b_is_n1_should_be_0()    /&#123;        var someThing = new SomeThing();        Assert.AreEqual(0, someThing.Foo(1, -1));    /&#125;    [TestMethod]    public void input_a_is_n1_b_is_1_should_be_0()    /&#123;        var someThing = new SomeThing();        Assert.AreEqual(0, someThing.Foo(-1, 1));    /&#125;/&#125;</code></pre><p>我的測試程式碼事實上已經涵蓋100%了，由內建的工具就可以看得到了</p><p><img src="/img/2018-004634/1521042301_71939.png"></p><p>我的 Code Coverage 已經是100%了 照理來說我改了任何一個程式碼的內容的話，我的測試程式碼都應該要出現錯誤<br>但如果我把我的程式碼改成這個樣子</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        if (a &gt; 0 &amp;&amp; b &gt;= 0)          c = b;        return c;    /&#125;/&#125;</code></pre><p>我把 判斷 b&gt;0 的條件改成 b&gt;&#x3D;0 我的測試程式碼依然是通過的，代表 2 件事</p><ul><li><h2 id="我寫出來的測試程式碼是無效的"><a href="#我寫出來的測試程式碼是無效的" class="headerlink" title="我寫出來的測試程式碼是無效的"></a>我寫出來的測試程式碼是無效的</h2></li><li><h2 id="Code-Coverage-是假的"><a href="#Code-Coverage-是假的" class="headerlink" title="Code Coverage 是假的"></a>Code Coverage 是假的</h2></li></ul><p><img src="/img/2018-004634/be7ab3eab997586ed77619386aacc115-3-350x183.jpg"></p><p>以測試程式碼無效這件事情來說，這是常有的事，所以我們需要 Mutation Test 來改善我們的程式碼，當然讓程式碼變異的方式有很多種，以下列出其中幾種</p><ul><li>條件邊界的變異</li><li>反向條件的變異</li><li>移除條件的變異</li><li>遞增、遞減的變異</li><li>常數的變異</li><li>返回值的變異</li><li>移除程式碼的變異</li></ul><p>條件邊界的變異很明顯的，剛才的寫出來的範例已經提到了，嘗試將 “&gt;” 變成 “&gt;&#x3D;” 或 “&lt;” 變成 “&lt;&#x3D;” 以這樣的異動來說，整個程式碼的敘述已經變得跟原本不同了，那我們的測試程式碼就應該要抓得出來這樣子的錯誤</p><h2 id="反向條件的變異"><a href="#反向條件的變異" class="headerlink" title="反向條件的變異"></a>反向條件的變異</h2><p>如果是反向條件的變異，就可以試試將原本的程式碼變為這個樣子</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        if (!(a &gt; 0 &amp;&amp; b &gt;= 0))          c = b;        return c;    /&#125;/&#125;</code></pre><p>將整個判斷句反向過來，試試看我們的測試程式碼有沒有抓到這樣的錯誤</p><h2 id="移除條件的變異"><a href="#移除條件的變異" class="headerlink" title="移除條件的變異"></a>移除條件的變異</h2><p>如果是移除條件的變異，就可以試試將判斷的語句移除</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        c = b;        return c;    /&#125;/&#125;</code></pre><p>將整個判斷語句移除之後，跑跑看 Unit Test 是否通過</p><h2 id="遞增、遞減的變異"><a href="#遞增、遞減的變異" class="headerlink" title="遞增、遞減的變異"></a>遞增、遞減的變異</h2><p>這個變異是指如果有for迴圈，將其遞增的狀況變更</p><p>好比說 原本是 for(int i &#x3D; 0; i&lt; somethingNumber; i++)</p><p>變更為 for(int i &#x3D; 0; i&lt; somethingNumber; i–)</p><p>變更後再跑一次Unit Test是否通過</p><h2 id="常數的變異"><a href="#常數的變異" class="headerlink" title="常數的變異"></a>常數的變異</h2><p>這個變異是指，假設今天有一個常數已經定義好為 CONST_NUMBER &#x3D; 5</p><p>如今有一段程式碼是 somethingNumber &#x3D; doSomething(CONST_NUMBER);</p><p>將其改成 somethingNumber &#x3D; doSomething(6);</p><p>嘗試看看測試程式碼是否有幫助你找到錯誤</p><h2 id="返回值的變異"><a href="#返回值的變異" class="headerlink" title="返回值的變異"></a>返回值的變異</h2><p>由範例來修改返回值的程式碼如下，將原本的 return c 變為 return 0</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        if (a &gt; 0 &amp;&amp; b &gt; 0)          c = b;        return 0;    /&#125;/&#125;</code></pre><p>再試試看這段程式碼被測試程式碼跑過一遍之後會發生什麼事情</p><h2 id="移除程式碼的變異"><a href="#移除程式碼的變異" class="headerlink" title="移除程式碼的變異"></a>移除程式碼的變異</h2><p>顯而易見的如文字上所說，將程式碼移除，然後再進行測試</p><pre><code>public class SomeThing/&#123;    public int Foo(int a, int b)    /&#123;        var c = 0;        return c;    /&#125;/&#125;</code></pre><p>跑一下Unit Test 看結果會如何</p><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>當然看完上面簡單的範例之後會發現很多程式碼是可以嘗試看看的，如果你的程式碼被移除，或被更動但沒有出錯那就只代表兩件事</p><ul><li>這些被移除的程式碼根本不重要，有跟沒有一樣</li><li>你的測試程式碼的有效性不足夠，所以要加新的測試</li></ul><p>通常是後者就是了XD</p><p>不過嘗試變異測試是有前提跟原則的</p><p>前提是</p><p><strong>這些將要被異變的程式碼最好都有被測試覆蓋</strong></p><p>第一點的理由很明顯，如果你的程式碼沒有測試覆蓋，你連原本自己寫的 Code 都不知道是否是正確的，你還做了這些異變，也根本不會知道會不會是對的。</p><p>而原則是</p><ul><li><h3 id="異變過後的程式碼要能夠編譯"><a href="#異變過後的程式碼要能夠編譯" class="headerlink" title="異變過後的程式碼要能夠編譯"></a>異變過後的程式碼要能夠編譯</h3></li><li><h3 id="同一個只使用其中一個變異的方式"><a href="#同一個只使用其中一個變異的方式" class="headerlink" title="同一個只使用其中一個變異的方式"></a>同一個只使用其中一個變異的方式</h3></li><li><h3 id="確定異變程式碼過後，執行測試應該要是失敗的"><a href="#確定異變程式碼過後，執行測試應該要是失敗的" class="headerlink" title="確定異變程式碼過後，執行測試應該要是失敗的"></a>確定異變程式碼過後，執行測試應該要是失敗的</h3></li></ul><p>第一點，很明顯的，如果你異變過後的程式碼沒辦法編譯，那你連跑 Unit Test 都沒辦法跑</p><p>第二點，一般說雖然同時更改很多部分的程式碼，有可能會比較貼近實際上的異動，但只選擇一種變異的方法就已經足以讓自己的測試程式碼更加完善了，當然你可以不只做一種異變測試，你可以做很多個，但建議不要「同時」一次做很多個</p><p>第三點，這是一種倒過來思考的方式，有在用TDD的人會想著要如何最小步的讓測試通過，而倒過來就是想著程式碼該如何用最小步的方式讓測試失敗，而語句上要是與原本不同的，大部分的方法已經在上面講了大概了~</p><p>現場很少人聽過”變異測試”，但為什麼還是這麼多人不知道變異測試呢?</p><p>我想應該是 Unit Test 還沒有很普及吧，但變異測試對自己的寫出來的程式碼是確實很有幫助的，如果我有需要維護的案子，且有一定的Code Coverage 那我將會嘗試看看這樣子的方式來試試看我的測試程式碼是否寫的足夠好</p><p>當然，這麼廣大的程式碼要手動異動實在是難上加難</p><p>所以 <a href="https://en.wikipedia.org/wiki/Mutation_testing">wikipedia</a> 上就有介紹很多種不同語言的 Mutation Test 的工具可以使用，至於要不要收費我就不知道了(學講師XD</p><p>PS: 工具找出來的變異測試失敗，不一定是真的失敗，有些情境上是工具無法辨別的，不要被工具限制住了</p><p>感謝各位大大收看 如有錯誤 請告訴我&lt;(_ _)&gt;</p>]]></content>
       
+      
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試技術 </category>
+          
+      </categories>
       
       
         <tags>
@@ -1076,6 +1176,12 @@
             
             <tag> 社群 </tag>
             
+            <tag> 變異測試 </tag>
+            
+            <tag> Mutation Testing </tag>
+            
+            <tag> Unit Test </tag>
+            
         </tags>
       
     </entry>
@@ -1083,21 +1189,29 @@
     
     
     <entry>
-      <title>閱讀周記 - 持續進化的測試文件之測試文件並不是孤單一個人</title>
+      <title>測試文件不是孤單一個人：測試計畫、測試筆記與知識庫</title>
       <link href="/2018/03/10/2018-234606/"/>
       <url>/2018/03/10/2018-234606/</url>
       
         <content type="html"><![CDATA[<p>既然測試沒有完成的一天</p><p>那更新測試文件也是沒有結束的一天呢~</p><p>測試是重複的過程，所以什測試文件只有一種嗎?</p><p>這一篇的心得來自於 <em>微軟測試之鑰 微軟一線測試專家技術精華</em>  這一本書的第3章第1節，以下簡稱為此書</p><p><img src="/img/2018-234606/1520775491_57675.jpg"></p><p>  此書在這一部分介紹了一個測試文件檔案主要分文兩種</p><ol><li>產品</li><li>工具</li></ol><p>產品的測試文件檔案是供他人閱讀和使用的檔案，在某些專案合約中惠要求團隊在交付時同時交付一批規定的文件檔案，其中一些檔案是需要由測試人員來撰寫</p><p>工具的測試文件檔案主要是提供測試小組內部閱讀與使用，或是測試人員個人的文件檔案，其目的就是讓測試小組可以透過這個文件做更好的測試。</p><blockquote><p><em>典型的例子是測試團隊的內部 Wiki 和測試人員的筆記，它們內容廣泛、格式靈活、形式多樣，專注於實際的測試工作，不強求檔案的完備與整齊。</em></p><hr><p>節錄自此書第 3-2 頁</p></blockquote><p>我想作者在這邊想表達的是，測試文件應該要精煉，就算測試文件完備與整齊，依然還是在執行測試之後有遺漏的部分。</p><p>在第3章中作者只會提到關於「工具」類型的測試文件檔案</p><p>作者提到測試人員</p><blockquote><p><em>編寫測試文件時，不但要考慮到文件檔案的實用性，還要考慮讀者，為他們提供有價值的資訊。</em></p><hr><p>節錄自此書第 3-2 頁</p></blockquote><p>在這裡作者把測試文件的內容分為兩部分，而我也會針對作者分別提出的項目來記錄我的想法與心得</p><ol><li>專案範圍的文件檔案</li><li>非專案範圍的文件檔案</li></ol><h2 id="專案範圍的文件檔案"><a href="#專案範圍的文件檔案" class="headerlink" title="專案範圍的文件檔案"></a>專案範圍的文件檔案</h2><p>作者提到常見的專案範圍文件檔案通常包括以下幾個部分</p><ul><li><h3 id="測試計畫"><a href="#測試計畫" class="headerlink" title="測試計畫"></a>測試計畫</h3></li><li><h3 id="測試設計規則"><a href="#測試設計規則" class="headerlink" title="測試設計規則"></a>測試設計規則</h3></li><li><h3 id="測試總結報告"><a href="#測試總結報告" class="headerlink" title="測試總結報告"></a>測試總結報告</h3></li><li><h3 id="缺陷報告"><a href="#缺陷報告" class="headerlink" title="缺陷報告"></a>缺陷報告</h3></li></ul><h3 id="測試計畫-1"><a href="#測試計畫-1" class="headerlink" title="測試計畫"></a>測試計畫</h3><p>測試計畫的內容記錄了指導測試過程的一組想法，其中包含了，產品特性、產品風險、測試任務、測試資源、測試進度、測試團隊、團隊合作，等內容。</p><p>測試計畫是保正測試策略能夠被正確執行的一種方式，其內容可以由開發、測試和產品經理一同評估，在評估的過程中可以就開發人員、測試人員的角度來達成一致的意見，以這件事來說，測試計畫的評估與撰寫是一項合作活動，所以測試計畫是合作的成果。</p><p>然而測試計畫不會是一程不變的，他會隨著專案的演進而有所變化</p><h3 id="測試設計規則-1"><a href="#測試設計規則-1" class="headerlink" title="測試設計規則"></a>測試設計規則</h3><blockquote><p><em>記錄了測試策略(一組指定測試設計的想法)和詳細的測試設計。</em></p><hr><p>節錄自此書第 3-3 頁</p></blockquote><p>在看到書上這樣寫的時候我的臉上滿是問號，到底在講什麼鬼…</p><p>簡單來說，測試策略的目的是減少缺陷的出現和發布</p><p>減少缺陷的出現的解決方式是將測試前移，在需求分析與設計架構時先行發現缺陷</p><p>減少缺陷的發布可以使用各種測試方法、技術來驗證和測試程式完成的功能</p><p><img src="/img/2018-234606/304661784c44457a5964.jpg"></p><p>圖片來源: <a href="https://read01.com/zGePO0.html#.WqU5r2puaUk">https://read01.com/zGePO0.html#.WqU5r2puaUk</a></p><blockquote><p><em>由此可見，「測試策略」並不是只由測試人員定製的，它是由一個團隊的各個角色一起來制定和建立的，目的是保證軟體的質量，減少缺陷。</em></p><hr><p>原文網址：<a href="https://read01.com/zGePO0.html">https://read01.com/zGePO0.html</a></p></blockquote><p>測試設計規則 (我想這裡的測試設計規則應該就是 test case) 會被測試人員、開發人員、產品經理進行評估，在評估的過程中，所有團隊的成員可以獲得關於軟體的各項資訊</p><ul><li>測試人員將會更了解軟體，也會獲得更多的測試想法。</li><li>開發人員將會獲得測試資訊，更好的撰寫單元測試。</li><li>產品負責人將了解測試覆蓋率，以及評估專案目前的風險。</li></ul><h3 id="測試總結報告-1"><a href="#測試總結報告-1" class="headerlink" title="測試總結報告"></a>測試總結報告</h3><p>測試總結報告主要的內容包含</p><ul><li>測試涵蓋的功能</li><li>執行過的測試</li><li>測試的過程中獲得了哪些資訊</li><li>未來的測試行動</li></ul><p>透過閱讀測試總結報告，可以使測試、開發、產品經理了解測試進度、風險以及問題等資訊。</p><h3 id="缺陷報告-1"><a href="#缺陷報告-1" class="headerlink" title="缺陷報告"></a>缺陷報告</h3><p>測試人員透過這項報告內容來表達目前的產品品質，而開發人員可以透過這個報告內容需要被修復的缺陷有哪些。</p><p>好的缺陷報告應該要清楚的表達問題是甚麼，預期的結果是什麼。</p><p>壞的缺陷報告會另開發人員無法理解真正的問題在哪裏。</p><h2 id="非專案範圍的文件檔案"><a href="#非專案範圍的文件檔案" class="headerlink" title="非專案範圍的文件檔案"></a>非專案範圍的文件檔案</h2><blockquote><p><em>除了專案範圍的文件檔案，測試人員會撰寫一些測試小組或個人使用的測試文檔</em></p><hr><p>節錄自此書 3-3 頁</p></blockquote><p>作者將非專案範圍的文件檔案列出了以下幾點</p><ul><li><h3 id="操作檔案"><a href="#操作檔案" class="headerlink" title="操作檔案"></a>操作檔案</h3></li><li><h3 id="測試筆記"><a href="#測試筆記" class="headerlink" title="測試筆記"></a>測試筆記</h3></li><li><h3 id="測試資料"><a href="#測試資料" class="headerlink" title="測試資料"></a>測試資料</h3></li><li><h3 id="移交文件檔案"><a href="#移交文件檔案" class="headerlink" title="移交文件檔案"></a>移交文件檔案</h3></li><li><h3 id="測試知識庫"><a href="#測試知識庫" class="headerlink" title="測試知識庫"></a>測試知識庫</h3></li></ul><h3 id="操作檔案-1"><a href="#操作檔案-1" class="headerlink" title="操作檔案"></a>操作檔案</h3><p>這邊說的操作檔案是指測試的過程透過某些形式來進行記錄，例如螢幕截圖、錄影或是撰寫詳細步驟等</p><p>這樣的文件可以協助測試人員一步一步的按照文件上的資料進行操作，順利完成任務</p><h3 id="測試筆記-1"><a href="#測試筆記-1" class="headerlink" title="測試筆記"></a>測試筆記</h3><blockquote><p><em>測試筆記是最重要的測試文件檔案。我使用它記錄測試想法，回顧測試過程，激發測試靈感</em></p><hr><p>節錄自此書 3-4 頁</p></blockquote><p>測試筆記的內容主要包含測試設計、軟體缺陷、測試發現、測試想法等內容</p><p>通常我自己也很常使用筆記的方式去記錄自己突然發現的一些測試項目。</p><h3 id="測試資料-1"><a href="#測試資料-1" class="headerlink" title="測試資料"></a>測試資料</h3><p>作者這邊提到這個部分是指被測試人員整理過後的「測試支援材料」，他舉出了一個例子，測試人員將要測是一款Windows 8 的應用，於是他在微軟網站獲得一份測試指南。</p><p>這一份測試指南可以幫助他學習並掌握Windows 8 應用的基本策略。</p><p>我的想法是有點類似網路上的攻略本或是官方釋出的一些基本文件，利用這些文件與資料來更加了解被測的項目。</p><h3 id="移交文件檔案-1"><a href="#移交文件檔案-1" class="headerlink" title="移交文件檔案"></a>移交文件檔案</h3><p>這項文件檔案主要記錄了過往測試人員的經驗與建議，透過閱讀這一份檔案，可以使測試人員理解相關的測試資料，從而快速上手。</p><h3 id="測試知識庫-1"><a href="#測試知識庫-1" class="headerlink" title="測試知識庫"></a>測試知識庫</h3><p>記錄了測試小組的知識，通常會是一個共筆的地方，比如說wiki，或是雲端空間，其中放置了許多測試內容與經驗等等的</p><h2 id="結語"><a href="#結語" class="headerlink" title="結語"></a>結語</h2><p>從以上這些測試文件檔案的介紹，可以知道測試文件檔案並不是一個人(X)，他是「一組」文件檔案，在軟體不斷進化的過程中，測試人員為了因應這樣的情形，而撰寫出了形形色色的測試文件檔案，然而要使用哪種測試文件檔案，測試人員必須評估專案狀況再決定要編寫哪一種的測試文件。</p><p>然而在這一章節裡面其實會發現作者有一直提到「測試」這件事情是由團隊來一起完成的，這樣大家才能一同維護產品的品質呢!</p><p>這一次想問大家的是</p><h3 id="大家使用的輔助測試工具有哪些呢"><a href="#大家使用的輔助測試工具有哪些呢" class="headerlink" title="大家使用的輔助測試工具有哪些呢?"></a><strong>大家使用的輔助測試工具有哪些呢?</strong></h3><p>我自己是蠻喜歡用心智圖的方式來表達專案將要被測試的範圍的XD</p><p>我自己是先用手繪的方式再轉成圖檔上傳到雲端上~</p><h3 id="周記碎碎念"><a href="#周記碎碎念" class="headerlink" title="周記碎碎念"></a>周記碎碎念</h3><p>這禮拜回家掃墓，晚上的時候跟國中同學聚了一下就沒時間了，不過還是寫出了這一篇心得XD</p><p>下一次如果假日有事，或許就要提前的把心得寫出來了XD</p>]]></content>
       
       
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 測試文件 </category>
+          
+      </categories>
+      
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 測試策略 </tag>
             
-            <tag> 讀書心得系列 </tag>
+            <tag> 測試文件 </tag>
             
-            <tag> 心得 </tag>
+            <tag> 測試計畫 </tag>
             
         </tags>
       
@@ -1129,12 +1243,20 @@
     
     
     <entry>
-      <title>Test - 我舉辦了一場 Bug Bash－大家都進來測試吧!!</title>
+      <title>Bug Bash 實戰：讓團隊一起參與軟體測試</title>
       <link href="/2018/02/27/2018-195303/"/>
       <url>/2018/02/27/2018-195303/</url>
       
         <content type="html"><![CDATA[<p>人生中第一次主持團隊中的會議</p><p><img src="/img/2018-195303/1519833850_09932.png"><br>圖片來源 : <a href="https://www.facebook.com/menhou/">【綿峰】重症繪圖者</a> 、 <a href="https://forum.gamer.com.tw/C.php?bsn=24044&snA=34253">巴哈姆特 爐石戰技版-【四格漫畫】大家都進來吧！</a></p><p>大家都進來吧!!!<br>有玩爐石的應該就會知道這張卡XDDD<br>好吧 沒有人玩 嗚嗚</p><h2 id="為什麼要舉辦這個活動"><a href="#為什麼要舉辦這個活動" class="headerlink" title="為什麼要舉辦這個活動"></a>為什麼要舉辦這個活動</h2><p>當初也不知道這個活動，而是有一天閒閒沒事從某位大大的部落格看到了一篇文章是關於 Bug Bash 的覺得可以在團隊中嘗試看看</p><p>其實我在舉辦這個活動時沒有稱這個活動為 Bug Bash 而是叫 Test Together</p><p>無論名字為何，都是請團隊的大家一起進來參與測試</p><h3 id="站在不同角度的來執行軟體是測試的其中一環"><a href="#站在不同角度的來執行軟體是測試的其中一環" class="headerlink" title="站在不同角度的來執行軟體是測試的其中一環"></a>站在不同角度的來執行軟體是測試的其中一環</h3><p>測試不單單只是測試這個軟體是否可運行，常常是需要站在不同角度來執行測試的</p><p>證嚴法師說過一句話「一個缺口的杯子，換一個角度仍然是圓的。」</p><p><img src="/img/2018-195303/1459336546_986.jpg" alt="「不同角度」的圖片搜尋結果"><br>圖片來源 : <a href="http://ezvivi2.com/article/205234.asp">http://ezvivi2.com/article/205234.asp</a></p><p>相反來說，一個看起來沒有缺口的杯子，換一個角度就有可能會出現缺口。</p><p>所以測試人員常常需要站在客戶的角度、PO的角度等等的，還有很常需要人格分裂(?) 讓自己變成其他的軟體旅行者</p><p>比如說我是一個很傲慢的旅行者，我就會針對軟體進行一些不合”正常”邏輯的測試，像是提交訂單並支付後又取消訂單並要求退款、或是提交訂單之後更改送貨地點。</p><p>又或是說我是一個到著名景點後遊歷到周邊地區的旅行者，我就會針對軟體非主要功能進行測試，比如說進入那些不起眼的連結與觀看說明文字等。</p><p>在這一場測試之中，每一個人都是不同的旅行者，有RD、有UI&#x2F;UX、有PO等等不同的團隊角色</p><p>他們會是真正的「旅行者」，而不是測試人員「模擬」出來的旅行者</p><h3 id="Testing-To-Learn"><a href="#Testing-To-Learn" class="headerlink" title="Testing To Learn"></a>Testing To Learn</h3><p>從邰曉梅老師的海盜派測試這本書中我學到了使用測試來學習這件事。</p><p>因為團隊中的有一些人可能只有在做純粹開發並沒有真正實際的使用軟體的經驗，所以希望透過這一次的活動可以讓他們瞭解自己所產出的產品是如何在客戶面前搔首弄姿(?)的</p><p>這樣除了讓團隊中的成員更了解自己的產品之外，也或許能取得到更多的 feed back。 以後也可以讓團隊成員的大家一起來測試了XD</p><h2 id="參加活動的人員"><a href="#參加活動的人員" class="headerlink" title="參加活動的人員"></a>參加活動的人員</h2><p>除了團隊成員邀請進入了這一次的活動之外，我還邀請了QA團隊中的其他成員進來這一場活動。</p><p>為的是希望可以有「沒有使用過這個產品」經驗的QA人員來使用與測試這項產品，就可以取得更多其他角度的 Feed Back</p><h2 id="我如何舉辦這場活動"><a href="#我如何舉辦這場活動" class="headerlink" title="我如何舉辦這場活動"></a>我如何舉辦這場活動</h2><p>這一次的活動總共使用的時間只有40分鐘，因為是第一次執行，並且是針對只 run 了 3 個 sprint 的系統進行測試</p><p>前置的說明(說明為何要進行這場活動等等)、進入系統的方式(測試環境)、使用系統的步驟 (跑一遍我寫的其中一個測試案例) 就花了20~25分鐘之久，可能是因為我太害怕團隊沒跟上操作的動作，不過我想第一次這麼做應該是好事，之後就不用再這麼冗長的說明了。</p><p>再一次前面這些冗長的說明結束之後，讓團隊的成員開始使用軟體。</p><p>我設了大概10分鐘的時間讓參加這次活動的成員進行測試，最後5分鐘的時間讓大家給予 Feed Back。</p><h2 id="舉辦活動後的-Feed-Back"><a href="#舉辦活動後的-Feed-Back" class="headerlink" title="舉辦活動後的 Feed Back"></a>舉辦活動後的 Feed Back</h2><p>這一次活動結束 我有稍微做一點點的 Retro</p><p>因為忘記拍照了，所以那些東西……就掰掰了</p><p>不過我有稍微整理過了 Retro 過後的產出</p><ul><li>這一次的活動找到了很重要的 defect !!</li><li>這一次的活動感覺起來有點嚴肅</li><li>這一次的活動說明的時間有點太長</li><li>如果有機會我會在我的團隊中執行這項活動</li><li>活動讓我更了解自己的產品</li><li>某一個 defect 活動結束過後需要修正</li><li>不知道為什麼我的電腦沒辦法進入系統</li></ul><p>自己給對於再次舉辦這一類型的活動感想與建議</p><ul><li>可以放音樂讓大家心情放鬆，會比較沒那麼嚴肅。</li><li>也可以放食物或飲料給參與這次活動的成員取用，也會比較沒那麼嚴肅。</li><li>前置的過程與步驟過於繁雜導致之後的 solo 測試時間太短，但因為大家都是第一次進入這項系統中，之後應該就不會有這麼繁雜的步驟了。</li><li>下一次邀請外部的QA人員需要跟他們說明更多的相關事項，以及獎勵，對於專業的他們來說，前置的過程與步驟太過於無聊(因為那些東西都是他們日常的動作)。</li><li>如果下一次舉辦的人員夠多，可以分組進行，並以競賽的方式，找到越多bug的團隊或是個人，將有特殊的獎勵。</li></ul><p>這一次的活動其實我個人覺得沒有舉辦的很好，但反應看起來還算預期之內 畢竟沒有零食和飲料</p><p>但我相信下一次如果再一次進行這樣的活動會有更好的反應!!</p><p>這一個活動需要感謝柯仁傑與公司裡的Ruddy老師給予建議和參考連結!! (跪拜</p><p>參考過的文章有</p><p>Bug bash<br><a href="http://kojenchieh.pixnet.net/blog/post/75406105-bug-bash">http://kojenchieh.pixnet.net/blog/post/75406105-bug-bash</a></p><p>网易方法论：手把手教你做Bug Bash（缺陷大扫荡）<br><a href="http://www.woshipm.com/pd/698379.html">http://www.woshipm.com/pd/698379.html</a></p><p>干货总结：敏捷QA实践－Bug Bash<br><a href="https://www.testwo.com/article/517">https://www.testwo.com/article/517</a></p><p>How to run a bug bash<br><a href="http://scottberkun.com/2008/how-to-run-a-bug-bash/">http://scottberkun.com/2008/how-to-run-a-bug-bash/</a></p><p>感謝各位大大觀看 如內容有勘誤或對於這一次的活動有任何的建議都歡迎一起討論 &lt;(_ _)&gt;</p>]]></content>
       
+      
+      <categories>
+          
+          <category> 軟體測試 </category>
+          
+          <category> 敏捷測試 </category>
+          
+      </categories>
       
       
         <tags>
@@ -1144,6 +1266,12 @@
             <tag> 心得 </tag>
             
             <tag> 敏捷開發 </tag>
+            
+            <tag> Bug Bash </tag>
+            
+            <tag> 團隊測試 </tag>
+            
+            <tag> 探索式測試 </tag>
             
         </tags>
       
@@ -1808,11 +1936,11 @@
     
     
     <entry>
-      <title>Day 1_與91接觸的這4天</title>
-      <link href="/2017/07/17/2017-230008/"/>
-      <url>/2017/07/17/2017-230008/</url>
+      <title>Day 2_與91接觸的這4天</title>
+      <link href="/2017/07/17/2017-231255/"/>
+      <url>/2017/07/17/2017-231255/</url>
       
-        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><p>從上個月的部門會議中就知道這個月91就會來到公司帶領公司正職的人(目前我是個實習生 O_O)</p><p><img src="/img/2017-230008/1500387075_17811.png"></p><h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><p>在7&#x2F;17終於看到了傳說中的91，第一天的中午91就與大家聊聊天，並在白板畫下了上面這張圖，講到工程師的職涯之路就像一個巨大的技能樹<br>中說了五點(棵樹?)</p><ul><li>Tech Skill</li><li>Tech collaboration</li><li>Agile Method log</li><li>Domain</li><li>Soft-Skill</li></ul><p>從白板上可以看到Tech Skill 和 Tech collaboration(應該是這樣吧ˊ_&gt;ˋ)有分支出來另外三項<br>從Tech Skill延伸出 最基本的Coding能力 然後 設計能力(ex:OOP) 再來架構(ex:MVC)<br>從Tech Skill拉出來用C#來講 91就一一列舉出一些C#上所使用到的技術，一個Move就畫出了下面這張圖(持續成長中..?)</p><p><img src="/img/2017-230008/1500387859_03355.png"></p><p>從Tech collaboration延伸出來的Review 然後 團隊合作 最後是 影響力(91表示這點是最稀有的能力)<br>我覺得從 Review ,Team collaboration到 Leading Changes都是一個影響力發展<br>從Review你要如何影響一個人(Coding Style? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個Team(引入某種技術? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個公司(導入敏捷? or 其他叭啦叭啦)<br>*****Agile Method log 在這指的是 <strong>系統發展生命週期(System Development Life Cycle) 所有相關的協作、流程與基礎建設</strong> 感謝91回覆我這個我不記得當初所說的事&lt;(_ _)&gt;<br>Domain則是說你的領域在哪，像是博奕類、購物網站，這種就屬於高頻訪問類型(是這樣說的嗎..ˊ_&gt;ˋ)的Domain，也有ERP或是其他的Domain<br>Soft-Skill顧名思義就是軟實力他所涵蓋的範圍非常的廣，像是簡報能力、嘴砲八啦叭啦等等等等等等。  </p><p>大家都知道</p><blockquote><p>技術的學習曲線，永遠不是線性的，而我們的時間是有限的。</p></blockquote><p>91表示這幾棵樹(?)都要花時間去投資技能點數，技能等級越高的就越得花更多的技能點數(時間)去投資他，才會有更大的進步。<br>找到自己對他有愛的技術，去研究它，鑽研它。會比樣樣都通但樣樣不精還要來得值得投資。<br>詳細可以參考91的這兩篇文章:<br><a href="https://dotblogs.com.tw/hatelove/2017/02/06/investing-your-time-to-produce-synergies">全端工程師才有價值？</a><br><a href="https://dotblogs.com.tw/hatelove/2016/05/24/181324">[隨筆] Developer 自我養成之路</a></p>]]></content>
+        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>今天中午91分享了一部名叫Dinner的日劇給大家看(第一集)，換個角度來看<br>片中廚房裡每一個人的分工方式真的很像我們在Run敏捷開發的感覺，<br>廚房裡做菜的是Team，服務生是 PO 而廚師長則是 Scrum Master，在餐廳內吃飯的就是Customer。<br>裡面發生了一件事情是<br>一名顧客在餐廳裡吃飯，廚房做菜時遇到了問題，雖然馬上就解決了也很開心的找到了這個替代方案，過程一路順利，但忽略了新的解決方案會衍生出這個餐點會太鹹的問題<br>這個顧客一吃下去就發現這個不是他要的餐點並點出了Team忽略了替代方案會衍生出來的問題。<br>而Team並不接受這名顧客所提出的點，並表示我們用了很多心意與努力等等的，如下圖<br><img src="/img/2017-231255/1500391983_98126.png"></p><p>現實的是客戶要的不是努力與心意，而客戶反問了一句話</p><blockquote><p>「你們所謂的心意，究竟是甚麼味道? 影響這道菜的好壞不是團隊合作和心意，是一克鹽巴，僅僅一克鹽巴就可能會失去自己的常客」</p></blockquote><p>跟現實開發的現況其實十分相像<br>今天我們工程師做事都做得很愉快，努力的寫Code，開心的產出<br>最後我們忽略了客戶的感受與需求，如果客戶不滿意今天的產出，他們一點都不會在乎你們開發過程有多快樂多努力<br>他們要的是今天這個需求能不能滿足他們，幫他們賺錢(之類的)。</p><p>在看完影片之後，91決定在下班前辦一個 Visual Studio的熱鍵大賽<br>(沒有懲罰，真要說的話就是說不出來的要喝啤酒或是喝綠茶 哈哈哈哈)<br>主要的目的不是比賽，而是讓大家知道自己有沒有不知道的東西，對於大家也是一種複習和學習，真心覺得很棒。</p><p>在幾個月前公司的某個禮拜二記得Cash和Tim有分享一些熱鍵，那時候發現這些熱鍵<br>真的是覺得十分的新奇與興奮，所以我先詢問了實習生是否可以參加這個大賽，得到答案之後我就第一個寫下了我的名字，五點半之後報名區上面的名字才陸陸續續的長出來(?)變成下面這張圖的樣子<br>牆壁上就可以看見很多熱鍵，其中有自己很常在使用的，也有沒有用過的，這一次又學到了不少東西，是一個寶貴的經驗 :D  </p><p><img src="/img/2017-231255/1500693610_13777.png"></p>]]></content>
       
       
       
@@ -1827,11 +1955,11 @@
     
     
     <entry>
-      <title>Day 2_與91接觸的這4天</title>
-      <link href="/2017/07/17/2017-231255/"/>
-      <url>/2017/07/17/2017-231255/</url>
+      <title>Day 1_與91接觸的這4天</title>
+      <link href="/2017/07/17/2017-230008/"/>
+      <url>/2017/07/17/2017-230008/</url>
       
-        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><h2 id="Day-2"><a href="#Day-2" class="headerlink" title="Day 2"></a>Day 2</h2><p>今天中午91分享了一部名叫Dinner的日劇給大家看(第一集)，換個角度來看<br>片中廚房裡每一個人的分工方式真的很像我們在Run敏捷開發的感覺，<br>廚房裡做菜的是Team，服務生是 PO 而廚師長則是 Scrum Master，在餐廳內吃飯的就是Customer。<br>裡面發生了一件事情是<br>一名顧客在餐廳裡吃飯，廚房做菜時遇到了問題，雖然馬上就解決了也很開心的找到了這個替代方案，過程一路順利，但忽略了新的解決方案會衍生出這個餐點會太鹹的問題<br>這個顧客一吃下去就發現這個不是他要的餐點並點出了Team忽略了替代方案會衍生出來的問題。<br>而Team並不接受這名顧客所提出的點，並表示我們用了很多心意與努力等等的，如下圖<br><img src="/img/2017-231255/1500391983_98126.png"></p><p>現實的是客戶要的不是努力與心意，而客戶反問了一句話</p><blockquote><p>「你們所謂的心意，究竟是甚麼味道? 影響這道菜的好壞不是團隊合作和心意，是一克鹽巴，僅僅一克鹽巴就可能會失去自己的常客」</p></blockquote><p>跟現實開發的現況其實十分相像<br>今天我們工程師做事都做得很愉快，努力的寫Code，開心的產出<br>最後我們忽略了客戶的感受與需求，如果客戶不滿意今天的產出，他們一點都不會在乎你們開發過程有多快樂多努力<br>他們要的是今天這個需求能不能滿足他們，幫他們賺錢(之類的)。</p><p>在看完影片之後，91決定在下班前辦一個 Visual Studio的熱鍵大賽<br>(沒有懲罰，真要說的話就是說不出來的要喝啤酒或是喝綠茶 哈哈哈哈)<br>主要的目的不是比賽，而是讓大家知道自己有沒有不知道的東西，對於大家也是一種複習和學習，真心覺得很棒。</p><p>在幾個月前公司的某個禮拜二記得Cash和Tim有分享一些熱鍵，那時候發現這些熱鍵<br>真的是覺得十分的新奇與興奮，所以我先詢問了實習生是否可以參加這個大賽，得到答案之後我就第一個寫下了我的名字，五點半之後報名區上面的名字才陸陸續續的長出來(?)變成下面這張圖的樣子<br>牆壁上就可以看見很多熱鍵，其中有自己很常在使用的，也有沒有用過的，這一次又學到了不少東西，是一個寶貴的經驗 :D  </p><p><img src="/img/2017-231255/1500693610_13777.png"></p>]]></content>
+        <content type="html"><![CDATA[<p>每一次遇到強者，都覺得自己的書念得太少</p><p>從上個月的部門會議中就知道這個月91就會來到公司帶領公司正職的人(目前我是個實習生 O_O)</p><p><img src="/img/2017-230008/1500387075_17811.png"></p><h2 id="Day-1"><a href="#Day-1" class="headerlink" title="Day 1"></a>Day 1</h2><p>在7&#x2F;17終於看到了傳說中的91，第一天的中午91就與大家聊聊天，並在白板畫下了上面這張圖，講到工程師的職涯之路就像一個巨大的技能樹<br>中說了五點(棵樹?)</p><ul><li>Tech Skill</li><li>Tech collaboration</li><li>Agile Method log</li><li>Domain</li><li>Soft-Skill</li></ul><p>從白板上可以看到Tech Skill 和 Tech collaboration(應該是這樣吧ˊ_&gt;ˋ)有分支出來另外三項<br>從Tech Skill延伸出 最基本的Coding能力 然後 設計能力(ex:OOP) 再來架構(ex:MVC)<br>從Tech Skill拉出來用C#來講 91就一一列舉出一些C#上所使用到的技術，一個Move就畫出了下面這張圖(持續成長中..?)</p><p><img src="/img/2017-230008/1500387859_03355.png"></p><p>從Tech collaboration延伸出來的Review 然後 團隊合作 最後是 影響力(91表示這點是最稀有的能力)<br>我覺得從 Review ,Team collaboration到 Leading Changes都是一個影響力發展<br>從Review你要如何影響一個人(Coding Style? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個Team(引入某種技術? or 其他叭啦叭啦)-&gt;<br>你要如何影響整個公司(導入敏捷? or 其他叭啦叭啦)<br>*****Agile Method log 在這指的是 <strong>系統發展生命週期(System Development Life Cycle) 所有相關的協作、流程與基礎建設</strong> 感謝91回覆我這個我不記得當初所說的事&lt;(_ _)&gt;<br>Domain則是說你的領域在哪，像是博奕類、購物網站，這種就屬於高頻訪問類型(是這樣說的嗎..ˊ_&gt;ˋ)的Domain，也有ERP或是其他的Domain<br>Soft-Skill顧名思義就是軟實力他所涵蓋的範圍非常的廣，像是簡報能力、嘴砲八啦叭啦等等等等等等。  </p><p>大家都知道</p><blockquote><p>技術的學習曲線，永遠不是線性的，而我們的時間是有限的。</p></blockquote><p>91表示這幾棵樹(?)都要花時間去投資技能點數，技能等級越高的就越得花更多的技能點數(時間)去投資他，才會有更大的進步。<br>找到自己對他有愛的技術，去研究它，鑽研它。會比樣樣都通但樣樣不精還要來得值得投資。<br>詳細可以參考91的這兩篇文章:<br><a href="https://dotblogs.com.tw/hatelove/2017/02/06/investing-your-time-to-produce-synergies">全端工程師才有價值？</a><br><a href="https://dotblogs.com.tw/hatelove/2016/05/24/181324">[隨筆] Developer 自我養成之路</a></p>]]></content>
       
       
       

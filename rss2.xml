@@ -8,31 +8,35 @@
     
     <atom:link href="https://blogs.sqz777.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
-    <description>專注於軟體測試、品質工程、自動化測試、CI/CD、測試環境與測試思維的技術部落格。</description>
-    <pubDate>Mon, 08 Jun 2026 09:59:40 GMT</pubDate>
+    <description>專注於軟體測試、品質工程、測試自動化、CI/CD、測試環境與測試思維的技術部落格。</description>
+    <pubDate>Wed, 10 Jun 2026 13:10:34 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>簡單聊 Rate Limit 測試</title>
+      <title>Rate Limit 測試思考路徑：從規則、邊界到 k6 驗證</title>
       <link>https://blogs.sqz777.com/2026/02/05/2026-testing-rate-limit/</link>
       <guid>https://blogs.sqz777.com/2026/02/05/2026-testing-rate-limit/</guid>
       <pubDate>Thu, 05 Feb 2026 15:27:00 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;這篇來記錄我在做 Rate Limit 的思考過程，也有稍微提一下我測試時使用的工具是什麼&lt;/p&gt;
-&lt;p&gt;首先簡單講 Rate Limit 就是「限速」或「限流」，是一種保護系統不被流量衝爆的機制&lt;br&gt;它會限制某個使用者（或 IP、店家、API Key 之類的 key）在一段時間內能發出多少次請求&lt;br&gt;舉幾個生活中常見的例子&lt;/p&gt;
-&lt;ul&gt;
-&lt;l</description>
-        
+      <description>以實務案例整理 Rate Limit 測試的思考方式，說明 RPS/RPM、固定時間窗、Redis 設定、429 回應與 k6 Constant Arrival Rate 的驗證重點。</description>
       
       
       
       
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E5%AF%A6%E5%8B%99/">測試實務</category>
+      
+      
+      <category domain="https://blogs.sqz777.com/tags/%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/">壓力測試</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/Rate-Limit-%E6%B8%AC%E8%A9%A6/">Rate Limit 測試</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/k6/">k6</category>
       
       
       <comments>https://blogs.sqz777.com/2026/02/05/2026-testing-rate-limit/#disqus_thread</comments>
@@ -45,20 +49,14 @@
       <guid>https://blogs.sqz777.com/2026/01/11/2026-epistemology-and-software-testing/</guid>
       <pubDate>Sun, 11 Jan 2026 06:21:42 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;&lt;img src=&quot;/img/2026-epistemology-and-software-testing/image.png&quot;&gt;&lt;/p&gt;
-&lt;p&gt;當代知識論學者雷勒 (Keith Lehrer) 觀察到的研究進路 (approach) 有三個&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;形上&lt;/li&gt;
-&lt;li&gt;懷疑&lt;/li&gt;
-&lt;li&gt;批判&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;形</description>
-        
+      <description>從知識論的形上、懷疑與批判三種進路，思考軟體測試如何建立可信判斷、揭露風險，並回應 James Bach 對測試哲學的提醒。</description>
       
       
       
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
       
       
       <category domain="https://blogs.sqz777.com/tags/%E5%93%B2%E5%AD%B8/">哲學</category>
@@ -67,27 +65,38 @@
       
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/James-Bach/">James Bach</category>
+      
       
       <comments>https://blogs.sqz777.com/2026/01/11/2026-epistemology-and-software-testing/#disqus_thread</comments>
       
     </item>
     
     <item>
-      <title>一個測試者的獨白</title>
+      <title>一個測試者的獨白：我如何理解軟體測試、QA 與自動化</title>
       <link>https://blogs.sqz777.com/2026/01/04/2026-testing-paradigm-confusion/</link>
       <guid>https://blogs.sqz777.com/2026/01/04/2026-testing-paradigm-confusion/</guid>
       <pubDate>Sun, 04 Jan 2026 15:53:00 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;促使我開始寫這篇文章的契機，應該是源自 2021 年 11 月 17 日（好久以前），好朋友 Terry Wang 寫的&lt;a href=&quot;https://wangterryonagile.blogspot.com/2021/11/scrum-master.html&quot;&gt;《一個 Scrum Master 的獨白》&lt;/a&gt;帶給我的啟發，&lt;a href=&quot;ht</description>
-        
+      <description>從台灣敏捷團隊、QA 職涯與自動化經驗出發，整理我如何重新理解軟體測試、測試者價值、測試思想學派與品質工程。</description>
       
       
       
       
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
+      
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%81%B7%E6%B6%AF/">測試職涯</category>
       
@@ -171,23 +180,28 @@
     </item>
     
     <item>
-      <title>Playwright 攔截 request 簡易筆記和範例</title>
+      <title>Playwright 攔截 request：Web SDK 測試自動化筆記與範例</title>
       <link>https://blogs.sqz777.com/2024/09/08/2024-easy-playwright-intercept-note/</link>
       <guid>https://blogs.sqz777.com/2024/09/08/2024-easy-playwright-intercept-note/</guid>
       <pubDate>Sun, 08 Sep 2024 08:18:00 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;工作上測試遇到了一個情境是測試 Web SDK，主要類似於 GA 的那種監控網頁事件來發送 request 的受測對象&lt;br&gt;Web SDK 會根據當下使用者的事件觸發順序而產生不同的 request 內容&lt;br&gt;今天準備了一個可以觸發 request 的 HTML、接收 request 的簡單 Node.js Backend API Server&lt;b</description>
-        
+      <description>用 Playwright route 攔截 request，示範如何驗證 Web SDK 發送的事件資料，適合 Web 前端與 SDK 測試自動化情境。</description>
       
       
       
       
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       <category domain="https://blogs.sqz777.com/tags/Playwright/">Playwright</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%94%94%E6%88%AARequest/">攔截Request</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Web-SDK-%E6%B8%AC%E8%A9%A6/">Web SDK 測試</category>
       
       
       <comments>https://blogs.sqz777.com/2024/09/08/2024-easy-playwright-intercept-note/#disqus_thread</comments>
@@ -296,24 +310,30 @@
     </item>
     
     <item>
-      <title>API 自動化的技術選擇與 Modules 的分層思考</title>
+      <title>API 測試自動化的技術選擇與 Modules 分層思考</title>
       <link>https://blogs.sqz777.com/2022/10/05/2022-223559/</link>
       <guid>https://blogs.sqz777.com/2022/10/05/2022-223559/</guid>
       <pubDate>Wed, 05 Oct 2022 16:00:00 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;今年是 2022 年，我加入了一間提供 API 服務為主的公司，有很多基礎建設都還沒有存在，這也意味著有很多東西是需要溝通與建構的，其中就包含了將 API 測試案例自動化的基本建置，於是就產生了這篇紀錄，如果不想看心路歷程只想看 code 的話可以直接到 Github 上參考。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/SQ</description>
-        
+      <description>記錄從 Postman 轉向程式碼管理 API 測試自動化的取捨，包含語言、Jest 測試框架選擇，以及 tests、apis、payload modules 的分層設計。</description>
       
       
       
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       
       <category domain="https://blogs.sqz777.com/tags/Automation/">Automation</category>
       
       <category domain="https://blogs.sqz777.com/tags/API/">API</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Jest/">Jest</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
       
       
       <comments>https://blogs.sqz777.com/2022/10/05/2022-223559/#disqus_thread</comments>
@@ -411,53 +431,29 @@
     </item>
     
     <item>
-      <title>Robot Framework - 介紹一下</title>
+      <title>Robot Framework 介紹：給 QA 的測試自動化入門</title>
       <link>https://blogs.sqz777.com/2021/10/16/2021-191743/</link>
       <guid>https://blogs.sqz777.com/2021/10/16/2021-191743/</guid>
       <pubDate>Sat, 16 Oct 2021 16:00:00 GMT</pubDate>
       
-        
-        
-      <description>&lt;p&gt;最近要介紹新人 Robot Framework 的時候發現自己居然沒寫過這個已經用很久的工具，所以決定來介紹一下 Robot Framework 🤩&lt;/p&gt;
-&lt;p&gt;這篇目的是讓一般人能夠看懂 Robot Framework 的文件並了解其中各個部分的目的&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/img/2021-191743/1634469178.png</description>
-        
+      <description>給 QA 與測試新手的 Robot Framework 入門介紹，整理 Settings、Variables、Test Cases、Keywords 與常見使用場景。</description>
       
       
       
       
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/RobotFramework/">RobotFramework</category>
+      <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      
+      <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
       
       
       <comments>https://blogs.sqz777.com/2021/10/16/2021-191743/#disqus_thread</comments>
-      
-    </item>
-    
-    <item>
-      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
-      <link>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</link>
-      <guid>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</guid>
-      <pubDate>Sat, 17 Apr 2021 16:00:00 GMT</pubDate>
-      
-        
-        
-      <description>&lt;p&gt;最近在看 &lt;a href=&quot;https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw&quot;&gt;依賴注入：原理、實作與設計模式&lt;/a&gt;&lt;br&gt;其中第四章提到了時序耦合（Temporal Coupling）&lt;br&gt;覺得是一個值得寫下來筆記的東西，所以就產出了這篇。&lt;/p&gt;
-&lt;p&gt;第</description>
-        
-      
-      
-      
-      
-      
-      <category domain="https://blogs.sqz777.com/tags/%E7%AD%86%E8%A8%98/">筆記</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/DI/">DI</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/CodeSmell/">CodeSmell</category>
-      
-      
-      <comments>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/#disqus_thread</comments>
       
     </item>
     
@@ -491,6 +487,33 @@
       
       
       <comments>https://blogs.sqz777.com/2021/04/17/2021-235858/#disqus_thread</comments>
+      
+    </item>
+    
+    <item>
+      <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
+      <link>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</link>
+      <guid>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</guid>
+      <pubDate>Sat, 17 Apr 2021 16:00:00 GMT</pubDate>
+      
+        
+        
+      <description>&lt;p&gt;最近在看 &lt;a href=&quot;https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw&quot;&gt;依賴注入：原理、實作與設計模式&lt;/a&gt;&lt;br&gt;其中第四章提到了時序耦合（Temporal Coupling）&lt;br&gt;覺得是一個值得寫下來筆記的東西，所以就產出了這篇。&lt;/p&gt;
+&lt;p&gt;第</description>
+        
+      
+      
+      
+      
+      
+      <category domain="https://blogs.sqz777.com/tags/%E7%AD%86%E8%A8%98/">筆記</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/DI/">DI</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/CodeSmell/">CodeSmell</category>
+      
+      
+      <comments>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/#disqus_thread</comments>
       
     </item>
     
