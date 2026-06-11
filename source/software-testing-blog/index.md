@@ -30,19 +30,19 @@ keywords:
     <h2>測試思維與職涯</h2>
   </div>
   <div class="testing-article-grid">
-    <a class="testing-article-card testing-article-card-featured" href="/2026/01/04/2026-testing-paradigm-confusion/">
+    <a class="testing-article-card testing-article-card-featured" href="/2026/01/04/2026-testing-paradigm-confusion">
       <span class="testing-card-tag">測試者定位</span>
       <h3>一個測試者的獨白：我如何理解軟體測試、QA 與自動化</h3>
       <p>從 QA 職涯、敏捷團隊、自動化與測試思想學派，整理我對測試者價值的理解。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2026/01/11/2026-epistemology-and-software-testing/">
+    <a class="testing-article-card" href="/2026/01/11/2026-epistemology-and-software-testing">
       <span class="testing-card-tag">測試哲學</span>
       <h3>形上、懷疑、批判：知識論視角的軟體測試</h3>
       <p>從知識論角度思考測試如何建立可信判斷、揭露風險，以及為什麼哲學能幫助測試。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2018/04/07/2018-180727/">
+    <a class="testing-article-card" href="/2018/04/07/2018-180727">
       <span class="testing-card-tag">Cem Kaner</span>
       <h3>測試技術分類系統：從 Cem Kaner 的觀點理解軟體測試</h3>
       <p>整理測試技術如何從涵蓋、風險、活動與評估等角度理解。</p>
@@ -57,31 +57,31 @@ keywords:
     <h2>測試實務與工具</h2>
   </div>
   <div class="testing-article-grid">
-    <a class="testing-article-card testing-article-card-featured" href="/2026/02/05/2026-testing-rate-limit/">
+    <a class="testing-article-card testing-article-card-featured" href="/2026/02/05/2026-testing-rate-limit">
       <span class="testing-card-tag">測試設計</span>
       <h3>Rate Limit 測試思考路徑：從規則、邊界到 k6 驗證</h3>
       <p>整理 Rate Limit 測試的設計重點，包含 RPS/RPM、時間窗、Redis 設定與 k6 驗證。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2022/10/06/2022-223559/">
+    <a class="testing-article-card" href="/2022/10/06/2022-223559">
       <span class="testing-card-tag">API</span>
       <h3>API 測試自動化的技術選擇與 Modules 分層思考</h3>
       <p>記錄如何從 Postman 轉向程式碼管理 API 檢查，並設計可維護的分層架構。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2021/10/17/2021-191743/">
+    <a class="testing-article-card" href="/2021/10/17/2021-191743">
       <span class="testing-card-tag">Robot Framework</span>
       <h3>Robot Framework 介紹：給 QA 的測試自動化入門</h3>
       <p>給 QA 與測試新手的 Robot Framework 入門，整理 Settings、Variables、Test Cases 與 Keywords。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2024/09/08/2024-easy-playwright-intercept-note/">
+    <a class="testing-article-card" href="/2024/09/08/2024-easy-playwright-intercept-note">
       <span class="testing-card-tag">Playwright</span>
       <h3>Playwright 攔截 request：Web SDK 測試自動化筆記與範例</h3>
       <p>用 Playwright 攔截 request 來驗證 Web SDK 發送事件資料。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2018/03/15/2018-004634/">
+    <a class="testing-article-card" href="/2018/03/15/2018-004634">
       <span class="testing-card-tag">Mutation Testing</span>
       <h3>變異測試 Mutation Testing：你的測試到底有效嗎？</h3>
       <p>用範例說明 code coverage 不等於測試品質，以及 Mutation Testing 能如何檢查測試是否有效。</p>
@@ -96,13 +96,13 @@ keywords:
     <h2>團隊測試與測試文件</h2>
   </div>
   <div class="testing-article-grid">
-    <a class="testing-article-card" href="/2018/02/28/2018-195303/">
+    <a class="testing-article-card" href="/2018/02/28/2018-195303">
       <span class="testing-card-tag">Bug Bash</span>
       <h3>Bug Bash 實戰：讓團隊一起參與軟體測試</h3>
       <p>分享第一次在敏捷團隊舉辦 Bug Bash / Test Together 的經驗與回饋。</p>
       <span class="testing-card-link">閱讀文章</span>
     </a>
-    <a class="testing-article-card" href="/2018/03/11/2018-234606/">
+    <a class="testing-article-card" href="/2018/03/11/2018-234606">
       <span class="testing-card-tag">測試文件</span>
       <h3>測試文件不是孤單一個人：測試計畫、測試筆記與知識庫</h3>
       <p>整理測試計畫、測試設計、測試總結、測試筆記、測試資料與測試知識庫的差異。</p>
