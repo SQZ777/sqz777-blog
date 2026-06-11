@@ -9,7 +9,7 @@
     <atom:link href="https://blogs.sqz777.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>專注於軟體測試、品質工程、測試自動化、CI/CD、測試環境與測試思維的技術部落格。</description>
-    <pubDate>Thu, 11 Jun 2026 02:58:57 GMT</pubDate>
+    <pubDate>Thu, 11 Jun 2026 06:24:02 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -331,8 +331,8 @@
     
     <item>
       <title>API 測試自動化的技術選擇與 Modules 分層思考</title>
-      <link>https://blogs.sqz777.com/2022/10/05/2022-223559/</link>
-      <guid>https://blogs.sqz777.com/2022/10/05/2022-223559/</guid>
+      <link>https://blogs.sqz777.com/2022/10/06/2022-223559/</link>
+      <guid>https://blogs.sqz777.com/2022/10/06/2022-223559/</guid>
       <pubDate>Wed, 05 Oct 2022 16:00:00 GMT</pubDate>
       
       <description>記錄從 Postman 轉向程式碼管理 API 測試自動化的取捨，包含語言、Jest 測試框架選擇，以及 tests、apis、payload modules 的分層設計。</description>
@@ -356,14 +356,14 @@
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%9E%B6%E6%A7%8B/">測試架構</category>
       
       
-      <comments>https://blogs.sqz777.com/2022/10/05/2022-223559/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2022/10/06/2022-223559/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>Prettier ESLint 出現的錯誤：Error: r is not a constructor</title>
-      <link>https://blogs.sqz777.com/2022/02/24/2022-180145/</link>
-      <guid>https://blogs.sqz777.com/2022/02/24/2022-180145/</guid>
+      <link>https://blogs.sqz777.com/2022/02/25/2022-180145/</link>
+      <guid>https://blogs.sqz777.com/2022/02/25/2022-180145/</guid>
       <pubDate>Thu, 24 Feb 2022 16:00:00 GMT</pubDate>
       
         
@@ -385,14 +385,14 @@
       <category domain="https://blogs.sqz777.com/tags/VS-Code/">VS Code</category>
       
       
-      <comments>https://blogs.sqz777.com/2022/02/24/2022-180145/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2022/02/25/2022-180145/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>Robot Framework - Suite Setup V.S Test Setup</title>
-      <link>https://blogs.sqz777.com/2021/11/15/2021-224604/</link>
-      <guid>https://blogs.sqz777.com/2021/11/15/2021-224604/</guid>
+      <link>https://blogs.sqz777.com/2021/11/16/2021-224604/</link>
+      <guid>https://blogs.sqz777.com/2021/11/16/2021-224604/</guid>
       <pubDate>Mon, 15 Nov 2021 16:00:00 GMT</pubDate>
       
         
@@ -413,14 +413,14 @@
       <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/11/15/2021-224604/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/11/16/2021-224604/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>Robot Framework - 使用 config.ini 管理環境變數</title>
-      <link>https://blogs.sqz777.com/2021/11/07/2021-204911/</link>
-      <guid>https://blogs.sqz777.com/2021/11/07/2021-204911/</guid>
+      <link>https://blogs.sqz777.com/2021/11/08/2021-204911/</link>
+      <guid>https://blogs.sqz777.com/2021/11/08/2021-204911/</guid>
       <pubDate>Sun, 07 Nov 2021 16:00:00 GMT</pubDate>
       
         
@@ -448,14 +448,14 @@
       <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/11/07/2021-204911/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/11/08/2021-204911/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>Robot Framework 介紹：測試自動化入門</title>
-      <link>https://blogs.sqz777.com/2021/10/16/2021-191743/</link>
-      <guid>https://blogs.sqz777.com/2021/10/16/2021-191743/</guid>
+      <link>https://blogs.sqz777.com/2021/10/17/2021-191743/</link>
+      <guid>https://blogs.sqz777.com/2021/10/17/2021-191743/</guid>
       <pubDate>Sat, 16 Oct 2021 16:00:00 GMT</pubDate>
       
       <description>給測試新手的 Robot Framework 入門介紹，整理 Settings、Variables、Test Cases、Keywords 與常見使用場景。</description>
@@ -477,14 +477,14 @@
       <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/10/16/2021-191743/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/10/17/2021-191743/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>筆記 - 4/17 技術管理者論壇－商業與技術的平衡</title>
-      <link>https://blogs.sqz777.com/2021/04/17/2021-235858/</link>
-      <guid>https://blogs.sqz777.com/2021/04/17/2021-235858/</guid>
+      <link>https://blogs.sqz777.com/2021/04/18/2021-235858/</link>
+      <guid>https://blogs.sqz777.com/2021/04/18/2021-235858/</guid>
       <pubDate>Sat, 17 Apr 2021 16:00:00 GMT</pubDate>
       
         
@@ -508,14 +508,14 @@
       <category domain="https://blogs.sqz777.com/tags/%E6%8A%80%E8%A1%93%E7%AE%A1%E7%90%86/">技術管理</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/04/17/2021-235858/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/04/18/2021-235858/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>筆記－什麼是時序耦合（Temporal Coupling）？</title>
-      <link>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</link>
-      <guid>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</guid>
+      <link>https://blogs.sqz777.com/2021/04/18/2021-what-is-temporal-coupling/</link>
+      <guid>https://blogs.sqz777.com/2021/04/18/2021-what-is-temporal-coupling/</guid>
       <pubDate>Sat, 17 Apr 2021 16:00:00 GMT</pubDate>
       
         
@@ -535,14 +535,14 @@
       <category domain="https://blogs.sqz777.com/tags/Code-Smell/">Code Smell</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/04/18/2021-what-is-temporal-coupling/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務</title>
-      <link>https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/</link>
-      <guid>https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/</guid>
+      <link>https://blogs.sqz777.com/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/</link>
+      <guid>https://blogs.sqz777.com/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/</guid>
       <pubDate>Wed, 17 Mar 2021 16:00:00 GMT</pubDate>
       
         
@@ -564,14 +564,14 @@
       <category domain="https://blogs.sqz777.com/tags/Dependency-Injection/">Dependency Injection</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/03/18/2021-DotnetCoreDIConstructorWithParameters/#disqus_thread</comments>
       
     </item>
     
     <item>
       <title>C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI</title>
-      <link>https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/</link>
-      <guid>https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/</guid>
+      <link>https://blogs.sqz777.com/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/</link>
+      <guid>https://blogs.sqz777.com/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/</guid>
       <pubDate>Sat, 13 Mar 2021 16:00:00 GMT</pubDate>
       
         
@@ -597,7 +597,7 @@
       <category domain="https://blogs.sqz777.com/tags/Dependency-Injection/">Dependency Injection</category>
       
       
-      <comments>https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/#disqus_thread</comments>
+      <comments>https://blogs.sqz777.com/2021/03/14/2021-AWSLambdaUseDotnetCoreDI/#disqus_thread</comments>
       
     </item>
     
