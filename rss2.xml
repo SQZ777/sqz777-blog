@@ -9,7 +9,7 @@
     <atom:link href="https://blogs.sqz777.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>專注於軟體測試、品質工程、測試自動化、CI/CD、測試環境與測試思維的技術部落格。</description>
-    <pubDate>Thu, 11 Jun 2026 06:24:02 GMT</pubDate>
+    <pubDate>Thu, 11 Jun 2026 09:14:53 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -234,9 +234,9 @@
       
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/Docker/">Docker</category>
-      
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83/">測試環境</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Docker/">Docker</category>
       
       <category domain="https://blogs.sqz777.com/tags/Postgres/">Postgres</category>
       
