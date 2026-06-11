@@ -22,13 +22,13 @@
       
         <tags>
             
-            <tag> 壓力測試 </tag>
+            <tag> 軟體測試 </tag>
             
             <tag> API 測試 </tag>
             
-            <tag> 軟體測試 </tag>
+            <tag> 壓力測試 </tag>
             
-            <tag> Rate Limit 測試 </tag>
+            <tag> Rate Limit </tag>
             
             <tag> k6 </tag>
             
@@ -57,13 +57,11 @@
       
         <tags>
             
-            <tag> 哲學 </tag>
-            
-            <tag> 軟體測試與哲學 </tag>
-            
             <tag> 軟體測試 </tag>
             
             <tag> 測試思維 </tag>
+            
+            <tag> 哲學 </tag>
             
             <tag> James Bach </tag>
             
@@ -92,13 +90,13 @@
       
         <tags>
             
-            <tag> 測試自動化 </tag>
-            
-            <tag> QA </tag>
-            
             <tag> 軟體測試 </tag>
             
+            <tag> 測試自動化 </tag>
+            
             <tag> 測試思維 </tag>
+            
+            <tag> QA </tag>
             
             <tag> 測試職涯 </tag>
             
@@ -118,6 +116,10 @@
       
       
         <tags>
+            
+            <tag> 軟體測試 </tag>
+            
+            <tag> Web 測試 </tag>
             
             <tag> Vue.js </tag>
             
@@ -140,11 +142,13 @@
       
         <tags>
             
+            <tag> 程式設計 </tag>
+            
             <tag> JavaScript </tag>
             
             <tag> CodeWars </tag>
             
-            <tag> 程式碼學習 </tag>
+            <tag> 技術學習 </tag>
             
         </tags>
       
@@ -162,6 +166,8 @@
       
       
         <tags>
+            
+            <tag> 環境設定 </tag>
             
             <tag> macOS </tag>
             
@@ -190,11 +196,13 @@
       
         <tags>
             
+            <tag> 軟體測試 </tag>
+            
             <tag> 測試自動化 </tag>
             
-            <tag> Playwright </tag>
+            <tag> API 測試 </tag>
             
-            <tag> 攔截Request </tag>
+            <tag> Playwright </tag>
             
             <tag> Web SDK 測試 </tag>
             
@@ -215,7 +223,11 @@
       
         <tags>
             
+            <tag> 軟體測試 </tag>
+            
             <tag> Docker </tag>
+            
+            <tag> 測試環境 </tag>
             
             <tag> Postgres </tag>
             
@@ -236,9 +248,13 @@
       
         <tags>
             
-            <tag> 翻譯系列 </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 測試相關 </tag>
+            <tag> 測試思維 </tag>
+            
+            <tag> 測試策略 </tag>
+            
+            <tag> 翻譯 </tag>
             
         </tags>
       
@@ -278,6 +294,10 @@
       
         <tags>
             
+            <tag> 軟體測試 </tag>
+            
+            <tag> 測試環境 </tag>
+            
             <tag> Chrome </tag>
             
             <tag> 時區 </tag>
@@ -307,15 +327,15 @@
       
         <tags>
             
-            <tag> Automation </tag>
-            
-            <tag> API </tag>
+            <tag> 軟體測試 </tag>
             
             <tag> 測試自動化 </tag>
             
+            <tag> API 測試 </tag>
+            
             <tag> Jest </tag>
             
-            <tag> API 測試 </tag>
+            <tag> 測試架構 </tag>
             
         </tags>
       
@@ -334,9 +354,9 @@
       
         <tags>
             
-            <tag> VSCode </tag>
+            <tag> 開發工具 </tag>
             
-            <tag> vs-code-prettier-eslint </tag>
+            <tag> VS Code </tag>
             
         </tags>
       
@@ -355,11 +375,11 @@
       
         <tags>
             
-            <tag> RobotFramework </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> SuiteSetup </tag>
+            <tag> 測試自動化 </tag>
             
-            <tag> TestSetup </tag>
+            <tag> Robot Framework </tag>
             
         </tags>
       
@@ -378,11 +398,13 @@
       
         <tags>
             
-            <tag> config </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> RobotFramework </tag>
+            <tag> 測試自動化 </tag>
             
             <tag> 環境變數 </tag>
+            
+            <tag> Robot Framework </tag>
             
         </tags>
       
@@ -391,7 +413,7 @@
     
     
     <entry>
-      <title>Robot Framework 介紹：給 QA 的測試自動化入門</title>
+      <title>Robot Framework 介紹：測試自動化入門</title>
       <link href="/2021/10/16/2021-191743/"/>
       <url>/2021/10/16/2021-191743/</url>
       
@@ -409,9 +431,11 @@
       
         <tags>
             
-            <tag> Robot Framework </tag>
+            <tag> 軟體測試 </tag>
             
             <tag> 測試自動化 </tag>
+            
+            <tag> Robot Framework </tag>
             
             <tag> QA </tag>
             
@@ -432,11 +456,9 @@
       
         <tags>
             
-            <tag> 社群 </tag>
+            <tag> 社群活動 </tag>
             
-            <tag> 筆記 </tag>
-            
-            <tag> 商業與技術 </tag>
+            <tag> 技術管理 </tag>
             
         </tags>
       
@@ -455,11 +477,11 @@
       
         <tags>
             
-            <tag> 筆記 </tag>
+            <tag> 程式設計 </tag>
             
-            <tag> DI </tag>
+            <tag> Dependency Injection </tag>
             
-            <tag> CodeSmell </tag>
+            <tag> Code Smell </tag>
             
         </tags>
       
@@ -478,11 +500,13 @@
       
         <tags>
             
-            <tag> .NetCore </tag>
+            <tag> C# </tag>
             
-            <tag> Constructor </tag>
+            <tag> 程式設計 </tag>
             
-            <tag> DI </tag>
+            <tag> .NET Core </tag>
+            
+            <tag> Dependency Injection </tag>
             
         </tags>
       
@@ -501,11 +525,13 @@
       
         <tags>
             
-            <tag> .NetCore </tag>
+            <tag> C# </tag>
             
-            <tag> awsLambda </tag>
+            <tag> .NET Core </tag>
             
-            <tag> dependencyInjection </tag>
+            <tag> AWS </tag>
+            
+            <tag> Dependency Injection </tag>
             
         </tags>
       
@@ -524,11 +550,11 @@
       
         <tags>
             
-            <tag> discord </tag>
+            <tag> Node.js </tag>
             
-            <tag> heroku </tag>
+            <tag> Discord Bot </tag>
             
-            <tag> nodejs </tag>
+            <tag> Heroku </tag>
             
         </tags>
       
@@ -547,11 +573,11 @@
       
         <tags>
             
+            <tag> 開發工具 </tag>
+            
             <tag> Node.js </tag>
             
-            <tag> config </tag>
-            
-            <tag> dotenv </tag>
+            <tag> 環境變數 </tag>
             
         </tags>
       
@@ -570,13 +596,11 @@
       
         <tags>
             
+            <tag> 程式設計 </tag>
+            
             <tag> Node.js </tag>
             
-            <tag> bot </tag>
-            
-            <tag> discord </tag>
-            
-            <tag> discord.js </tag>
+            <tag> Discord Bot </tag>
             
         </tags>
       
@@ -595,15 +619,11 @@
       
         <tags>
             
-            <tag> aws </tag>
+            <tag> 環境設定 </tag>
             
-            <tag> cli </tag>
+            <tag> AWS </tag>
             
-            <tag> install </tag>
-            
-            <tag> powershell </tag>
-            
-            <tag> 安裝 </tag>
+            <tag> PowerShell </tag>
             
         </tags>
       
@@ -624,6 +644,10 @@
             
             <tag> Windows </tag>
             
+            <tag> 環境變數 </tag>
+            
+            <tag> PowerShell </tag>
+            
         </tags>
       
     </entry>
@@ -641,11 +665,9 @@
       
         <tags>
             
-            <tag> Mutable Default Arguments </tag>
+            <tag> 程式設計 </tag>
             
             <tag> Python </tag>
-            
-            <tag> 筆記 </tag>
             
         </tags>
       
@@ -664,7 +686,11 @@
       
         <tags>
             
-            <tag> .NetCore </tag>
+            <tag> C# </tag>
+            
+            <tag> .NET Core </tag>
+            
+            <tag> 環境設定 </tag>
             
         </tags>
       
@@ -683,11 +709,13 @@
       
         <tags>
             
-            <tag> .NetCore </tag>
+            <tag> 前端開發 </tag>
             
-            <tag> libman </tag>
+            <tag> 開發工具 </tag>
             
-            <tag> 工具 </tag>
+            <tag> CLI命令列 </tag>
+            
+            <tag> .NET Core </tag>
             
         </tags>
       
@@ -708,11 +736,11 @@
             
             <tag> Windows </tag>
             
-            <tag> command </tag>
+            <tag> 命令列 </tag>
             
-            <tag> file </tag>
+            <tag> Shell Script </tag>
             
-            <tag> shellScript </tag>
+            <tag> 測試環境 </tag>
             
         </tags>
       
@@ -731,13 +759,13 @@
       
         <tags>
             
-            <tag> 心得 </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 知識 </tag>
+            <tag> 讀書心得 </tag>
+            
+            <tag> 測試思維 </tag>
             
             <tag> 哲學 </tag>
-            
-            <tag> 測試 </tag>
             
         </tags>
       
@@ -756,13 +784,13 @@
       
         <tags>
             
-            <tag> w3HexSchool </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> locust </tag>
-            
-            <tag> loadTesting </tag>
+            <tag> 六角鐵人賽 </tag>
             
             <tag> 壓力測試 </tag>
+            
+            <tag> Locust </tag>
             
         </tags>
       
@@ -781,9 +809,11 @@
       
         <tags>
             
-            <tag> shellScript </tag>
+            <tag> 命令列 </tag>
             
-            <tag> w3HexSchool </tag>
+            <tag> Shell Script </tag>
+            
+            <tag> 六角鐵人賽 </tag>
             
         </tags>
       
@@ -802,9 +832,13 @@
       
         <tags>
             
-            <tag> shellScript </tag>
+            <tag> 技術學習 </tag>
             
-            <tag> w3HexSchool </tag>
+            <tag> 命令列 </tag>
+            
+            <tag> Shell Script </tag>
+            
+            <tag> 六角鐵人賽 </tag>
             
         </tags>
       
@@ -823,19 +857,13 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> API </tag>
+            <tag> API 測試 </tag>
             
-            <tag> Charles </tag>
+            <tag> Charles Proxy </tag>
             
-            <tag> Setting </tag>
-            
-            <tag> interceptor </tag>
-            
-            <tag> Http </tag>
-            
-            <tag> Https </tag>
+            <tag> API 攔截器 </tag>
             
         </tags>
       
@@ -854,17 +882,9 @@
       
         <tags>
             
-            <tag> VSCode </tag>
+            <tag> 開發工具 </tag>
             
-            <tag> Notes </tag>
-            
-            <tag> DocDiff </tag>
-            
-            <tag> diff </tag>
-            
-            <tag> Compare </tag>
-            
-            <tag> fileCompare </tag>
+            <tag> VS Code </tag>
             
         </tags>
       
@@ -887,11 +907,7 @@
             
             <tag> Docker </tag>
             
-            <tag> Android </tag>
-            
-            <tag> Android Emulator </tag>
-            
-            <tag> HyperV </tag>
+            <tag> 環境設定 </tag>
             
         </tags>
       
@@ -910,7 +926,9 @@
       
         <tags>
             
-            <tag> VSCode </tag>
+            <tag> 開發工具 </tag>
+            
+            <tag> VS Code </tag>
             
             <tag> Ruby </tag>
             
@@ -931,11 +949,13 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 讀書心得系列 </tag>
+            <tag> 測試自動化 </tag>
             
-            <tag> Automation </tag>
+            <tag> 讀書心得 </tag>
+            
+            <tag> 敏捷測試 </tag>
             
         </tags>
       
@@ -954,11 +974,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> Automation </tag>
+            <tag> 測試自動化 </tag>
             
-            <tag> API </tag>
+            <tag> API 測試 </tag>
             
             <tag> Postman </tag>
             
@@ -979,17 +999,15 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> API </tag>
-            
-            <tag> CLI </tag>
+            <tag> API 測試 </tag>
             
             <tag> Postman </tag>
             
-            <tag> Newman </tag>
+            <tag> CLI命令列 </tag>
             
-            <tag> Reporter </tag>
+            <tag> CI/CD </tag>
             
         </tags>
       
@@ -1008,15 +1026,13 @@
       
         <tags>
             
-            <tag> CLI </tag>
+            <tag> 開發工具 </tag>
             
-            <tag> 自己做工具 </tag>
+            <tag> 程式設計 </tag>
             
-            <tag> npm </tag>
+            <tag> CLI命令列 </tag>
             
             <tag> Node.js </tag>
-            
-            <tag> commander </tag>
             
         </tags>
       
@@ -1035,13 +1051,11 @@
       
         <tags>
             
+            <tag> 前端開發 </tag>
+            
             <tag> C# </tag>
             
-            <tag> Angular6 </tag>
-            
-            <tag> .NetCore </tag>
-            
-            <tag> Angular CLI </tag>
+            <tag> .NET Core </tag>
             
         </tags>
       
@@ -1060,11 +1074,13 @@
       
         <tags>
             
-            <tag> 心得 </tag>
+            <tag> 程式設計 </tag>
             
-            <tag> Develop </tag>
+            <tag> 社群活動 </tag>
             
             <tag> OOP </tag>
+            
+            <tag> SOLID </tag>
             
         </tags>
       
@@ -1083,11 +1099,9 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 心得 </tag>
-            
-            <tag> 社群 </tag>
+            <tag> 社群活動 </tag>
             
         </tags>
       
@@ -1105,6 +1119,8 @@
       
       
         <tags>
+            
+            <tag> 程式設計 </tag>
             
             <tag> Ruby </tag>
             
@@ -1133,17 +1149,15 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 讀書心得系列 </tag>
-            
-            <tag> 心得 </tag>
+            <tag> 讀書心得 </tag>
             
             <tag> 測試技術 </tag>
             
-            <tag> Cem Kaner </tag>
-            
             <tag> 測試策略 </tag>
+            
+            <tag> Cem Kaner </tag>
             
         </tags>
       
@@ -1170,17 +1184,15 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 心得 </tag>
+            <tag> 社群活動 </tag>
             
-            <tag> 社群 </tag>
-            
-            <tag> 變異測試 </tag>
+            <tag> 測試技術 </tag>
             
             <tag> Mutation Testing </tag>
             
-            <tag> Unit Test </tag>
+            <tag> 單元測試 </tag>
             
         </tags>
       
@@ -1207,11 +1219,13 @@
       
         <tags>
             
+            <tag> 軟體測試 </tag>
+            
+            <tag> 讀書心得 </tag>
+            
             <tag> 測試策略 </tag>
             
             <tag> 測試文件 </tag>
-            
-            <tag> 測試計畫 </tag>
             
         </tags>
       
@@ -1230,11 +1244,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 讀書心得系列 </tag>
+            <tag> 讀書心得 </tag>
             
-            <tag> 心得 </tag>
+            <tag> 測試思維 </tag>
             
         </tags>
       
@@ -1261,15 +1275,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> 心得 </tag>
-            
-            <tag> 敏捷開發 </tag>
+            <tag> 敏捷測試 </tag>
             
             <tag> Bug Bash </tag>
-            
-            <tag> 團隊測試 </tag>
             
             <tag> 探索式測試 </tag>
             
@@ -1290,7 +1300,9 @@
       
         <tags>
             
-            <tag> 讀書心得系列 </tag>
+            <tag> 讀書心得 </tag>
+            
+            <tag> 技術學習 </tag>
             
         </tags>
       
@@ -1309,13 +1321,13 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
+            
+            <tag> 測試自動化 </tag>
+            
+            <tag> Web 測試 </tag>
             
             <tag> Selenium </tag>
-            
-            <tag> ChromeDriver </tag>
-            
-            <tag> Automation </tag>
             
             <tag> Ruby </tag>
             
@@ -1338,7 +1350,11 @@
       
         <tags>
             
+            <tag> 開發工具 </tag>
+            
             <tag> Windows </tag>
+            
+            <tag> 命令列 </tag>
             
         </tags>
       
@@ -1357,13 +1373,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
+            
+            <tag> 測試自動化 </tag>
             
             <tag> Selenium </tag>
-            
-            <tag> ChromeDriver </tag>
-            
-            <tag> Automation </tag>
             
             <tag> Ruby </tag>
             
@@ -1386,11 +1400,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
+            
+            <tag> 測試自動化 </tag>
             
             <tag> Selenium </tag>
-            
-            <tag> Automation </tag>
             
             <tag> Ruby </tag>
             
@@ -1413,15 +1427,11 @@
       
         <tags>
             
+            <tag> 開發工具 </tag>
+            
+            <tag> 技術學習 </tag>
+            
             <tag> Hello91 </tag>
-            
-            <tag> 心得 </tag>
-            
-            <tag> Develop </tag>
-            
-            <tag> 極速開發 </tag>
-            
-            <tag> VsVim </tag>
             
         </tags>
       
@@ -1440,11 +1450,11 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> VSCode </tag>
+            <tag> 測試自動化 </tag>
             
-            <tag> Automation </tag>
+            <tag> Selenium </tag>
             
             <tag> Ruby </tag>
             
@@ -1469,7 +1479,7 @@
             
             <tag> C# </tag>
             
-            <tag> Zip </tag>
+            <tag> 程式設計 </tag>
             
         </tags>
       
@@ -1488,9 +1498,9 @@
       
         <tags>
             
-            <tag> Java </tag>
+            <tag> 開發工具 </tag>
             
-            <tag> IntelliJ </tag>
+            <tag> Java </tag>
             
         </tags>
       
@@ -1511,7 +1521,11 @@
             
             <tag> C# </tag>
             
+            <tag> 程式設計 </tag>
+            
             <tag> TDD </tag>
+            
+            <tag> CodeWars </tag>
             
         </tags>
       
@@ -1530,11 +1544,9 @@
       
         <tags>
             
-            <tag> 心得 </tag>
-            
-            <tag> 社群 </tag>
-            
             <tag> 敏捷開發 </tag>
+            
+            <tag> 社群活動 </tag>
             
         </tags>
       
@@ -1553,13 +1565,15 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> Java </tag>
+            <tag> 測試自動化 </tag>
+            
+            <tag> Web 測試 </tag>
             
             <tag> Selenium </tag>
             
-            <tag> ChromeDriver </tag>
+            <tag> Java </tag>
             
         </tags>
       
@@ -1578,13 +1592,15 @@
       
         <tags>
             
-            <tag> Test </tag>
+            <tag> 軟體測試 </tag>
             
-            <tag> Java </tag>
+            <tag> 測試自動化 </tag>
+            
+            <tag> Web 測試 </tag>
             
             <tag> Selenium </tag>
             
-            <tag> ChromeDriver </tag>
+            <tag> Java </tag>
             
         </tags>
       
@@ -1605,7 +1621,11 @@
             
             <tag> C# </tag>
             
+            <tag> 程式設計 </tag>
+            
             <tag> TDD </tag>
+            
+            <tag> CodeWars </tag>
             
         </tags>
       
@@ -1624,11 +1644,9 @@
       
         <tags>
             
-            <tag> 心得 </tag>
-            
-            <tag> 社群 </tag>
-            
             <tag> 敏捷開發 </tag>
+            
+            <tag> 社群活動 </tag>
             
         </tags>
       
@@ -1647,11 +1665,9 @@
       
         <tags>
             
-            <tag> 心得 </tag>
-            
-            <tag> 社群 </tag>
-            
             <tag> 敏捷開發 </tag>
+            
+            <tag> 社群活動 </tag>
             
         </tags>
       
@@ -1660,7 +1676,7 @@
     
     
     <entry>
-      <title>javaScript 學習筆記 - [Variable Object] JavaScript的運作原理 Part 2</title>
+      <title>JavaScript 學習筆記 - [Variable Object] JavaScript的運作原理 Part 2</title>
       <link href="/2017/09/01/2017-004219/"/>
       <url>/2017/09/01/2017-004219/</url>
       
@@ -1669,6 +1685,10 @@
       
       
         <tags>
+            
+            <tag> 前端開發 </tag>
+            
+            <tag> 程式設計 </tag>
             
             <tag> JavaScript </tag>
             
@@ -1688,6 +1708,10 @@
       
       
         <tags>
+            
+            <tag> 前端開發 </tag>
+            
+            <tag> 程式設計 </tag>
             
             <tag> JavaScript </tag>
             
@@ -1710,7 +1734,7 @@
             
             <tag> C# </tag>
             
-            <tag> Attribute </tag>
+            <tag> 程式設計 </tag>
             
         </tags>
       
@@ -1731,6 +1755,8 @@
             
             <tag> C# </tag>
             
+            <tag> 程式設計 </tag>
+            
         </tags>
       
     </entry>
@@ -1750,7 +1776,7 @@
             
             <tag> C# </tag>
             
-            <tag> Lambda </tag>
+            <tag> 程式設計 </tag>
             
         </tags>
       
@@ -1769,7 +1795,11 @@
       
         <tags>
             
-            <tag> 讀書心得系列 </tag>
+            <tag> 程式設計 </tag>
+            
+            <tag> 讀書心得 </tag>
+            
+            <tag> 技術學習 </tag>
             
         </tags>
       
@@ -1788,7 +1818,11 @@
       
         <tags>
             
-            <tag> VSCode </tag>
+            <tag> 前端開發 </tag>
+            
+            <tag> 開發工具 </tag>
+            
+            <tag> VS Code </tag>
             
         </tags>
       
@@ -1807,9 +1841,9 @@
       
         <tags>
             
-            <tag> Html </tag>
+            <tag> 前端開發 </tag>
             
-            <tag> Web </tag>
+            <tag> Web 開發 </tag>
             
         </tags>
       
@@ -1828,7 +1862,13 @@
       
         <tags>
             
+            <tag> C# </tag>
+            
+            <tag> 程式設計 </tag>
+            
             <tag> TDD </tag>
+            
+            <tag> CodeWars </tag>
             
         </tags>
       
@@ -1849,7 +1889,7 @@
             
             <tag> C# </tag>
             
-            <tag> Lambda </tag>
+            <tag> 程式設計 </tag>
             
         </tags>
       
@@ -1867,6 +1907,10 @@
       
       
         <tags>
+            
+            <tag> TDD </tag>
+            
+            <tag> 技術學習 </tag>
             
             <tag> Hello91 </tag>
             
@@ -1889,6 +1933,8 @@
             
             <tag> TDD </tag>
             
+            <tag> 技術學習 </tag>
+            
             <tag> Hello91 </tag>
             
         </tags>
@@ -1910,6 +1956,8 @@
             
             <tag> C# </tag>
             
+            <tag> 程式設計 </tag>
+            
         </tags>
       
     </entry>
@@ -1927,7 +1975,9 @@
       
         <tags>
             
-            <tag> VSCode </tag>
+            <tag> 開發工具 </tag>
+            
+            <tag> VS Code </tag>
             
         </tags>
       
@@ -1945,6 +1995,8 @@
       
       
         <tags>
+            
+            <tag> 技術學習 </tag>
             
             <tag> Hello91 </tag>
             
@@ -1965,7 +2017,11 @@
       
         <tags>
             
+            <tag> 技術學習 </tag>
+            
             <tag> Hello91 </tag>
+            
+            <tag> 敏捷開發 </tag>
             
         </tags>
       
@@ -1984,7 +2040,11 @@
       
         <tags>
             
+            <tag> 前端開發 </tag>
+            
             <tag> Gulp.js </tag>
+            
+            <tag> 開發工具 </tag>
             
         </tags>
       
@@ -2003,7 +2063,11 @@
       
         <tags>
             
+            <tag> 前端開發 </tag>
+            
             <tag> Gulp.js </tag>
+            
+            <tag> 開發工具 </tag>
             
         </tags>
       
@@ -2022,7 +2086,11 @@
       
         <tags>
             
+            <tag> 前端開發 </tag>
+            
             <tag> Gulp.js </tag>
+            
+            <tag> 開發工具 </tag>
             
         </tags>
       

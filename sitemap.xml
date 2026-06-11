@@ -517,16 +517,16 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/software-testing-blog-index/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/about/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/software-testing-blog-index/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://blogs.sqz777.com/archives/</loc>
@@ -577,559 +577,25 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%89%8D%E7%AB%AF%E9%96%8B%E7%99%BC/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://blogs.sqz777.com/tags/Gulp-js/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/C/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E9%96%8B%E7%99%BC%E5%B7%A5%E5%85%B7/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Zip/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Test/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Java/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Selenium/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/ChromeDriver/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/JavaScript/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Attribute/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/TDD/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97%E7%B3%BB%E5%88%97/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Hello91/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/VSCode/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/IntelliJ/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Html/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Web/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Lambda/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%BF%83%E5%BE%97/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%A4%BE%E7%BE%A4/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%95%8F%E6%8D%B7%E9%96%8B%E7%99%BC/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Automation/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Ruby/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E8%AE%8A%E7%95%B0%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Mutation-Testing/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Unit-Test/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Windows/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/API/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/CLI/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Postman/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Newman/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Reporter/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Cucumber/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Bug-Bash/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%9C%98%E9%9A%8A%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%8E%A2%E7%B4%A2%E5%BC%8F%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Angular6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/NetCore/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Angular-CLI/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Cem-Kaner/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%AD%96%E7%95%A5/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Develop/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/OOP/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%A5%B5%E9%80%9F%E9%96%8B%E7%99%BC/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/VsVim/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E8%87%AA%E5%B7%B1%E5%81%9A%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/npm/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Node-js/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/commander/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%96%87%E4%BB%B6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%A8%88%E7%95%AB/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Notes/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/DocDiff/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/diff/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Compare/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/fileCompare/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Charles/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Setting/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/interceptor/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Http/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Https/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Docker/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Android/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Android-Emulator/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/HyperV/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Mutable-Default-Arguments/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Python/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%AD%86%E8%A8%98/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/command/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/file/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/shellScript/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/w3HexSchool/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/libman/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%9F%A5%E8%AD%98/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%93%B2%E5%AD%B8/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/config/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/dotenv/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/aws/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/cli/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/install/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/powershell/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%AE%89%E8%A3%9D/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/bot/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/discord/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/discord-js/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/locust/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/loadTesting/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/heroku/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/nodejs/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Robot-Framework/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1141,79 +607,139 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/QA/</loc>
+    <loc>https://blogs.sqz777.com/tags/Web-%E6%B8%AC%E8%A9%A6/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/RobotFramework/</loc>
+    <loc>https://blogs.sqz777.com/tags/Selenium/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/SuiteSetup/</loc>
+    <loc>https://blogs.sqz777.com/tags/Java/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/TestSetup/</loc>
+    <loc>https://blogs.sqz777.com/tags/C/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E5%95%86%E6%A5%AD%E8%88%87%E6%8A%80%E8%A1%93/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/awsLambda/</loc>
+    <loc>https://blogs.sqz777.com/tags/JavaScript/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/dependencyInjection/</loc>
+    <loc>https://blogs.sqz777.com/tags/TDD/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</loc>
+    <loc>https://blogs.sqz777.com/tags/CodeWars/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Constructor/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E8%AE%80%E6%9B%B8%E5%BF%83%E5%BE%97/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/DI/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E6%8A%80%E8%A1%93%E5%AD%B8%E7%BF%92/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/CodeSmell/</loc>
+    <loc>https://blogs.sqz777.com/tags/Hello91/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/vs-code-prettier-eslint/</loc>
+    <loc>https://blogs.sqz777.com/tags/VS-Code/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Jest/</loc>
+    <loc>https://blogs.sqz777.com/tags/Web-%E9%96%8B%E7%99%BC/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%95%8F%E6%8D%B7%E9%96%8B%E7%99%BC/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E7%A4%BE%E7%BE%A4%E6%B4%BB%E5%8B%95/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%95%8F%E6%8D%B7%E6%B8%AC%E8%A9%A6/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Windows/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%91%BD%E4%BB%A4%E5%88%97/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Ruby/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Mutation-Testing/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%96%AE%E5%85%83%E6%B8%AC%E8%A9%A6/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Cucumber/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1225,13 +751,223 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Playwright/</loc>
+    <loc>https://blogs.sqz777.com/tags/Postman/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%94%94%E6%88%AARequest/</loc>
+    <loc>https://blogs.sqz777.com/tags/CLI%E5%91%BD%E4%BB%A4%E5%88%97/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/CI-CD/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%AD%96%E7%95%A5/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Cem-Kaner/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Bug-Bash/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%8E%A2%E7%B4%A2%E5%BC%8F%E6%B8%AC%E8%A9%A6/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/NET-Core/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/OOP/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/SOLID/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Node-js/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%96%87%E4%BB%B6/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Charles-Proxy/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/API-%E6%94%94%E6%88%AA%E5%99%A8/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Docker/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Python/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Shell-Script/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%85%AD%E8%A7%92%E9%90%B5%E4%BA%BA%E8%B3%BD/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%93%B2%E5%AD%B8/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Discord-Bot/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/AWS/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/PowerShell/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Locust/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Heroku/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Robot-Framework/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/QA/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%8A%80%E8%A1%93%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Dependency-Injection/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Code-Smell/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Jest/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%9E%B6%E6%A7%8B/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Playwright/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1243,13 +979,7 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%BF%BB%E8%AD%AF%E7%B3%BB%E5%88%97/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%9B%B8%E9%97%9C/</loc>
+    <loc>https://blogs.sqz777.com/tags/%E7%BF%BB%E8%AD%AF/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1285,18 +1015,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/CodeWars/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%AD%B8%E7%BF%92/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/tags/Vue-js/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1315,24 +1033,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6%E8%88%87%E5%93%B2%E5%AD%B8/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/tags/James-Bach/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1345,7 +1045,7 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Rate-Limit-%E6%B8%AC%E8%A9%A6/</loc>
+    <loc>https://blogs.sqz777.com/tags/Rate-Limit/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>

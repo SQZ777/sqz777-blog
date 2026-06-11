@@ -9,7 +9,7 @@
     <atom:link href="https://blogs.sqz777.com/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>專注於軟體測試、品質工程、測試自動化、CI/CD、測試環境與測試思維的技術部落格。</description>
-    <pubDate>Thu, 11 Jun 2026 01:36:07 GMT</pubDate>
+    <pubDate>Thu, 11 Jun 2026 02:58:57 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
@@ -28,13 +28,13 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E5%AF%A6%E5%8B%99/">測試實務</category>
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/">壓力測試</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      <category domain="https://blogs.sqz777.com/tags/%E5%A3%93%E5%8A%9B%E6%B8%AC%E8%A9%A6/">壓力測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/Rate-Limit-%E6%B8%AC%E8%A9%A6/">Rate Limit 測試</category>
+      <category domain="https://blogs.sqz777.com/tags/Rate-Limit/">Rate Limit</category>
       
       <category domain="https://blogs.sqz777.com/tags/k6/">k6</category>
       
@@ -59,13 +59,11 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E5%93%B2%E5%AD%B8/">哲學</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6%E8%88%87%E5%93%B2%E5%AD%B8/">軟體測試與哲學</category>
-      
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E5%93%B2%E5%AD%B8/">哲學</category>
       
       <category domain="https://blogs.sqz777.com/tags/James-Bach/">James Bach</category>
       
@@ -90,13 +88,13 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
-      
       <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%81%B7%E6%B6%AF/">測試職涯</category>
       
@@ -120,6 +118,10 @@
       
       
       
+      
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Web-%E6%B8%AC%E8%A9%A6/">Web 測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/Vue-js/">Vue.js</category>
       
@@ -146,11 +148,13 @@
       
       
       
+      <category domain="https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/">程式設計</category>
+      
       <category domain="https://blogs.sqz777.com/tags/JavaScript/">JavaScript</category>
       
       <category domain="https://blogs.sqz777.com/tags/CodeWars/">CodeWars</category>
       
-      <category domain="https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%AD%B8%E7%BF%92/">程式碼學習</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%8A%80%E8%A1%93%E5%AD%B8%E7%BF%92/">技術學習</category>
       
       
       <comments>https://blogs.sqz777.com/2025/09/01/2025-codewars-javascript-reduce-discovery/#disqus_thread</comments>
@@ -171,6 +175,8 @@
       
       
       
+      
+      <category domain="https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%A8%AD%E5%AE%9A/">環境設定</category>
       
       <category domain="https://blogs.sqz777.com/tags/macOS/">macOS</category>
       
@@ -195,11 +201,13 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
-      <category domain="https://blogs.sqz777.com/tags/Playwright/">Playwright</category>
+      <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/%E6%94%94%E6%88%AARequest/">攔截Request</category>
+      <category domain="https://blogs.sqz777.com/tags/Playwright/">Playwright</category>
       
       <category domain="https://blogs.sqz777.com/tags/Web-SDK-%E6%B8%AC%E8%A9%A6/">Web SDK 測試</category>
       
@@ -224,7 +232,11 @@
       
       
       
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
       <category domain="https://blogs.sqz777.com/tags/Docker/">Docker</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83/">測試環境</category>
       
       <category domain="https://blogs.sqz777.com/tags/Postgres/">Postgres</category>
       
@@ -249,9 +261,13 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E7%BF%BB%E8%AD%AF%E7%B3%BB%E5%88%97/">翻譯系列</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%9B%B8%E9%97%9C/">測試相關</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%80%9D%E7%B6%AD/">測試思維</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%AD%96%E7%95%A5/">測試策略</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E7%BF%BB%E8%AD%AF/">翻譯</category>
       
       
       <comments>https://blogs.sqz777.com/2024/06/10/2024-five-tricky-things-with-testing/#disqus_thread</comments>
@@ -300,6 +316,10 @@
       
       
       
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%92%B0%E5%A2%83/">測試環境</category>
+      
       <category domain="https://blogs.sqz777.com/tags/Chrome/">Chrome</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%99%82%E5%8D%80/">時區</category>
@@ -325,15 +345,15 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       
-      <category domain="https://blogs.sqz777.com/tags/Automation/">Automation</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/API/">API</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
+      <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
+      
       <category domain="https://blogs.sqz777.com/tags/Jest/">Jest</category>
       
-      <category domain="https://blogs.sqz777.com/tags/API-%E6%B8%AC%E8%A9%A6/">API 測試</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%9E%B6%E6%A7%8B/">測試架構</category>
       
       
       <comments>https://blogs.sqz777.com/2022/10/05/2022-223559/#disqus_thread</comments>
@@ -360,9 +380,9 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/VSCode/">VSCode</category>
+      <category domain="https://blogs.sqz777.com/tags/%E9%96%8B%E7%99%BC%E5%B7%A5%E5%85%B7/">開發工具</category>
       
-      <category domain="https://blogs.sqz777.com/tags/vs-code-prettier-eslint/">vs-code-prettier-eslint</category>
+      <category domain="https://blogs.sqz777.com/tags/VS-Code/">VS Code</category>
       
       
       <comments>https://blogs.sqz777.com/2022/02/24/2022-180145/#disqus_thread</comments>
@@ -386,11 +406,11 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/RobotFramework/">RobotFramework</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/SuiteSetup/">SuiteSetup</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
-      <category domain="https://blogs.sqz777.com/tags/TestSetup/">TestSetup</category>
+      <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
       
       
       <comments>https://blogs.sqz777.com/2021/11/15/2021-224604/#disqus_thread</comments>
@@ -419,11 +439,13 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/config/">config</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
-      <category domain="https://blogs.sqz777.com/tags/RobotFramework/">RobotFramework</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/">環境變數</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
       
       
       <comments>https://blogs.sqz777.com/2021/11/07/2021-204911/#disqus_thread</comments>
@@ -431,12 +453,12 @@
     </item>
     
     <item>
-      <title>Robot Framework 介紹：給 QA 的測試自動化入門</title>
+      <title>Robot Framework 介紹：測試自動化入門</title>
       <link>https://blogs.sqz777.com/2021/10/16/2021-191743/</link>
       <guid>https://blogs.sqz777.com/2021/10/16/2021-191743/</guid>
       <pubDate>Sat, 16 Oct 2021 16:00:00 GMT</pubDate>
       
-      <description>給 QA 與測試新手的 Robot Framework 入門介紹，整理 Settings、Variables、Test Cases、Keywords 與常見使用場景。</description>
+      <description>給測試新手的 Robot Framework 入門介紹，整理 Settings、Variables、Test Cases、Keywords 與常見使用場景。</description>
       
       
       
@@ -446,9 +468,11 @@
       <category domain="https://blogs.sqz777.com/categories/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
       
       
-      <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
+      <category domain="https://blogs.sqz777.com/tags/%E8%BB%9F%E9%AB%94%E6%B8%AC%E8%A9%A6/">軟體測試</category>
       
       <category domain="https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E8%87%AA%E5%8B%95%E5%8C%96/">測試自動化</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Robot-Framework/">Robot Framework</category>
       
       <category domain="https://blogs.sqz777.com/tags/QA/">QA</category>
       
@@ -479,11 +503,9 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E7%A4%BE%E7%BE%A4/">社群</category>
+      <category domain="https://blogs.sqz777.com/tags/%E7%A4%BE%E7%BE%A4%E6%B4%BB%E5%8B%95/">社群活動</category>
       
-      <category domain="https://blogs.sqz777.com/tags/%E7%AD%86%E8%A8%98/">筆記</category>
-      
-      <category domain="https://blogs.sqz777.com/tags/%E5%95%86%E6%A5%AD%E8%88%87%E6%8A%80%E8%A1%93/">商業與技術</category>
+      <category domain="https://blogs.sqz777.com/tags/%E6%8A%80%E8%A1%93%E7%AE%A1%E7%90%86/">技術管理</category>
       
       
       <comments>https://blogs.sqz777.com/2021/04/17/2021-235858/#disqus_thread</comments>
@@ -506,11 +528,11 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/%E7%AD%86%E8%A8%98/">筆記</category>
+      <category domain="https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/">程式設計</category>
       
-      <category domain="https://blogs.sqz777.com/tags/DI/">DI</category>
+      <category domain="https://blogs.sqz777.com/tags/Dependency-Injection/">Dependency Injection</category>
       
-      <category domain="https://blogs.sqz777.com/tags/CodeSmell/">CodeSmell</category>
+      <category domain="https://blogs.sqz777.com/tags/Code-Smell/">Code Smell</category>
       
       
       <comments>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/#disqus_thread</comments>
@@ -533,11 +555,13 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/NetCore/">.NetCore</category>
+      <category domain="https://blogs.sqz777.com/tags/C/">C#</category>
       
-      <category domain="https://blogs.sqz777.com/tags/Constructor/">Constructor</category>
+      <category domain="https://blogs.sqz777.com/tags/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%88/">程式設計</category>
       
-      <category domain="https://blogs.sqz777.com/tags/DI/">DI</category>
+      <category domain="https://blogs.sqz777.com/tags/NET-Core/">.NET Core</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Dependency-Injection/">Dependency Injection</category>
       
       
       <comments>https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/#disqus_thread</comments>
@@ -564,11 +588,13 @@
       
       
       
-      <category domain="https://blogs.sqz777.com/tags/NetCore/">.NetCore</category>
+      <category domain="https://blogs.sqz777.com/tags/C/">C#</category>
       
-      <category domain="https://blogs.sqz777.com/tags/awsLambda/">awsLambda</category>
+      <category domain="https://blogs.sqz777.com/tags/NET-Core/">.NET Core</category>
       
-      <category domain="https://blogs.sqz777.com/tags/dependencyInjection/">dependencyInjection</category>
+      <category domain="https://blogs.sqz777.com/tags/AWS/">AWS</category>
+      
+      <category domain="https://blogs.sqz777.com/tags/Dependency-Injection/">Dependency Injection</category>
       
       
       <comments>https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/#disqus_thread</comments>
