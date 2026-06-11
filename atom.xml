@@ -6,7 +6,7 @@
   <link href="https://blogs.sqz777.com/atom.xml" rel="self"/>
   
   <link href="https://blogs.sqz777.com/"/>
-  <updated>2026-06-10T13:10:34.930Z</updated>
+  <updated>2026-06-11T01:35:25.840Z</updated>
   <id>https://blogs.sqz777.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://blogs.sqz777.com/2026/02/05/2026-testing-rate-limit/"/>
     <id>https://blogs.sqz777.com/2026/02/05/2026-testing-rate-limit/</id>
     <published>2026-02-05T15:27:00.000Z</published>
-    <updated>2026-06-10T13:10:34.930Z</updated>
+    <updated>2026-06-11T01:35:25.840Z</updated>
     
     
     <summary type="html">以實務案例整理 Rate Limit 測試的思考方式，說明 RPS/RPM、固定時間窗、Redis 設定、429 回應與 k6 Constant Arrival Rate 的驗證重點。</summary>
@@ -50,7 +50,7 @@
     <link href="https://blogs.sqz777.com/2026/01/11/2026-epistemology-and-software-testing/"/>
     <id>https://blogs.sqz777.com/2026/01/11/2026-epistemology-and-software-testing/</id>
     <published>2026-01-11T06:21:42.000Z</published>
-    <updated>2026-06-10T13:10:34.930Z</updated>
+    <updated>2026-06-11T01:35:25.840Z</updated>
     
     
     <summary type="html">從知識論的形上、懷疑與批判三種進路，思考軟體測試如何建立可信判斷、揭露風險，並回應 James Bach 對測試哲學的提醒。</summary>
@@ -79,7 +79,7 @@
     <link href="https://blogs.sqz777.com/2026/01/04/2026-testing-paradigm-confusion/"/>
     <id>https://blogs.sqz777.com/2026/01/04/2026-testing-paradigm-confusion/</id>
     <published>2026-01-04T15:53:00.000Z</published>
-    <updated>2026-06-10T13:10:34.930Z</updated>
+    <updated>2026-06-11T01:35:25.840Z</updated>
     
     
     <summary type="html">從台灣敏捷團隊、QA 職涯與自動化經驗出發，整理我如何重新理解軟體測試、測試者價值、測試思想學派與品質工程。</summary>
@@ -108,7 +108,7 @@
     <link href="https://blogs.sqz777.com/2025/10/08/2025-how-to-control-pinia-in-browser-console/"/>
     <id>https://blogs.sqz777.com/2025/10/08/2025-how-to-control-pinia-in-browser-console/</id>
     <published>2025-10-08T14:26:30.000Z</published>
-    <updated>2026-06-10T13:10:34.930Z</updated>
+    <updated>2026-06-11T01:35:25.840Z</updated>
     
     
       
@@ -131,7 +131,7 @@
     <link href="https://blogs.sqz777.com/2025/09/01/2025-codewars-javascript-reduce-discovery/"/>
     <id>https://blogs.sqz777.com/2025/09/01/2025-codewars-javascript-reduce-discovery/</id>
     <published>2025-09-01T14:29:00.000Z</published>
-    <updated>2026-06-10T13:10:34.929Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -156,7 +156,7 @@
     <link href="https://blogs.sqz777.com/2025/02/21/2025-mac-system-data-clean-up/"/>
     <id>https://blogs.sqz777.com/2025/02/21/2025-mac-system-data-clean-up/</id>
     <published>2025-02-21T08:44:21.000Z</published>
-    <updated>2026-06-10T13:10:34.930Z</updated>
+    <updated>2026-06-11T01:35:25.840Z</updated>
     
     
       
@@ -176,7 +176,7 @@
     <link href="https://blogs.sqz777.com/2024/09/08/2024-easy-playwright-intercept-note/"/>
     <id>https://blogs.sqz777.com/2024/09/08/2024-easy-playwright-intercept-note/</id>
     <published>2024-09-08T08:18:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
     <summary type="html">用 Playwright route 攔截 request，示範如何驗證 Web SDK 發送的事件資料，適合 Web 前端與 SDK 測試自動化情境。</summary>
@@ -203,7 +203,7 @@
     <link href="https://blogs.sqz777.com/2024/06/18/2024-init-postgres-when-materialized-view-depends-on-remote-table/"/>
     <id>https://blogs.sqz777.com/2024/06/18/2024-init-postgres-when-materialized-view-depends-on-remote-table/</id>
     <published>2024-06-18T08:18:00.000Z</published>
-    <updated>2026-06-10T13:10:34.929Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -226,7 +226,7 @@
     <link href="https://blogs.sqz777.com/2024/06/10/2024-five-tricky-things-with-testing/"/>
     <id>https://blogs.sqz777.com/2024/06/10/2024-five-tricky-things-with-testing/</id>
     <published>2024-06-10T14:18:05.000Z</published>
-    <updated>2026-06-10T13:10:34.929Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -249,7 +249,7 @@
     <link href="https://blogs.sqz777.com/2024/06/08/2024-migrate-blog-by-chatgpt/"/>
     <id>https://blogs.sqz777.com/2024/06/08/2024-migrate-blog-by-chatgpt/</id>
     <published>2024-06-08T14:46:45.000Z</published>
-    <updated>2026-06-10T13:10:34.929Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -272,7 +272,7 @@
     <link href="https://blogs.sqz777.com/2024/06/06/2024-how-to-change-time-zone-in-chrome/"/>
     <id>https://blogs.sqz777.com/2024/06/06/2024-how-to-change-time-zone-in-chrome/</id>
     <published>2024-06-06T14:29:10.000Z</published>
-    <updated>2026-06-10T13:10:34.929Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -296,7 +296,7 @@
     <link href="https://blogs.sqz777.com/2022/10/05/2022-223559/"/>
     <id>https://blogs.sqz777.com/2022/10/05/2022-223559/</id>
     <published>2022-10-05T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
     <summary type="html">記錄從 Postman 轉向程式碼管理 API 測試自動化的取捨，包含語言、Jest 測試框架選擇，以及 tests、apis、payload modules 的分層設計。</summary>
@@ -325,7 +325,7 @@
     <link href="https://blogs.sqz777.com/2022/02/24/2022-180145/"/>
     <id>https://blogs.sqz777.com/2022/02/24/2022-180145/</id>
     <published>2022-02-24T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -352,7 +352,7 @@
     <link href="https://blogs.sqz777.com/2021/11/15/2021-224604/"/>
     <id>https://blogs.sqz777.com/2021/11/15/2021-224604/</id>
     <published>2021-11-15T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
       
@@ -378,7 +378,7 @@
     <link href="https://blogs.sqz777.com/2021/11/07/2021-204911/"/>
     <id>https://blogs.sqz777.com/2021/11/07/2021-204911/</id>
     <published>2021-11-07T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
       
@@ -409,7 +409,7 @@
     <link href="https://blogs.sqz777.com/2021/10/16/2021-191743/"/>
     <id>https://blogs.sqz777.com/2021/10/16/2021-191743/</id>
     <published>2021-10-16T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
     <summary type="html">給 QA 與測試新手的 Robot Framework 入門介紹，整理 Settings、Variables、Test Cases、Keywords 與常見使用場景。</summary>
@@ -434,7 +434,7 @@
     <link href="https://blogs.sqz777.com/2021/04/17/2021-235858/"/>
     <id>https://blogs.sqz777.com/2021/04/17/2021-235858/</id>
     <published>2021-04-17T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
       
@@ -465,7 +465,7 @@
     <link href="https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/"/>
     <id>https://blogs.sqz777.com/2021/04/17/2021-what-is-temporal-coupling/</id>
     <published>2021-04-17T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.839Z</updated>
     
     
       
@@ -490,7 +490,7 @@
     <link href="https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/"/>
     <id>https://blogs.sqz777.com/2021/03/17/2021-DotnetCoreDIConstructorWithParameters/</id>
     <published>2021-03-17T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
       
@@ -515,7 +515,7 @@
     <link href="https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/"/>
     <id>https://blogs.sqz777.com/2021/03/13/2021-AWSLambdaUseDotnetCoreDI/</id>
     <published>2021-03-13T16:00:00.000Z</published>
-    <updated>2026-06-10T13:10:34.928Z</updated>
+    <updated>2026-06-11T01:35:25.838Z</updated>
     
     
       
