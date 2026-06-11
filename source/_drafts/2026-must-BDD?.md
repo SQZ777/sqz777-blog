@@ -1,0 +1,11 @@
+寫作靈感：
+- Dan North
+  - 2021 https://dannorth.net/blog/we-need-to-talk-about-testing/
+  - 2006 https://dannorth.net/blog/introducing-bdd/
+- James Bach
+  - response 2006 dan north: https://www.satisfice.com/blog/archives/638
+  - serious testing llms: https://www.satisfice.com/blog/archives/487957
+  - rst examples: https://www.satisfice.com/rst-artifacts-the-student-work-of-cristina-sipos
+  - if tools always answer correct: https://www.linkedin.com/feed/update/urn:li:activity:7442334784703401984/
+- Maakie Brinkof (why context driven tester so mad?)
+  - https://www.maaikebrinkhof.nl/testing-slow-yeah-thats-by-design-you-dipshit/
