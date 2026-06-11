@@ -517,16 +517,16 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/about/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/software-testing-blog-index/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/about/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://blogs.sqz777.com/archives/</loc>
@@ -703,12 +703,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Windows/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/tags/Ruby/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -733,7 +727,7 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/Cucumber/</loc>
+    <loc>https://blogs.sqz777.com/tags/Windows/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -769,19 +763,7 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/Cem-Kaner/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%AD%96%E7%95%A5/</loc>
+    <loc>https://blogs.sqz777.com/tags/Cucumber/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -823,6 +805,24 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E6%8A%80%E8%A1%93/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/Cem-Kaner/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%B8%AC%E8%A9%A6%E7%AD%96%E7%95%A5/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://blogs.sqz777.com/tags/Develop/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -830,6 +830,18 @@
   </url>
   <url>
     <loc>https://blogs.sqz777.com/tags/OOP/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E6%A5%B5%E9%80%9F%E9%96%8B%E7%99%BC/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/VsVim/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -854,18 +866,6 @@
   </url>
   <url>
     <loc>https://blogs.sqz777.com/tags/commander/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/%E6%A5%B5%E9%80%9F%E9%96%8B%E7%99%BC/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/VsVim/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1003,6 +1003,12 @@
     <priority>0.4</priority>
   </url>
   <url>
+    <loc>https://blogs.sqz777.com/tags/w3HexSchool/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
     <loc>https://blogs.sqz777.com/tags/libman/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1010,12 +1016,6 @@
   </url>
   <url>
     <loc>https://blogs.sqz777.com/tags/%E5%B7%A5%E5%85%B7/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/w3HexSchool/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1051,24 +1051,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/bot/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/discord/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
-    <loc>https://blogs.sqz777.com/tags/discord-js/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/tags/aws/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1094,6 +1076,24 @@
   </url>
   <url>
     <loc>https://blogs.sqz777.com/tags/%E5%AE%89%E8%A3%9D/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/bot/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/discord/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/discord-js/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
@@ -1153,12 +1153,6 @@
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</loc>
-    <lastmod>2026-06-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://blogs.sqz777.com/tags/SuiteSetup/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -1184,6 +1178,12 @@
   </url>
   <url>
     <loc>https://blogs.sqz777.com/tags/dependencyInjection/</loc>
+    <lastmod>2026-06-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://blogs.sqz777.com/tags/%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/</loc>
     <lastmod>2026-06-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.4</priority>
