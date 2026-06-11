@@ -1,6 +1,15 @@
+-
+    const tags = site.tags.toArray().sort((left, right) => {
+        const countDiff = right.length - left.length
+        if (countDiff !== 0) return countDiff
+        return left.name.localeCompare(right.name)
+    })
 main.aside-card-container.tag-widget(class= is_tag() && 'is-in-tag-page')
     h3= _p('tag')
     section
-        each tag in site.tags.toArray()
-            a(href= url_for(tag.path))
-                span.tag.post-item-tag(style="margin-bottom: 5px;")= tag.name
+        each tag in tags
+            - const tagCount = tag.length || 0
+            a(href= url_for(tag.path) title=`${tag.name} (${tagCount})` aria-label=`${tag.name}，${tagCount} 篇文章`)
+                span.tag.post-item-tag(style="margin-bottom: 5px;")
+                    span.tag-name= tag.name
+                    span.tag-count(aria-hidden='true')= tagCount

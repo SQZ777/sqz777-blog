@@ -1,8 +1,9 @@
 ---
 title: 我的 macbook 系統資料好大RRRRRRR
 date: 2025-02-21 16:44:21
-tags: 
-  - macOS
+tags:
+  - "macOS"
+  - "環境設定"
 ---
 ## 緣起
 

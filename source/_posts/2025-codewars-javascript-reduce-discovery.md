@@ -2,9 +2,10 @@
 title: CodeWars 刷題系列，英文不好的我，也能理解 JavaScript 的 reduce 方法原來不是「減少」的意思！
 date: 2025-09-01 22:29:00
 tags:
-  - JavaScript
-  - CodeWars
-  - 程式碼學習
+  - "JavaScript"
+  - "CodeWars"
+  - "程式設計"
+  - "技術學習"
 ---
 
 今天寫 JavaScript 用 CodeWars 暖暖手，年底到了，懂的都懂（？）

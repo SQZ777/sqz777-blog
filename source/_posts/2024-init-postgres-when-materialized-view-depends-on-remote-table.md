@@ -2,8 +2,10 @@
 title: Dockerfile x Postgres：Materialized View 的 REFRESH 奇幻（？）之旅！
 date: 2024-06-18 16:18:00
 tags:
-  - Postgres
-  - Docker
+  - "軟體測試"
+  - "測試環境"
+  - "Postgres"
+  - "Docker"
 ---
 ![我是小丑](../img/2024-init-postgres-when-materialized-view-depends-on-remote-table/image1.png)
 

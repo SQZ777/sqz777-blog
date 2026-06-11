@@ -2,8 +2,10 @@
 title: 更改 Chrome 時區的方法
 date: 2024-06-06 22:29:10
 tags:
-  - Chrome
-  - 時區
+  - "軟體測試"
+  - "測試環境"
+  - "Chrome"
+  - "時區"
 ---
 
 ![checkTimeZone](/img/2024-how-to-change-time-zone-in-chrome/image.png)

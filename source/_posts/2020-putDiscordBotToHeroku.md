@@ -2,10 +2,10 @@
 ---
 title: "筆記 - 將自己做好的 Discord bot 放在 Heroku 上"
 date: 2020-11-24
-tags: 
-  - 'discord'
-  - 'heroku'
-  - 'nodejs'
+tags:
+  - "Node.js"
+  - "Discord Bot"
+  - "Heroku"
 ---
 
 Heroku 是一個雲端服務平台，你可以把程式碼放上去，他可以依照你寫好的步驟建置成你想要的樣子

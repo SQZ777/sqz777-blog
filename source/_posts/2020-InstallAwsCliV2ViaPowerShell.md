@@ -2,12 +2,10 @@
 ---
 title: "筆記 - 使用 PowerShell 安裝 aws cli"
 date: 2020-09-24
-tags: 
-  - 'aws'
-  - 'cli'
-  - 'install'
-  - 'powershell'
-  - '安裝'
+tags:
+  - "AWS"
+  - "PowerShell"
+  - "環境設定"
 ---
 
 最近蠻常用到 AWS 的服務，而且需要在建機器的時候透過 powershell 來安裝 aws cli，所以就記錄一下這篇

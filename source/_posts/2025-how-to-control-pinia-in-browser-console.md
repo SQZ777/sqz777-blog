@@ -1,9 +1,11 @@
 ---
 title: 好爽喔，原來可以在瀏覽器 Console 操作 Pinia 狀態
 date: 2025-10-08 22:26:30
-tags: 
-  - Vue.js
-  - Pinia
+tags:
+  - "軟體測試"
+  - "Web 測試"
+  - "Vue.js"
+  - "Pinia"
 ---
 
 ![alt text](../img/2025-how-to-control-pinia-in-browser-console/image.png)

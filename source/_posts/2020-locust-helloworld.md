@@ -2,11 +2,11 @@
 ---
 title: "筆記 - Locust 安裝 與 HelloWorld"
 date: 2020-03-29
-tags: 
-  - 'w3HexSchool'
-  - 'locust'
-  - 'loadTesting'
-  - '壓力測試'
+tags:
+  - "軟體測試"
+  - "壓力測試"
+  - "Locust"
+  - "六角鐵人賽"
 ---
 
 今天要筆記的是 Locust，可以網站的壓力測試的工具。

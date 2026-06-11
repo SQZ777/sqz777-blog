@@ -6,11 +6,11 @@ categories:
   - 軟體測試
   - 測試實務
 tags:
-  - Rate Limit 測試
-  - 軟體測試
-  - k6
-  - API 測試
-  - 壓力測試
+  - "軟體測試"
+  - "API 測試"
+  - "Rate Limit"
+  - "k6"
+  - "壓力測試"
 keywords:
   - Rate Limit 測試
   - 軟體測試

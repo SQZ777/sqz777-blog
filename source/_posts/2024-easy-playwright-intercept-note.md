@@ -6,10 +6,11 @@ categories:
   - 軟體測試
   - 測試自動化
 tags:
-  - Playwright
-  - "攔截Request"
-  - Web SDK 測試
-  - 測試自動化
+  - "軟體測試"
+  - "測試自動化"
+  - "Playwright"
+  - "Web SDK 測試"
+  - "API 測試"
 keywords:
   - Playwright
   - Playwright 攔截 request

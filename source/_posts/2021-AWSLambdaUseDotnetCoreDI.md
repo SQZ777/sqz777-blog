@@ -2,10 +2,11 @@
 ---
 title: "C# - 如何在 AWS lambda 裡面使用 dotnet core 的 DI"
 date: 2021-03-14
-tags: 
-  - '.NetCore'
-  - 'awsLambda'
-  - 'dependencyInjection'
+tags:
+  - "C#"
+  - ".NET Core"
+  - "AWS"
+  - "Dependency Injection"
 ---
 
 dotnet core 的 DI 很好用

@@ -2,8 +2,10 @@
 ---
 title: "PowerShell - 如何重新 load 環境變數"
 date: 2020-09-24
-tags: 
-  - 'Windows'
+tags:
+  - "Windows"
+  - "PowerShell"
+  - "環境變數"
 ---
 
 最近在寫 powershell 來安裝一些哩哩摳摳的東西然後使用，所以遇到了需要不在重新開啟 powershell 的時候 re-load 環境變數的狀況

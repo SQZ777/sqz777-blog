@@ -2,10 +2,10 @@
 ---
 title: "筆記－什麼是時序耦合（Temporal Coupling）？"
 date: 2021-04-18
-tags: 
-  - 'CodeSmell'
-  - 'DI'
-  - '筆記'
+tags:
+  - "程式設計"
+  - "Dependency Injection"
+  - "Code Smell"
 ---
 
 最近在看 [依賴注入：原理、實作與設計模式](https://www.tenlong.com.tw/products/9789864344987?list_name=i-r-zh_tw)  

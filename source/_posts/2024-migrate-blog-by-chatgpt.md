@@ -2,8 +2,8 @@
 title: 使用 ChatGPT 進行部落格文章搬遷的我會被 AI 取代嗎?
 date: 2024-06-08 22:46:45
 tags:
-  - AI
-  - ChatGPT
+  - "AI"
+  - "ChatGPT"
 ---
 
 

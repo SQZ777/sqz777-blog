@@ -2,8 +2,10 @@
 title: 【翻譯】5 件與測試有關的難搞事
 date: 2024-06-10 22:18:05
 tags:
-  - 翻譯系列
-  - 測試相關
+  - "軟體測試"
+  - "測試思維"
+  - "測試策略"
+  - "翻譯"
 ---
 
 ![](../img/2024-five-tricky-things-with-testing/image.jpg)

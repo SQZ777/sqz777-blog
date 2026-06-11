@@ -236,6 +236,21 @@ $coverBlurEffect: 20px;
       max-height: 30vh;
     }
 
+    .post-item-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .tag-count {
+      padding: 1px 5px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--second-text-color);
+      background: var(--third-bg-color);
+    }
+
     &.is-in-tag-page > section {
       max-height: 80vh;
     }

@@ -2,11 +2,10 @@
 ---
 title: "筆記 - 透過 Node.js 建置 Discord BOT"
 date: 2020-11-21
-tags: 
-  - 'bot'
-  - 'discord'
-  - 'discord.js'
-  - 'Node.js'
+tags:
+  - "Node.js"
+  - "Discord Bot"
+  - "程式設計"
 ---
 
 筆記一下如何透過 Node.js 建置 Discord 機器人

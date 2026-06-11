@@ -2,10 +2,11 @@
 ---
 title: "C# - Dotnet core 的 DI 如何在註冊時帶給建構子未註冊進 DI 的服務"
 date: 2021-03-18
-tags: 
-  - '.NetCore'
-  - 'Constructor'
-  - 'DI'
+tags:
+  - "C#"
+  - ".NET Core"
+  - "Dependency Injection"
+  - "程式設計"
 ---
 
 因為要用 AWS lambda function 的緣故，所以有時候會需要在註冊服務時代入還沒註冊好的實體
