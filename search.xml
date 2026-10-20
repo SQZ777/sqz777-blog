@@ -225,9 +225,9 @@
             
             <tag> 軟體測試 </tag>
             
-            <tag> 測試環境 </tag>
-            
             <tag> Docker </tag>
+            
+            <tag> 測試環境 </tag>
             
             <tag> Postgres </tag>
             
@@ -563,29 +563,6 @@
     
     
     <entry>
-      <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
-      <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
-      <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
-      
-        <content type="html"><![CDATA[<p>筆記一下如何透過 Node.js 建置 Discord 機器人</p><h2 id="什麼是-Discord"><a href="#什麼是-Discord" class="headerlink" title="什麼是 Discord"></a>什麼是 Discord</h2><p>Discord 是一個聊天通訊軟體，pc&#x2F;mobile 都可以使用，跟以前的 RC、TS 的軟體蠻像的</p><p>大部分的使用者都是遊戲玩家居多</p><p>他跟 Line 一樣也有提供相關的 API 可以使用!</p><p>本文範例程式碼：<a href="https://github.com/SQZ777/discord_bot_for_blog">https://github.com/SQZ777/discord_bot_for_blog</a></p><h2 id="環境-前置"><a href="#環境-前置" class="headerlink" title="環境&amp;前置"></a>環境&amp;前置</h2><ul><li><a href="https://nodejs.org/zh-tw/download/">Node.js</a></li><li><a href="https://discord.js.org/#/">discord.js</a></li><li><a href="https://discord.com/">Discord account</a></li></ul><h2 id="建立-Discord-Application"><a href="#建立-Discord-Application" class="headerlink" title="建立 Discord Application"></a>建立 Discord Application</h2><p>進到 discord 管理 application 的頁面 <a href="https://discord.com/developers/applications">https://discord.com/developers/applications</a></p><p><img src="/img/2020-DiscordSetupHelloWorld/1605944300.png"></p><p>可以看到自己已經建立的機器人，你的畫面應該是還沒有，所有要點擊右上角 <strong>New Application</strong>，之後命名一下自己的機器人名稱</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605944370.png"></p><p>建立完成之後可以看到自己的機器人相關的 token 等等的東西</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949979.png"></p><p>再來左邊的欄位選 bot 之後按下 Add Bot </p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949763.png">選 Yes, do it!</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949840.png"></p><p>把 token 先存起來，等等要利用 nodejs 開發機器人的功能時會用到這個 token</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949915.png"></p><h2 id="把機器人加入自己的伺服器"><a href="#把機器人加入自己的伺服器" class="headerlink" title="把機器人加入自己的伺服器"></a>把機器人加入自己的伺服器</h2><p>按下左邊欄位 OAuth2 之後 scopes 選擇 bot, 因為目前只有傳送訊息 所以 bot permissions 選擇 Send Messages，箭頭處的部分就是邀請 bot 加入伺服器的連結，把它複製起來。</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950673.png"></p><p>把剛才那個邀請連接用瀏覽器連結過去之後就會詢問你要將機器人放進哪個伺服器，選好之後按下繼續即可</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950830.png"></p><p>然後會問你是否需要授權，按下授權即可</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950878.png"></p><p>在伺服器就會看到機器人加入的訊息</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950936.png"></p><h2 id="開始透過-Node-js-建置機器人"><a href="#開始透過-Node-js-建置機器人" class="headerlink" title="開始透過 Node.js 建置機器人"></a>開始透過 Node.js 建置機器人</h2><p>先使用 npm init 建立 package.json，再透過 npm 安裝 <a href="https://discord.js.org/#/">discord.js</a></p><pre><code>npm i discord.js</code></pre><p>建立一個檔案 app.js，範例原始碼來自於 <a href="https://discord.js.org/#/">discord.js</a> </p><pre><code>const Discord = require(&#39;discord.js&#39;);const client = new Discord.Client();client.on(&#39;ready&#39;, () =&gt; /&#123;  console.log(`Logged in as $/&#123;client.user.tag/&#125;!`);/&#125;);client.on(&#39;message&#39;, msg =&gt; /&#123;  if (msg.content === &#39;ping&#39;) /&#123;    msg.reply(&#39;Pong!&#39;);  /&#125;/&#125;);client.login(&#39;token&#39;);</code></pre><p>以上程式碼將最下方 client.login(‘token’) 的 ‘token’ 取代成剛才複製起來的 token 就可以了，忘記在哪這邊圖片附上複製位置</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949915.png"></p><p>將機器人加入伺服器之後會發現機器人都是離線狀態(如圖)，是因為機器人目前沒有登入，我們需要執行我們的程式碼讓機器人登入</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951075.png"></p><p>執行 npm start，就會發現機器人登入了</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951375.png"></p><p>這時候就可以透過自己傳送 訊息 “ping” 來讓機器人回應你 “pong”，這樣就成功完成了一個機器人的 Hello World 囉!</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951410.png"></p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://discord.com/developers/docs/intro">Discord 官方文件</a></p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> 程式設計 </tag>
-            
-            <tag> Node.js </tag>
-            
-            <tag> Discord Bot </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>筆記 - Node.js 環境變數套件 dotenv</title>
       <link href="/2020/11/21/2020-231542/"/>
       <url>/2020/11/21/2020-231542/</url>
@@ -601,6 +578,29 @@
             <tag> Node.js </tag>
             
             <tag> 環境變數 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>筆記 - 透過 Node.js 建置 Discord BOT</title>
+      <link href="/2020/11/21/2020-DiscordSetupHelloWorld/"/>
+      <url>/2020/11/21/2020-DiscordSetupHelloWorld/</url>
+      
+        <content type="html"><![CDATA[<p>筆記一下如何透過 Node.js 建置 Discord 機器人</p><h2 id="什麼是-Discord"><a href="#什麼是-Discord" class="headerlink" title="什麼是 Discord"></a>什麼是 Discord</h2><p>Discord 是一個聊天通訊軟體，pc&#x2F;mobile 都可以使用，跟以前的 RC、TS 的軟體蠻像的</p><p>大部分的使用者都是遊戲玩家居多</p><p>他跟 Line 一樣也有提供相關的 API 可以使用!</p><p>本文範例程式碼：<a href="https://github.com/SQZ777/discord_bot_for_blog">https://github.com/SQZ777/discord_bot_for_blog</a></p><h2 id="環境-前置"><a href="#環境-前置" class="headerlink" title="環境&amp;前置"></a>環境&amp;前置</h2><ul><li><a href="https://nodejs.org/zh-tw/download/">Node.js</a></li><li><a href="https://discord.js.org/#/">discord.js</a></li><li><a href="https://discord.com/">Discord account</a></li></ul><h2 id="建立-Discord-Application"><a href="#建立-Discord-Application" class="headerlink" title="建立 Discord Application"></a>建立 Discord Application</h2><p>進到 discord 管理 application 的頁面 <a href="https://discord.com/developers/applications">https://discord.com/developers/applications</a></p><p><img src="/img/2020-DiscordSetupHelloWorld/1605944300.png"></p><p>可以看到自己已經建立的機器人，你的畫面應該是還沒有，所有要點擊右上角 <strong>New Application</strong>，之後命名一下自己的機器人名稱</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605944370.png"></p><p>建立完成之後可以看到自己的機器人相關的 token 等等的東西</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949979.png"></p><p>再來左邊的欄位選 bot 之後按下 Add Bot </p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949763.png">選 Yes, do it!</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949840.png"></p><p>把 token 先存起來，等等要利用 nodejs 開發機器人的功能時會用到這個 token</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949915.png"></p><h2 id="把機器人加入自己的伺服器"><a href="#把機器人加入自己的伺服器" class="headerlink" title="把機器人加入自己的伺服器"></a>把機器人加入自己的伺服器</h2><p>按下左邊欄位 OAuth2 之後 scopes 選擇 bot, 因為目前只有傳送訊息 所以 bot permissions 選擇 Send Messages，箭頭處的部分就是邀請 bot 加入伺服器的連結，把它複製起來。</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950673.png"></p><p>把剛才那個邀請連接用瀏覽器連結過去之後就會詢問你要將機器人放進哪個伺服器，選好之後按下繼續即可</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950830.png"></p><p>然後會問你是否需要授權，按下授權即可</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950878.png"></p><p>在伺服器就會看到機器人加入的訊息</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605950936.png"></p><h2 id="開始透過-Node-js-建置機器人"><a href="#開始透過-Node-js-建置機器人" class="headerlink" title="開始透過 Node.js 建置機器人"></a>開始透過 Node.js 建置機器人</h2><p>先使用 npm init 建立 package.json，再透過 npm 安裝 <a href="https://discord.js.org/#/">discord.js</a></p><pre><code>npm i discord.js</code></pre><p>建立一個檔案 app.js，範例原始碼來自於 <a href="https://discord.js.org/#/">discord.js</a> </p><pre><code>const Discord = require(&#39;discord.js&#39;);const client = new Discord.Client();client.on(&#39;ready&#39;, () =&gt; /&#123;  console.log(`Logged in as $/&#123;client.user.tag/&#125;!`);/&#125;);client.on(&#39;message&#39;, msg =&gt; /&#123;  if (msg.content === &#39;ping&#39;) /&#123;    msg.reply(&#39;Pong!&#39;);  /&#125;/&#125;);client.login(&#39;token&#39;);</code></pre><p>以上程式碼將最下方 client.login(‘token’) 的 ‘token’ 取代成剛才複製起來的 token 就可以了，忘記在哪這邊圖片附上複製位置</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605949915.png"></p><p>將機器人加入伺服器之後會發現機器人都是離線狀態(如圖)，是因為機器人目前沒有登入，我們需要執行我們的程式碼讓機器人登入</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951075.png"></p><p>執行 npm start，就會發現機器人登入了</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951375.png"></p><p>這時候就可以透過自己傳送 訊息 “ping” 來讓機器人回應你 “pong”，這樣就成功完成了一個機器人的 Hello World 囉!</p><p><img src="/img/2020-DiscordSetupHelloWorld/1605951410.png"></p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://discord.com/developers/docs/intro">Discord 官方文件</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 程式設計 </tag>
+            
+            <tag> Node.js </tag>
+            
+            <tag> Discord Bot </tag>
             
         </tags>
       
@@ -905,9 +905,9 @@
             
             <tag> Windows </tag>
             
-            <tag> 環境設定 </tag>
-            
             <tag> Docker </tag>
+            
+            <tag> 環境設定 </tag>
             
         </tags>
       
